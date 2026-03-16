@@ -69,7 +69,7 @@ const SidebarMenuItem: React.FC<SidebarMenuItemProps> = ({
   const isHovered = getHoverState ? getHoverState(item.label) : false;
 
   // Determine if this is a panel item (has subItems that aren't the standard consultation types)
-  const isPanelItem = item.subItems && item.label !== 'Consultas' && item.path.includes('/painel/');
+  const isPanelItem = !!item.subItems && item.path.includes('/painel/');
   
   // Show module count for panel items that have modules
   const shouldShowModuleCount = isPanelItem && hasModuleCount;
