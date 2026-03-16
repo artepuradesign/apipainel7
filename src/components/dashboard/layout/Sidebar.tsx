@@ -5,6 +5,7 @@ import { SidebarItem } from './types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useLiquidGlass } from '@/contexts/LiquidGlassContext';
+import { localeContent, useLocale } from '@/contexts/LocaleContext';
 
 interface SidebarProps {
   collapsed: boolean;
