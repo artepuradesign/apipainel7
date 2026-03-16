@@ -187,7 +187,7 @@ const Carteira = () => {
       
       toast.success(t.giftSuccess.replace('{amount}', formatBrazilianCurrency(amount)));
     } catch (error) {
-      toast.error("Erro ao enviar Gift Card");
+      toast.error(t.giftError);
     } finally {
       setIsProcessing(false);
     }
