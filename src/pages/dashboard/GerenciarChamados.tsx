@@ -336,7 +336,7 @@ const GerenciarChamados = () => {
         <Card>
           <CardContent className="p-3 sm:p-6">
             <div className="text-xl sm:text-2xl font-bold text-red-600">{tickets.filter(t => t.priority === 'urgente').length}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground">Urgentes</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t.urgent}</p>
           </CardContent>
         </Card>
       </div>
