@@ -130,7 +130,7 @@ export default function SessionKickedModal() {
       navigate('/logout');
     }
   }, [navigate, signOut]);
-...
+
   useEffect(() => {
     if (!open) return;
 
