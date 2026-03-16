@@ -282,11 +282,11 @@ const LiquidGlassAdmin = () => {
 
             {/* Current Config Summary */}
             <div className="mt-4 p-3 rounded-lg bg-muted/50 border border-border">
-              <p className="text-xs font-medium text-muted-foreground mb-2">Configuração Atual</p>
+              <p className="text-xs font-medium text-muted-foreground mb-2">{t.currentConfig}</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-xs">
                 <div className="flex justify-between gap-1">
-                  <span className="text-muted-foreground truncate">Ativo:</span>
-                  <span className="font-mono font-medium text-foreground">{config.enabled ? 'Sim' : 'Não'}</span>
+                  <span className="text-muted-foreground truncate">{t.active}:</span>
+                  <span className="font-mono font-medium text-foreground">{config.enabled ? t.yes : t.no}</span>
                 </div>
                 {sliderParams.map((param) => (
                   <div key={param.key} className="flex justify-between gap-1">
