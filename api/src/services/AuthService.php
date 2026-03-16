@@ -7,6 +7,7 @@ require_once __DIR__ . '/UserDataService.php';
 require_once __DIR__ . '/AuthenticationService.php';
 require_once __DIR__ . '/RegistrationService.php';
 require_once __DIR__ . '/../utils/UserValidation.php';
+require_once __DIR__ . '/EmailService.php';
 
 class AuthService {
     private $db;
