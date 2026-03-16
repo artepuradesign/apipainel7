@@ -19,6 +19,7 @@ import {
   Plus
 } from 'lucide-react';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface FAQ {
   id: string;
