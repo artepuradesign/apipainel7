@@ -46,6 +46,9 @@ export const localeContent: Record<Locale, {
   walletRefresh: string;
   walletUserFallback: string;
   walletPrepaid: string;
+  sidebarOnlinePanels: string;
+  sidebarExpandMenu: string;
+  sidebarCollapseMenu: string;
 }> = {
   'pt-BR': {
     switchTheme: 'Alternar tema',
@@ -80,6 +83,9 @@ export const localeContent: Record<Locale, {
     walletRefresh: 'Atualizar',
     walletUserFallback: 'Usuário',
     walletPrepaid: 'Pré-Pago',
+    sidebarOnlinePanels: 'Painéis Online',
+    sidebarExpandMenu: 'Expandir menu',
+    sidebarCollapseMenu: 'Recolher menu',
   },
   en: {
     switchTheme: 'Switch theme',
@@ -114,6 +120,9 @@ export const localeContent: Record<Locale, {
     walletRefresh: 'Refresh',
     walletUserFallback: 'User',
     walletPrepaid: 'Prepaid',
+    sidebarOnlinePanels: 'Online Panels',
+    sidebarExpandMenu: 'Expand menu',
+    sidebarCollapseMenu: 'Collapse menu',
   },
   es: {
     switchTheme: 'Cambiar tema',
@@ -148,6 +157,9 @@ export const localeContent: Record<Locale, {
     walletRefresh: 'Actualizar',
     walletUserFallback: 'Usuario',
     walletPrepaid: 'Prepago',
+    sidebarOnlinePanels: 'Paneles Online',
+    sidebarExpandMenu: 'Expandir menú',
+    sidebarCollapseMenu: 'Contraer menú',
   },
 };
 

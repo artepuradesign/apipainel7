@@ -16,6 +16,7 @@ import AdminNotifications from '@/components/notifications/AdminNotifications';
 import { useNotificationDuplicationPrevention } from '@/hooks/useNotificationDuplicationPrevention';
 import { toastNotificationManager } from '@/utils/toastNotificationManager';
 import { usePageVisitTracker } from '@/hooks/usePageVisitTracker';
+import { useLocale } from '@/contexts/LocaleContext';
 
 const DashboardLayout = ({
   children
@@ -28,6 +29,7 @@ const DashboardLayout = ({
   const isMobile = useIsMobile();
   const [isTablet, setIsTablet] = useState(false);
   const { isSupport, user, loading, signOut } = useAuth();
+  const { locale } = useLocale();
   
   // Registrar visitas de página
   usePageVisitTracker();
@@ -124,7 +126,7 @@ const DashboardLayout = ({
     }
   };
 
-  const sidebarItems = createSidebarItems(handleLogout, isSupport, panelMenus);
+  const sidebarItems = createSidebarItems(handleLogout, isSupport, panelMenus, locale);
 
   const isSubmenuActive = (subItems?: any[]) => {
     if (!subItems) return false;

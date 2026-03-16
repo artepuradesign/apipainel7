@@ -5,6 +5,7 @@ import { SidebarItem } from './types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useLiquidGlass } from '@/contexts/LiquidGlassContext';
+import { localeContent, useLocale } from '@/contexts/LocaleContext';
 
 interface SidebarProps {
   collapsed: boolean;
@@ -32,6 +33,8 @@ const Sidebar = ({
   handleSubItemClick
 }: SidebarProps) => {
   const { config: liquidGlassConfig } = useLiquidGlass();
+  const { locale } = useLocale();
+  const content = localeContent[locale];
   const handleSidebarClick = () => {
     // Em tablets, clicar na sidebar colapsada expande e fixa
     if (isTablet && collapsed) {
@@ -79,7 +82,7 @@ const Sidebar = ({
                   text-primary dark:text-primary
                   group
                 `}
-                aria-label={collapsed ? 'Expandir menu' : 'Recolher menu'}
+                aria-label={collapsed ? content.sidebarExpandMenu : content.sidebarCollapseMenu}
               >
                 {collapsed ? (
                   <ChevronRight size={12} className="transition-transform group-hover:scale-110" />
@@ -89,7 +92,7 @@ const Sidebar = ({
               </button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={8}>
-              <p>{collapsed ? 'Expandir menu' : 'Recolher menu'}</p>
+              <p>{collapsed ? content.sidebarExpandMenu : content.sidebarCollapseMenu}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
