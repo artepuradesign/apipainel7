@@ -83,6 +83,9 @@ export const localeContent: Record<Locale, {
     walletRefresh: 'Atualizar',
     walletUserFallback: 'Usuário',
     walletPrepaid: 'Pré-Pago',
+    sidebarOnlinePanels: 'Painéis Online',
+    sidebarExpandMenu: 'Expandir menu',
+    sidebarCollapseMenu: 'Recolher menu',
   },
   en: {
     switchTheme: 'Switch theme',
