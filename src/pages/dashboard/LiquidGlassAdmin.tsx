@@ -209,7 +209,7 @@ const LiquidGlassAdmin = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="default">Padrão</SelectItem>
+                    <SelectItem value="default">{t.defaultTheme}</SelectItem>
                     <SelectItem value="matrix">Matrix</SelectItem>
                   </SelectContent>
                 </Select>
