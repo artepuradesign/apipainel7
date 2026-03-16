@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Search, ArrowRight, Zap, ShieldCheck, FileSearch, Code2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useSiteTheme } from "@/contexts/SiteThemeContext";
+import { Locale, useLocale } from "@/contexts/LocaleContext";
 
 import slide01 from "@/assets/home-carousel-01.jpg";
 import slide02 from "@/assets/home-carousel-02.jpg";
