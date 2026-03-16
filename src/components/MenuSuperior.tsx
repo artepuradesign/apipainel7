@@ -245,18 +245,18 @@ const MenuSuperior = () => {
               <nav className="hidden lg:flex items-center space-x-1">
                 {!isHomePage && (
                   <Link to="/">
-                    <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>Início</Button>
+                    <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>{content.home}</Button>
                   </Link>
                 )}
                 <Link to="/modulos">
-                  <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>Módulos</Button>
+                  <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>{content.modules}</Button>
                 </Link>
                 <Link to="/planos-publicos">
-                  <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>Planos</Button>
+                  <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>{content.plans}</Button>
                 </Link>
                 {!isDashboardPage && (
                   <Link to="/dashboard">
-                    <Button variant="ghost" size="sm" className={cn("menu-paineis-link text-muted-foreground hover:text-foreground font-semibold", liquidGlassConfig.enabled && "hover:bg-white/10")}>Painéis</Button>
+                    <Button variant="ghost" size="sm" className={cn("menu-paineis-link text-muted-foreground hover:text-foreground font-semibold", liquidGlassConfig.enabled && "hover:bg-white/10")}>{content.panels}</Button>
                   </Link>
                 )}
               </nav>
@@ -274,25 +274,25 @@ const MenuSuperior = () => {
                         className="text-sm text-muted-foreground hover:text-primary cursor-pointer transition-colors duration-200"
                         onClick={() => navigate('/registration')}
                       >
-                        Cadastre-se
+                        {content.register}
                       </span>
                       <LiquidGlassButton
                         variant="outline"
                         className="text-sm px-4 py-2"
                         onClick={() => navigate('/login')}
-                        ariaLabel="Entrar"
+                        ariaLabel={content.login}
                       >
-                        Entrar
+                        {content.login}
                       </LiquidGlassButton>
                     </>
                   ) : (
                     <>
                       <Link to="/registration" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
-                        Cadastre-se
+                        {content.register}
                       </Link>
                       <Link to="/login">
                         <Button size="sm" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold">
-                          Entrar
+                          {content.login}
                         </Button>
                       </Link>
                     </>
