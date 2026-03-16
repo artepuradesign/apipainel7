@@ -345,7 +345,7 @@ const Predefinicoes = () => {
                 ) : (
                   <Save className="h-4 w-4 mr-2" />
                 )}
-                Salvar Todas as Alterações
+                {t.saveAll}
               </Button>
             </CardContent>
           </Card>
