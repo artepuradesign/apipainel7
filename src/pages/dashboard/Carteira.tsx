@@ -140,7 +140,7 @@ const Carteira = () => {
     };
   }, [user]);
 
-  const currentPlan = user ? localStorage.getItem(`user_plan_${user.id}`) || "Pré-Pago" : "Pré-Pago";
+  const currentPlan = user ? localStorage.getItem(`user_plan_${user.id}`) || t.prepaid : t.prepaid;
 
   const formatBrazilianCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
