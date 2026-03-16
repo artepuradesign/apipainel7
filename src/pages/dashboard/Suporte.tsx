@@ -307,7 +307,7 @@ const Suporte = () => {
                 className="h-10 sm:h-12 justify-start font-medium"
               >
                 <HelpCircle className="h-4 w-4 mr-2" />
-                Todas
+                {t.all}
               </Button>
               {categories.map(category => (
                 <Button
