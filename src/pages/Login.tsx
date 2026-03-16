@@ -11,6 +11,26 @@ import LoginFooter from '@/components/auth/LoginFooter';
 import SuspendedAccountAlert from '@/components/auth/SuspendedAccountAlert';
 import InactiveAccountAlert from '@/components/auth/InactiveAccountAlert';
 import PendingAccountAlert from '@/components/auth/PendingAccountAlert';
+import ForgotPasswordModal from '@/components/auth/ForgotPasswordModal';
+import { useLocale } from '@/contexts/LocaleContext';
+
+const textByLocale = {
+  'pt-BR': {
+    invalidCredentials: 'Email ou senha incorretos',
+    fillFields: 'Preencha email e senha',
+    errorLogin: 'Erro ao fazer login. Tente novamente.',
+  },
+  en: {
+    invalidCredentials: 'Invalid email or password',
+    fillFields: 'Fill in email and password',
+    errorLogin: 'Error signing in. Please try again.',
+  },
+  es: {
+    invalidCredentials: 'Correo o contraseña incorrectos',
+    fillFields: 'Completa correo y contraseña',
+    errorLogin: 'Error al iniciar sesión. Inténtalo de nuevo.',
+  },
+} as const;
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -20,93 +40,75 @@ const Login = () => {
   const [showSuspendedAlert, setShowSuspendedAlert] = useState(false);
   const [showInactiveAlert, setShowInactiveAlert] = useState(false);
   const [showPendingAlert, setShowPendingAlert] = useState(false);
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const navigate = useNavigate();
   const { signIn, user, loading } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
 
-  // Se usuário já logado, redirecionar IMEDIATAMENTE
   useEffect(() => {
     if (!loading && user) {
-      console.log('✅ [LOGIN] Usuário já logado, redirecionando IMEDIATAMENTE...');
       const redirectTo = user.user_role === 'suporte' ? '/dashboard/admin' : '/dashboard';
       navigate(redirectTo, { replace: true });
     }
   }, [user, loading, navigate]);
 
-  // Carregar credenciais salvas apenas dos cookies
   useEffect(() => {
     if (!loading && !user) {
       const savedEmail = localStorage.getItem('saved_email');
 
       if (savedEmail) {
-        setFormData(prev => ({ ...prev, email: savedEmail }));
+        setFormData((prev) => ({ ...prev, email: savedEmail }));
         setRememberMe(true);
       }
     }
   }, [loading, user]);
 
-  // Mostrar loading durante verificação apenas
   if (loading) {
     return <LoginLoadingScreen />;
   }
 
-  // Se usuário já logado, não mostrar form
   if (user) {
     return null;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.email.trim() || !formData.password.trim()) {
-      toast.error('Preencha email e senha');
+      toast.error(t.fillFields);
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      console.log('🔄 [LOGIN] Tentando login...');
-      
       const result = await signIn(formData.email, formData.password);
-      
+
       if (result.success) {
-        console.log('✅ [LOGIN] Login realizado com sucesso!');
-        
         if (rememberMe) {
           localStorage.setItem('saved_email', formData.email);
         } else {
           localStorage.removeItem('saved_email');
         }
-        
+
         if (result.redirectTo) {
-          console.log('🎯 [LOGIN] Redirecionando diretamente para:', result.redirectTo);
           navigate(result.redirectTo, { replace: true });
         }
-        
+      } else if (result.statusCode === 'account_suspended') {
+        setShowSuspendedAlert(true);
+      } else if (result.statusCode === 'account_inactive') {
+        setShowInactiveAlert(true);
+      } else if (result.statusCode === 'account_pending') {
+        setShowPendingAlert(true);
       } else {
-        console.error('❌ [LOGIN] Falha no login:', result.message, 'Status code:', result.statusCode);
-        
-        // Verificar status específico da conta
-        if (result.statusCode === 'account_suspended') {
-          setShowSuspendedAlert(true);
-        } else if (result.statusCode === 'account_inactive') {
-          setShowInactiveAlert(true);
-        } else if (result.statusCode === 'account_pending') {
-          setShowPendingAlert(true);
-        } else {
-          toast.error(result.message || 'Email ou senha incorretos');
-        }
+        toast.error(result.message || t.invalidCredentials);
       }
-    } catch (error) {
-      console.error('❌ [LOGIN] Erro no processo:', error);
-      toast.error('Erro ao fazer login. Tente novamente.');
+    } catch {
+      toast.error(t.errorLogin);
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const navigateToRegister = () => {
-    navigate('/registration');
   };
 
   return (
@@ -125,12 +127,19 @@ const Login = () => {
               setRememberMe={setRememberMe}
               isSubmitting={isSubmitting}
               onSubmit={handleSubmit}
+              onForgotPassword={() => setShowForgotPasswordModal(true)}
             />
-            
-            <LoginFooter onNavigateToRegister={navigateToRegister} />
+
+            <LoginFooter onNavigateToRegister={() => navigate('/registration')} />
           </div>
         </div>
       </div>
+
+      <ForgotPasswordModal
+        open={showForgotPasswordModal}
+        onOpenChange={setShowForgotPasswordModal}
+        initialEmail={formData.email}
+      />
 
       <SuspendedAccountAlert isOpen={showSuspendedAlert} onClose={() => setShowSuspendedAlert(false)} />
       <InactiveAccountAlert isOpen={showInactiveAlert} onClose={() => setShowInactiveAlert(false)} />
