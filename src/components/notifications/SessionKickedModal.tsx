@@ -120,7 +120,7 @@ export default function SessionKickedModal() {
   const details = useMemo(() => payload?.new_session, [payload]);
   const t = textByLocale[locale] ?? textByLocale['pt-BR'];
 
-  const handleExitNow = async () => {
+  const handleExitNow = useCallback(async () => {
     setOpen(false);
     setPayload(null);
 
@@ -129,22 +129,8 @@ export default function SessionKickedModal() {
     } finally {
       navigate('/logout');
     }
-  };
-
-  useEffect(() => {
-    const handler = (event: Event) => {
-      const customEvent = event as CustomEvent<SessionKickedPayload>;
-      if (!customEvent.detail || customEvent.detail.reason !== 'logged_in_elsewhere') return;
-
-      setPayload(customEvent.detail);
-      setSecondsLeft(5);
-      setOpen(true);
-    };
-
-    window.addEventListener(EVENT_NAME, handler as EventListener);
-    return () => window.removeEventListener(EVENT_NAME, handler as EventListener);
-  }, []);
-
+  }, [navigate, signOut]);
+...
   useEffect(() => {
     if (!open) return;
 
@@ -160,7 +146,7 @@ export default function SessionKickedModal() {
       window.clearInterval(tick);
       window.clearTimeout(timer);
     };
-  }, [open]);
+  }, [open, handleExitNow]);
 
   if (!open || !payload) return null;
 
