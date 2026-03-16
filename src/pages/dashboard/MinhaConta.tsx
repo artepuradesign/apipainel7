@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save } from 'lucide-react';
+import { Save, User } from 'lucide-react';
 import { useMinhaContaData } from '@/hooks/useMinhaContaData';
 import AccountInfo from '@/components/minha-conta/AccountInfo';
 import BasicInfoForm from '@/components/minha-conta/BasicInfoForm';
@@ -10,10 +10,10 @@ import PageHeaderCard from '@/components/dashboard/PageHeaderCard';
 import { useLocation } from 'react-router-dom';
 import PremiumPanelsSection from '@/components/minha-conta/PremiumPanelsSection';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
-import { User } from 'lucide-react';
 import LightningEffect from '@/components/effects/LightningEffect';
 import LockEffect from '@/components/effects/LockEffect';
 import PremiumActivationEffect from '@/components/effects/PremiumActivationEffect';
+import { useLocale } from '@/contexts/LocaleContext';
 
 
 const MinhaConta = () => {
