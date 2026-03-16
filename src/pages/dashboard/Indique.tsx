@@ -489,7 +489,7 @@ const Indique = () => {
                   onClick={() => copyToClipboard(referralLink, 'link')}
                 >
                   <Copy className="h-4 w-4 mr-1.5" />
-                  Copiar link
+                  {t.copyLink}
                 </Button>
               </div>
             )}
