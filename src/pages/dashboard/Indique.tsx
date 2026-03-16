@@ -368,7 +368,7 @@ const Indique = () => {
 
               <div className="mt-5 space-y-3">
                 <div className="rounded-xl border border-border/60 bg-background/70 p-3 sm:p-4">
-                  <p className="text-[11px] sm:text-xs font-medium text-muted-foreground mb-1">Link de indicação</p>
+                  <p className="text-[11px] sm:text-xs font-medium text-muted-foreground mb-1">{t.referralLink}</p>
                   <div className="flex items-center gap-2">
                     <p className="text-xs sm:text-sm text-foreground truncate font-mono flex-1">{referralLink}</p>
                     <Button
