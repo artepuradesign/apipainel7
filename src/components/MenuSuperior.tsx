@@ -119,23 +119,25 @@ const MenuSuperior = () => {
                   </Tooltip>
                 )}
 
-                <div className="hidden lg:flex">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        type="button"
-                        aria-label={content.openLanguage}
-                        onClick={openLanguageModal}
-                        className="h-8 w-8 rounded-md flex items-center justify-center border border-border bg-background text-foreground hover:bg-muted transition-colors"
-                      >
-                        <span className="text-sm leading-none" aria-hidden="true">{selectedLanguageOption.flag}</span>
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{content.openLanguage}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
+                {!user && (
+                  <div className="flex">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          type="button"
+                          aria-label={content.openLanguage}
+                          onClick={openLanguageModal}
+                          className="h-8 w-8 rounded-md flex items-center justify-center border border-border bg-background text-foreground hover:bg-muted transition-colors"
+                        >
+                          <span className="text-sm leading-none" aria-hidden="true">{selectedLanguageOption.flag}</span>
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{content.openLanguage}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                )}
               </div>
             </div>
 
