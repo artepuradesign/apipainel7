@@ -155,9 +155,6 @@ const getInitialLocale = (): Locale => {
     return storedLocale;
   }
 
-  const browserLocale = navigator.language.toLowerCase();
-  if (browserLocale.startsWith('en')) return 'en';
-  if (browserLocale.startsWith('es')) return 'es';
   return 'pt-BR';
 };
 
