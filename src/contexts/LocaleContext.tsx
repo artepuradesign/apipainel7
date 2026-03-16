@@ -46,6 +46,9 @@ export const localeContent: Record<Locale, {
   walletRefresh: string;
   walletUserFallback: string;
   walletPrepaid: string;
+  sidebarOnlinePanels: string;
+  sidebarExpandMenu: string;
+  sidebarCollapseMenu: string;
 }> = {
   'pt-BR': {
     switchTheme: 'Alternar tema',

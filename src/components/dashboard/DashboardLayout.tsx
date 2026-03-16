@@ -16,6 +16,7 @@ import AdminNotifications from '@/components/notifications/AdminNotifications';
 import { useNotificationDuplicationPrevention } from '@/hooks/useNotificationDuplicationPrevention';
 import { toastNotificationManager } from '@/utils/toastNotificationManager';
 import { usePageVisitTracker } from '@/hooks/usePageVisitTracker';
+import { useLocale } from '@/contexts/LocaleContext';
 
 const DashboardLayout = ({
   children
