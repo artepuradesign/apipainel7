@@ -35,8 +35,64 @@ interface ReferralEarning {
   referred_name: string;
 }
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    pageTitle: 'Programa de Indicação',
+    codeUnavailable: 'Código de indicação indisponível',
+    codeUnavailableDesc: 'Não encontramos seu código agora. Atualize a página ou entre em contato com o suporte.',
+    howItWorks: 'Como Funciona',
+    referralSummary: 'Resumo das Indicações',
+    earnBadge: 'Indique e Ganhe',
+    earnTitle: 'Compartilhe seu código e aumente seus ganhos',
+    earnDesc: 'O valor do bônus é dinâmico e segue as predefinições do sistema, sempre vindo da API.',
+    currentValue: 'Valor atual:',
+    referralLink: 'Link de indicação',
+    referralHistory: 'Histórico de Indicações',
+    refreshHistory: 'Atualizar histórico',
+    noReferrals: 'Nenhuma indicação ainda',
+    noReferralsDesc: 'Compartilhe seu link para começar a receber bônus.',
+    copyLink: 'Copiar link',
+  },
+  en: {
+    pageTitle: 'Referral Program',
+    codeUnavailable: 'Referral code unavailable',
+    codeUnavailableDesc: 'We could not find your code right now. Refresh the page or contact support.',
+    howItWorks: 'How It Works',
+    referralSummary: 'Referral Summary',
+    earnBadge: 'Refer and Earn',
+    earnTitle: 'Share your code and increase your earnings',
+    earnDesc: 'The bonus value is dynamic and follows the system presets from the API.',
+    currentValue: 'Current value:',
+    referralLink: 'Referral link',
+    referralHistory: 'Referral History',
+    refreshHistory: 'Refresh history',
+    noReferrals: 'No referrals yet',
+    noReferralsDesc: 'Share your link to start earning bonuses.',
+    copyLink: 'Copy link',
+  },
+  es: {
+    pageTitle: 'Programa de Referidos',
+    codeUnavailable: 'Código de referido no disponible',
+    codeUnavailableDesc: 'No encontramos tu código ahora. Actualiza la página o contacta con soporte.',
+    howItWorks: 'Cómo funciona',
+    referralSummary: 'Resumen de Referidos',
+    earnBadge: 'Indica y Gana',
+    earnTitle: 'Comparte tu código y aumenta tus ganancias',
+    earnDesc: 'El valor del bono es dinámico y sigue las predefiniciones del sistema desde la API.',
+    currentValue: 'Valor actual:',
+    referralLink: 'Enlace de referido',
+    referralHistory: 'Historial de Referidos',
+    refreshHistory: 'Actualizar historial',
+    noReferrals: 'Aún no hay referidos',
+    noReferralsDesc: 'Comparte tu enlace para empezar a recibir bonos.',
+    copyLink: 'Copiar enlace',
+  },
+};
+
 const Indique = () => {
   const { user } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
 
   const [referralEarnings, setReferralEarnings] = useState<ReferralEarning[]>([]);
   const [bonusAmount, setBonusAmount] = useState<number | null>(null);
