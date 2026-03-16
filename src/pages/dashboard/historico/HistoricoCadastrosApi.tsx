@@ -228,7 +228,7 @@ const HistoricoCadastrosApi = () => {
                       variant="secondary"
                       className="text-[10px] px-1.5 py-0 h-4"
                     >
-                      {statusLabels[order.status] || order.status}
+                      {t.statusLabels[order.status] || order.status}
                     </Badge>
                   </div>
                 </div>
