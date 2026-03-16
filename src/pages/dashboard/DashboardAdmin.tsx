@@ -10,8 +10,31 @@ import { useApiDashboardAdmin } from '@/hooks/useApiDashboardAdmin';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
+const textByLocale: Record<Locale, { denied: string; noPermission: string; title: string; subtitle: string }> = {
+  'pt-BR': {
+    denied: 'Acesso Negado',
+    noPermission: 'Você não tem permissão para acessar esta página.',
+    title: 'Painel Administrativo',
+    subtitle: 'Visão geral de caixa, transações e usuários online',
+  },
+  en: {
+    denied: 'Access Denied',
+    noPermission: 'You do not have permission to access this page.',
+    title: 'Admin Dashboard',
+    subtitle: 'Overview of cash flow, transactions and online users',
+  },
+  es: {
+    denied: 'Acceso denegado',
+    noPermission: 'No tienes permiso para acceder a esta página.',
+    title: 'Panel Administrativo',
+    subtitle: 'Resumen de caja, transacciones y usuarios en línea',
+  },
+};
+
 const DashboardAdmin = () => {
   const { isSupport } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const { stats, transactions, isLoading, loadStats, loadTransactions, optimisticIncrementCash, optimisticIncrementRecharges, optimisticIncrementPlanSales } = useApiDashboardAdmin();
   const { notifications } = useNotifications(false); // Desabilitar auto-refresh aqui
   
