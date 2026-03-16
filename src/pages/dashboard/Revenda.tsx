@@ -220,7 +220,7 @@ const Revenda = () => {
 
   return (
     <div className="space-y-4 sm:space-y-6 px-1 sm:px-0">
-      <DashboardTitleCard title="Revenda" icon={<Store className="h-4 w-4 sm:h-5 sm:w-5" />} />
+      <DashboardTitleCard title={t.pageTitle} icon={<Store className="h-4 w-4 sm:h-5 sm:w-5" />} />
       <RevendaToggle />
 
       {/* Estatísticas */}
