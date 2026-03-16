@@ -79,6 +79,7 @@ export const localeContent: Record<Locale, {
     walletExpired: 'Expirado',
     walletRefresh: 'Atualizar',
     walletUserFallback: 'Usuário',
+    walletPrepaid: 'Pré-Pago',
   },
   en: {
     switchTheme: 'Switch theme',
