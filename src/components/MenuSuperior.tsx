@@ -23,6 +23,56 @@ import { createSidebarItems } from './dashboard/layout/sidebarData';
 import { usePanelMenus } from '@/hooks/usePanelMenus';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
+type Locale = 'pt-BR' | 'en' | 'es';
+
+const localeContent: Record<Locale, {
+  switchTheme: string;
+  notifications: string;
+  home: string;
+  modules: string;
+  plans: string;
+  panels: string;
+  register: string;
+  login: string;
+}> = {
+  'pt-BR': {
+    switchTheme: 'Alternar tema',
+    notifications: 'Notificações',
+    home: 'Início',
+    modules: 'Módulos',
+    plans: 'Planos',
+    panels: 'Painéis',
+    register: 'Cadastre-se',
+    login: 'Entrar',
+  },
+  en: {
+    switchTheme: 'Switch theme',
+    notifications: 'Notifications',
+    home: 'Home',
+    modules: 'Modules',
+    plans: 'Plans',
+    panels: 'Panels',
+    register: 'Sign up',
+    login: 'Sign in',
+  },
+  es: {
+    switchTheme: 'Cambiar tema',
+    notifications: 'Notificaciones',
+    home: 'Inicio',
+    modules: 'Módulos',
+    plans: 'Planes',
+    panels: 'Paneles',
+    register: 'Regístrate',
+    login: 'Entrar',
+  },
+};
+
+const languageOptions: Array<{ locale: Locale; flag: string; label: string }> = [
+  { locale: 'pt-BR', flag: '🇧🇷', label: 'Português (Brasil)' },
+  { locale: 'en', flag: '🇺🇸', label: 'English' },
+  { locale: 'es', flag: '🇪🇸', label: 'Español' },
+];
+
 const MenuSuperior = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
