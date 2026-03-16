@@ -406,7 +406,7 @@ const Suporte = () => {
                 size="sm"
                 className="text-muted-foreground hover:text-foreground"
               >
-                Mostrar menos perguntas
+                {t.showLess}
               </Button>
             </div>
           )}
