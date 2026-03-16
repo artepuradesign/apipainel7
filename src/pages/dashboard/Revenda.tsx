@@ -199,9 +199,9 @@ const Revenda = () => {
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, { className: string; label: string }> = {
-      ativo: { className: 'bg-green-500', label: 'Ativo' },
-      pendente: { className: 'bg-yellow-500', label: 'Pendente' },
-      inativo: { className: 'bg-gray-500', label: 'Inativo' }
+      ativo: { className: 'bg-green-500', label: t.active },
+      pendente: { className: 'bg-yellow-500', label: t.pending },
+      inativo: { className: 'bg-gray-500', label: t.inactive }
     };
 
     const variant = variants[status] || variants.pendente;
