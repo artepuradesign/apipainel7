@@ -165,7 +165,7 @@ const Carteira = () => {
       
       toast.success(t.transferSuccess.replace('{amount}', formatBrazilianCurrency(amount)));
     } catch (error) {
-      toast.error("Erro ao realizar transferência");
+      toast.error(t.transferError);
     } finally {
       setIsProcessing(false);
     }
