@@ -20,11 +20,50 @@ interface UnifiedOrder {
   meta?: Record<string, any>;
 }
 
-const statusLabels: Record<string, string> = {
-  realizado: 'Realizado',
-  pagamento_confirmado: 'Pgto Confirmado',
-  em_confeccao: 'Em Confecção',
-  entregue: 'Entregue',
+const textByLocale: Record<Locale, {
+  statusLabels: Record<string, string>;
+  title: string;
+  sectionTitle: string;
+  records: string;
+  loading: string;
+  empty: string;
+  module: string;
+  modulePurchase: string;
+  customPdf: string;
+}> = {
+  'pt-BR': {
+    statusLabels: { realizado: 'Realizado', pagamento_confirmado: 'Pgto Confirmado', em_confeccao: 'Em Confecção', entregue: 'Entregue' },
+    title: 'Histórico · Cadastros na API',
+    sectionTitle: 'Pedidos e Compras',
+    records: 'registros',
+    loading: 'Carregando pedidos...',
+    empty: 'Nenhum pedido encontrado',
+    module: 'Módulo',
+    modulePurchase: 'Compra de módulo',
+    customPdf: 'PDF Personalizado',
+  },
+  en: {
+    statusLabels: { realizado: 'Placed', pagamento_confirmado: 'Payment Confirmed', em_confeccao: 'In Production', entregue: 'Delivered' },
+    title: 'History · API Registrations',
+    sectionTitle: 'Orders and Purchases',
+    records: 'records',
+    loading: 'Loading orders...',
+    empty: 'No orders found',
+    module: 'Module',
+    modulePurchase: 'Module purchase',
+    customPdf: 'Custom PDF',
+  },
+  es: {
+    statusLabels: { realizado: 'Realizado', pagamento_confirmado: 'Pago Confirmado', em_confeccao: 'En Producción', entregue: 'Entregado' },
+    title: 'Historial · Registros en la API',
+    sectionTitle: 'Pedidos y Compras',
+    records: 'registros',
+    loading: 'Cargando pedidos...',
+    empty: 'No se encontraron pedidos',
+    module: 'Módulo',
+    modulePurchase: 'Compra de módulo',
+    customPdf: 'PDF Personalizado',
+  },
 };
 
 const HistoricoCadastrosApi = () => {
