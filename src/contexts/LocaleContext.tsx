@@ -45,6 +45,7 @@ export const localeContent: Record<Locale, {
   walletExpired: string;
   walletRefresh: string;
   walletUserFallback: string;
+  walletPrepaid: string;
 }> = {
   'pt-BR': {
     switchTheme: 'Alternar tema',
