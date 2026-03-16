@@ -304,7 +304,7 @@ const Revenda = () => {
                   <TableBody>
                     {historico.map((item) => (
                       <TableRow key={item.id}>
-                        <TableCell className="font-medium">{item.indicado_nome || 'Não informado'}</TableCell>
+                        <TableCell className="font-medium">{item.indicado_nome || t.notInformed}</TableCell>
                         <TableCell className="text-sm text-muted-foreground">{item.indicado_email || '-'}</TableCell>
                         <TableCell>{getStatusBadge(item.status)}</TableCell>
                         <TableCell className="text-right">
