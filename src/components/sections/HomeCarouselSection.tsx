@@ -18,44 +18,169 @@ type Slide = {
   image: string;
 };
 
+type HomeCarouselContent = {
+  platformBadge: string;
+  searchPlaceholder: string;
+  verifyShort: string;
+  verifyFull: string;
+  goToSlide: string;
+  slides: Slide[];
+  stats: Array<{ value: string; label: string }>;
+  featureCards: Array<{ title: string; desc: string }>;
+};
+
+const homeCarouselContent: Record<Locale, HomeCarouselContent> = {
+  'pt-BR': {
+    platformBadge: 'Plataforma Online',
+    searchPlaceholder: 'Digite...',
+    verifyShort: 'Verificar',
+    verifyFull: 'Verificar Informações',
+    goToSlide: 'Ir para slide',
+    slides: [
+      {
+        title: 'Dados Cadastrais em Tempo Real',
+        subtitle: 'Validação inteligente',
+        description: 'Acesse informações cadastrais precisas e atualizadas direto no seu sistema.',
+        image: slide02,
+      },
+      {
+        title: 'Teste nossa API em nosso painel',
+        subtitle: 'Integre por API ou consuma direto no painel',
+        description: 'Venda e opere nos dois modelos: integração técnica e uso imediato pela interface.',
+        image: slide01,
+      },
+      {
+        title: 'Integração Segura em Tempo Real',
+        subtitle: 'Conecte bots, apps e processos internos com facilidade',
+        description: 'Conecte bots, apps e fluxos internos com estabilidade e privacidade total.',
+        image: slide03,
+      },
+      {
+        title: 'Conformidade Segura e Real',
+        subtitle: 'Criptografia ponta a ponta com infraestrutura confiável',
+        description: 'Escale com performance contínua, conformidade LGPD e proteção completa.',
+        image: slide04,
+      },
+    ],
+    stats: [
+      { value: '99,9%', label: 'Disponibilidade' },
+      { value: '100%', label: 'Criptografia' },
+      { value: 'LGPD', label: 'Conformidade' },
+      { value: '24h', label: 'Suporte Telegram' },
+    ],
+    featureCards: [
+      { title: 'Validação de dados cadastrais', desc: 'Qualidade e consistência para cadastro' },
+      { title: 'Checagem de status em tempo real', desc: 'Atualização contínua para cada consulta' },
+      { title: 'Consulta de registros oficiais', desc: 'Dados confiáveis para fluxos críticos' },
+      { title: 'Integração com bots e aplicativos', desc: 'Conexão estável com seus sistemas' },
+      { title: 'Relatórios rápidos e criptografados', desc: 'Informação acionável com privacidade' },
+    ],
+  },
+  en: {
+    platformBadge: 'Online Platform',
+    searchPlaceholder: 'Type...',
+    verifyShort: 'Check',
+    verifyFull: 'Check Information',
+    goToSlide: 'Go to slide',
+    slides: [
+      {
+        title: 'Real-Time Registration Data',
+        subtitle: 'Smart validation',
+        description: 'Access accurate and updated registration data directly in your system.',
+        image: slide02,
+      },
+      {
+        title: 'Test our API in our panel',
+        subtitle: 'Integrate via API or use directly in the panel',
+        description: 'Sell and operate in both models: technical integration and immediate interface usage.',
+        image: slide01,
+      },
+      {
+        title: 'Secure Real-Time Integration',
+        subtitle: 'Connect bots, apps, and internal processes with ease',
+        description: 'Connect bots, apps, and internal flows with stability and full privacy.',
+        image: slide03,
+      },
+      {
+        title: 'Reliable Security Compliance',
+        subtitle: 'End-to-end encryption with trusted infrastructure',
+        description: 'Scale with continuous performance, compliance, and full protection.',
+        image: slide04,
+      },
+    ],
+    stats: [
+      { value: '99.9%', label: 'Availability' },
+      { value: '100%', label: 'Encryption' },
+      { value: 'Compliance', label: 'Standards' },
+      { value: '24h', label: 'Telegram Support' },
+    ],
+    featureCards: [
+      { title: 'Registration data validation', desc: 'Quality and consistency for onboarding' },
+      { title: 'Real-time status checks', desc: 'Continuous updates for each query' },
+      { title: 'Official records lookup', desc: 'Reliable data for critical flows' },
+      { title: 'Bot and app integration', desc: 'Stable connection with your systems' },
+      { title: 'Fast encrypted reports', desc: 'Actionable information with privacy' },
+    ],
+  },
+  es: {
+    platformBadge: 'Plataforma en línea',
+    searchPlaceholder: 'Escribe...',
+    verifyShort: 'Verificar',
+    verifyFull: 'Verificar información',
+    goToSlide: 'Ir al slide',
+    slides: [
+      {
+        title: 'Datos Registrales en Tiempo Real',
+        subtitle: 'Validación inteligente',
+        description: 'Accede a datos registrales precisos y actualizados directamente en tu sistema.',
+        image: slide02,
+      },
+      {
+        title: 'Prueba nuestra API en nuestro panel',
+        subtitle: 'Integra por API o úsala directo en el panel',
+        description: 'Vende y opera en ambos modelos: integración técnica y uso inmediato de la interfaz.',
+        image: slide01,
+      },
+      {
+        title: 'Integración Segura en Tiempo Real',
+        subtitle: 'Conecta bots, apps y procesos internos con facilidad',
+        description: 'Conecta bots, apps y flujos internos con estabilidad y privacidad total.',
+        image: slide03,
+      },
+      {
+        title: 'Cumplimiento Seguro y Real',
+        subtitle: 'Cifrado de extremo a extremo con infraestructura confiable',
+        description: 'Escala con rendimiento continuo, cumplimiento y protección completa.',
+        image: slide04,
+      },
+    ],
+    stats: [
+      { value: '99,9%', label: 'Disponibilidad' },
+      { value: '100%', label: 'Cifrado' },
+      { value: 'Cumplimiento', label: 'Normativas' },
+      { value: '24h', label: 'Soporte Telegram' },
+    ],
+    featureCards: [
+      { title: 'Validación de datos registrales', desc: 'Calidad y consistencia para el registro' },
+      { title: 'Verificación en tiempo real', desc: 'Actualización continua para cada consulta' },
+      { title: 'Consulta de registros oficiales', desc: 'Datos confiables para flujos críticos' },
+      { title: 'Integración con bots y apps', desc: 'Conexión estable con tus sistemas' },
+      { title: 'Reportes rápidos cifrados', desc: 'Información accionable con privacidad' },
+    ],
+  },
+};
+
 const HomeCarouselSection: React.FC = () => {
   const navigate = useNavigate();
   const { currentVisualTheme } = useSiteTheme();
+  const { locale } = useLocale();
+  const content = homeCarouselContent[locale];
   const isMatrix = currentVisualTheme === "matrix";
   const [active, setActive] = useState(0);
   const [searchValue, setSearchValue] = useState("");
 
-  const slides = useMemo<Slide[]>(
-    () => [
-      {
-        title: "Dados Cadastrais em Tempo Real",
-        subtitle: "Validação inteligente",
-        description: "Acesse informações cadastrais precisas e atualizadas direto no seu sistema.",
-        image: slide02,
-      },
-      {
-        title: "Teste nossa API em nosso painel",
-        subtitle: "Integre por API ou consuma direto no painel",
-        description: "Venda e opere nos dois modelos: integração técnica e uso imediato pela interface.",
-        image: slide01,
-      },
-      {
-        title: "Integração Segura em Tempo Real",
-        subtitle: "Conecte bots, apps e processos internos com facilidade",
-        description: "Conecte bots, apps e fluxos internos com estabilidade e privacidade total.",
-        image: slide03,
-      },
-      {
-        title: "Conformidade Segura e Real",
-        subtitle: "Criptografia ponta a ponta com infraestrutura confiável",
-        description: "Escale com performance contínua, conformidade LGPD e proteção completa.",
-        image: slide04,
-      },
-    ],
-    []
-  );
+  const slides = useMemo<Slide[]>(() => content.slides, [content.slides]);
 
-  // Auto-advance slides
   useEffect(() => {
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % slides.length);
@@ -71,46 +196,41 @@ const HomeCarouselSection: React.FC = () => {
     [navigate]
   );
 
-  const stats = [
-    { value: "99,9%", label: "Disponibilidade" },
-    { value: "100%", label: "Criptografia" },
-    { value: "LGPD", label: "Conformidade" },
-    { value: "24h", label: "Suporte Telegram" },
-  ];
+  const stats = content.stats;
 
   const featureCards = [
     {
       icon: <Zap className="h-5 w-5" />,
-      title: "Validação de dados cadastrais",
-      desc: "Qualidade e consistência para cadastro",
+      title: content.featureCards[0].title,
+      desc: content.featureCards[0].desc,
       delay: 0.3,
       initial: { opacity: 0, x: 80, rotate: 5 },
     },
     {
       icon: <ShieldCheck className="h-5 w-5" />,
-      title: "Checagem de status em tempo real",
-      desc: "Atualização contínua para cada consulta",
+      title: content.featureCards[1].title,
+      desc: content.featureCards[1].desc,
       delay: 0.45,
       initial: { opacity: 0, x: 100, y: 20, scale: 0.85 },
     },
     {
       icon: <FileSearch className="h-5 w-5" />,
-      title: "Consulta de registros oficiais",
-      desc: "Dados confiáveis para fluxos críticos",
+      title: content.featureCards[2].title,
+      desc: content.featureCards[2].desc,
       delay: 0.6,
       initial: { opacity: 0, x: 60, y: 40, rotate: -3 },
     },
     {
       icon: <Code2 className="h-5 w-5" />,
-      title: "Integração com bots e aplicativos",
-      desc: "Conexão estável com seus sistemas",
+      title: content.featureCards[3].title,
+      desc: content.featureCards[3].desc,
       delay: 0.75,
       initial: { opacity: 0, x: 90, y: 15, rotate: 2 },
     },
     {
       icon: <ArrowRight className="h-5 w-5" />,
-      title: "Relatórios rápidos e criptografados",
-      desc: "Informação acionável com privacidade",
+      title: content.featureCards[4].title,
+      desc: content.featureCards[4].desc,
       delay: 0.9,
       initial: { opacity: 0, x: 70, y: 20, rotate: -2 },
     },
