@@ -18,6 +18,7 @@ import { useLocale } from '@/contexts/LocaleContext';
 
 const MinhaConta = () => {
   const location = useLocation();
+  const { locale } = useLocale();
   const [premiumUnlocked, setPremiumUnlocked] = useState(false);
   const [showLightning, setShowLightning] = useState(false);
   const [showLock, setShowLock] = useState(false);
@@ -29,6 +30,39 @@ const MinhaConta = () => {
     handleInputChange,
     handleSave
   } = useMinhaContaData();
+
+  const i18n = {
+    'pt-BR': {
+      personalData: 'Dados Pessoais',
+      myAccount: 'Minha Conta',
+      subtitlePersonal: 'Gerencie suas informações pessoais e configurações de conta',
+      subtitleAccount: 'Visualize e edite suas informações pessoais',
+      loadError: 'Erro ao carregar dados do usuário',
+      tryAgain: 'Tentar novamente',
+      saving: 'Salvando...',
+      saveInfo: 'Salvar Informações',
+    },
+    en: {
+      personalData: 'Personal Data',
+      myAccount: 'My Account',
+      subtitlePersonal: 'Manage your personal information and account settings',
+      subtitleAccount: 'View and edit your personal information',
+      loadError: 'Error loading user data',
+      tryAgain: 'Try again',
+      saving: 'Saving...',
+      saveInfo: 'Save Information',
+    },
+    es: {
+      personalData: 'Datos Personales',
+      myAccount: 'Mi Cuenta',
+      subtitlePersonal: 'Gestiona tu información personal y configuración de cuenta',
+      subtitleAccount: 'Visualiza y edita tu información personal',
+      loadError: 'Error al cargar datos del usuario',
+      tryAgain: 'Intentar de nuevo',
+      saving: 'Guardando...',
+      saveInfo: 'Guardar información',
+    },
+  }[locale];
 
   const handlePremiumUnlock = () => {
     setShowLightning(true);
@@ -48,12 +82,9 @@ const MinhaConta = () => {
     }
   };
 
-  // Determinar título baseado na rota
   const isNewRoute = location.pathname === '/dashboard/dados-pessoais';
-  const pageTitle = isNewRoute ? 'Dados Pessoais' : 'Minha Conta';
-  const pageSubtitle = isNewRoute 
-    ? 'Gerencie suas informações pessoais e configurações de conta'
-    : 'Visualize e edite suas informações pessoais';
+  const pageTitle = isNewRoute ? i18n.personalData : i18n.myAccount;
+  const pageSubtitle = isNewRoute ? i18n.subtitlePersonal : i18n.subtitleAccount;
 
   if (loading) {
     return (
