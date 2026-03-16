@@ -452,7 +452,7 @@ const GerenciarChamados = () => {
                           <Calendar className="h-3 w-3" />
                           {formatDistanceToNow(new Date(ticket.created_at), {
                             addSuffix: true,
-                            locale: ptBR
+                            locale: dateFnsLocaleByLocale[locale]
                           })}
                         </div>
                         {ticket.satisfaction_rating && (
