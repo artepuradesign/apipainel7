@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { makeDirectRequest } from '@/config/apiConfig';
 import { externalReferralApiService } from '@/services/externalReferralApiService';
 import { useBonusConfig } from '@/services/bonusConfigService';
+import { useLocale } from '@/contexts/LocaleContext';
 
 interface RegistrationFormProps {
   name: string;
@@ -25,6 +26,84 @@ interface RegistrationFormProps {
   isProcessingUrl?: boolean;
 }
 
+const textByLocale = {
+  'pt-BR': {
+    name: 'Nome Completo',
+    namePlaceholder: 'Digite seu nome',
+    email: 'Email',
+    emailPlaceholder: 'seu@email.com',
+    password: 'Senha',
+    passwordPlaceholder: 'Crie uma senha',
+    referralLabel: 'Código de Indicação (Opcional)',
+    referralPlaceholder: 'Ex: USER123',
+    validate: 'Validar',
+    validating: '...',
+    validated: '✓ OK',
+    submit: 'Criar Conta',
+    submitting: 'Processando...',
+    referralEmpty: 'Por favor, digite um código de indicação',
+    referralSuccess: 'Ótimo! Código de {name} aplicado com sucesso!',
+    referralNotFound: 'Código de indicação não encontrado',
+    referralError: 'Erro ao validar código. Tente novamente.',
+    referralValidMessage: '✅ Código válido! Indicado por: {name} — Bônus: {bonus}',
+    referralExpiredMessage: '⏰ Código expirado',
+    referralInvalidMessage: '❌ {message}',
+    fallbackReferrer: 'Usuário Indicador',
+  },
+  en: {
+    name: 'Full Name',
+    namePlaceholder: 'Enter your name',
+    email: 'Email',
+    emailPlaceholder: 'your@email.com',
+    password: 'Password',
+    passwordPlaceholder: 'Create a password',
+    referralLabel: 'Referral Code (Optional)',
+    referralPlaceholder: 'Ex: USER123',
+    validate: 'Validate',
+    validating: '...',
+    validated: '✓ OK',
+    submit: 'Create Account',
+    submitting: 'Processing...',
+    referralEmpty: 'Please enter a referral code',
+    referralSuccess: 'Great! {name} code applied successfully!',
+    referralNotFound: 'Referral code not found',
+    referralError: 'Error validating code. Please try again.',
+    referralValidMessage: '✅ Valid code! Referred by: {name} — Bonus: {bonus}',
+    referralExpiredMessage: '⏰ Expired code',
+    referralInvalidMessage: '❌ {message}',
+    fallbackReferrer: 'Referrer User',
+  },
+  es: {
+    name: 'Nombre Completo',
+    namePlaceholder: 'Ingresa tu nombre',
+    email: 'Correo',
+    emailPlaceholder: 'tu@email.com',
+    password: 'Contraseña',
+    passwordPlaceholder: 'Crea una contraseña',
+    referralLabel: 'Código de Referido (Opcional)',
+    referralPlaceholder: 'Ej: USER123',
+    validate: 'Validar',
+    validating: '...',
+    validated: '✓ OK',
+    submit: 'Crear Cuenta',
+    submitting: 'Procesando...',
+    referralEmpty: 'Por favor, ingresa un código de referido',
+    referralSuccess: '¡Genial! Código de {name} aplicado con éxito.',
+    referralNotFound: 'Código de referido no encontrado',
+    referralError: 'Error al validar el código. Inténtalo de nuevo.',
+    referralValidMessage: '✅ Código válido. Referido por: {name} — Bono: {bonus}',
+    referralExpiredMessage: '⏰ Código vencido',
+    referralInvalidMessage: '❌ {message}',
+    fallbackReferrer: 'Usuario Referente',
+  },
+} as const;
+
+const localeToCurrency = {
+  'pt-BR': 'pt-BR',
+  en: 'en-US',
+  es: 'es-ES',
+} as const;
+
 const RegistrationForm: React.FC<RegistrationFormProps> = ({
   name,
   setName,
@@ -38,87 +117,53 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   setReferralId,
   onVerifyReferralId,
   referralValidation,
-  isProcessingUrl = false
+  isProcessingUrl = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [hasVerified, setHasVerified] = useState(false);
   const { bonusAmount } = useBonusConfig();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
 
   const validateReferralCode = async () => {
     if (!referralId.trim()) {
-      toast('Por favor, digite um código de indicação');
+      toast(t.referralEmpty);
       return;
     }
 
-    if (hasVerified || referralValidation?.isValid) {
-      console.log('🔄 [REFERRAL_FORM] Código já validado');
-      return;
-    }
-
-    if (isProcessingUrl) {
-      console.log('🔄 [REFERRAL_FORM] Aguardando processamento da URL...');
+    if (hasVerified || referralValidation?.isValid || isProcessingUrl) {
       return;
     }
 
     setIsValidating(true);
-    
+
     try {
-      console.log('🔍 [REFERRAL_FORM] Validando código manualmente:', referralId.trim());
-      
       const externalValidation = await externalReferralApiService.validateReferralCode(referralId.trim());
-      
+
       if (externalValidation.valid) {
-        console.log('✅ [REFERRAL_FORM] Código válido na API externa:', externalValidation);
-        
-        const referrerName = externalValidation.referrer_name || 'Usuário Indicador';
-        
-        console.log('👤 [REFERRAL_FORM] Nome do indicador extraído:', referrerName);
-        
+        const referrerName = externalValidation.referrer_name || t.fallbackReferrer;
         setHasVerified(true);
         onVerifyReferralId(externalValidation.referrer_id!, referralId.trim());
-        
-        toast(`Ótimo! Código de ${referrerName} aplicado com sucesso!`);
+        toast(t.referralSuccess.replace('{name}', referrerName));
         return;
       }
-      
-      console.log('🔄 [REFERRAL_FORM] Tentando API local como fallback...');
-      
-      const response = await makeDirectRequest('/auth/validate-referral', { 
-        code: referralId.trim() 
+
+      const response = await makeDirectRequest('/auth/validate-referral', {
+        code: referralId.trim(),
       }, 'POST');
-      
-      console.log('📡 [REFERRAL_FORM] Resposta completa da API local:', response);
-      
+
       if (response.success && response.data) {
-        console.log('✅ [REFERRAL_FORM] Código válido na API local:', response.data);
-        
-        let referrerName = 'Usuário Indicador';
-        if (response.data.referrer_name) {
-          referrerName = response.data.referrer_name;
-        } else if (response.data.referrerName) {
-          referrerName = response.data.referrerName;
-        } else if (response.data.full_name) {
-          referrerName = response.data.full_name;
-        } else if (response.data.name) {
-          referrerName = response.data.name;
-        }
-        
-        console.log('👤 [REFERRAL_FORM] Nome do indicador extraído:', referrerName);
-        
+        const referrerName = response.data.referrer_name || response.data.referrerName || response.data.full_name || response.data.name || t.fallbackReferrer;
         setHasVerified(true);
         onVerifyReferralId(response.data.referrer_id, referralId.trim());
-        
-        toast(`Ótimo! Código de ${referrerName} aplicado com sucesso!`);
+        toast(t.referralSuccess.replace('{name}', referrerName));
       } else {
-        console.log('❌ [REFERRAL_FORM] Código inválido - resposta completa:', response);
-        
-        toast(response.message || 'Código de indicação não encontrado');
+        toast(response.message || t.referralNotFound);
         setHasVerified(false);
       }
-    } catch (error) {
-      console.error('❌ [REFERRAL_FORM] Erro na validação - erro completo:', error);
-      toast('Erro ao validar código. Tente novamente.');
+    } catch {
+      toast(t.referralError);
       setHasVerified(false);
     } finally {
       setIsValidating(false);
@@ -126,23 +171,23 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   };
 
   const handleInputChange = (value: string) => {
-    console.log('📝 [REFERRAL_FORM] Campo alterado:', value);
     setReferralId(value.toUpperCase());
     setHasVerified(false);
   };
 
   const isCodeVerified = referralValidation?.isValid || hasVerified;
+  const localizedBonus = bonusAmount.toLocaleString(localeToCurrency[locale], { style: 'currency', currency: 'BRL' });
 
   return (
     <div className="space-y-3">
       <div className="space-y-2">
-        <Label htmlFor="name" className="text-sm font-medium">Nome Completo</Label>
+        <Label htmlFor="name" className="text-sm font-medium">{t.name}</Label>
         <div className="relative">
-          <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+          <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="name"
             type="text"
-            placeholder="Digite seu nome"
+            placeholder={t.namePlaceholder}
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="pl-10 h-9"
@@ -150,15 +195,15 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
           />
         </div>
       </div>
-      
+
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+        <Label htmlFor="email" className="text-sm font-medium">{t.email}</Label>
         <div className="relative">
-          <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+          <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="email"
             type="email"
-            placeholder="seu@email.com"
+            placeholder={t.emailPlaceholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="pl-10 h-9"
@@ -168,13 +213,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-sm font-medium">Senha</Label>
+        <Label htmlFor="password" className="text-sm font-medium">{t.password}</Label>
         <div className="relative">
-          <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+          <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Crie uma senha"
+            type={showPassword ? 'text' : 'password'}
+            placeholder={t.passwordPlaceholder}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="pl-10 pr-10 h-9"
@@ -183,7 +228,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
           >
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
@@ -191,18 +236,16 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="referral-code" className="text-sm font-medium">
-          Código de Indicação (Opcional)
-        </Label>
+        <Label htmlFor="referral-code" className="text-sm font-medium">{t.referralLabel}</Label>
         <div className="flex gap-2">
           <div className="relative flex-1">
-            <Gift className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <Gift className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="referral-code"
               type="text"
               value={referralId}
               onChange={(e) => handleInputChange(e.target.value)}
-              placeholder="Ex: USER123"
+              placeholder={t.referralPlaceholder}
               className="pl-10 uppercase h-9"
               disabled={isValidating || isCodeVerified || isProcessingUrl}
             />
@@ -211,42 +254,39 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             type="button"
             onClick={validateReferralCode}
             disabled={!referralId.trim() || isValidating || isCodeVerified || isProcessingUrl}
-            variant={isCodeVerified ? "default" : "outline"}
+            variant={isCodeVerified ? 'default' : 'outline'}
             size="sm"
             className="whitespace-nowrap min-w-[80px] h-9"
           >
-            {isValidating 
-              ? '...' 
-              : isCodeVerified 
-                ? '✓ OK' 
-                : 'Validar'
-            }
+            {isValidating ? t.validating : isCodeVerified ? t.validated : t.validate}
           </Button>
         </div>
+
         {referralValidation && (
           <div className={`text-xs p-2 rounded ${
-            referralValidation.isValid 
-              ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' 
+            referralValidation.isValid
+              ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
               : referralValidation.isExpired
                 ? 'bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400'
                 : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
           }`}>
-            {referralValidation.isValid 
-              ? `✅ Código válido! Indicado por: ${referralValidation.referrerName || 'Usuário Indicador'} — Bônus: ${bonusAmount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
+            {referralValidation.isValid
+              ? t.referralValidMessage
+                .replace('{name}', referralValidation.referrerName || t.fallbackReferrer)
+                .replace('{bonus}', localizedBonus)
               : referralValidation.isExpired
-                ? '⏰ Código expirado'
-              : `❌ ${referralValidation.message || 'Código inválido'}`
-            }
+                ? t.referralExpiredMessage
+                : t.referralInvalidMessage.replace('{message}', referralValidation.message || t.referralNotFound)}
           </div>
         )}
       </div>
-      
-      <Button 
-        type="submit" 
+
+      <Button
+        type="submit"
         className="w-full h-12 text-base font-semibold premium-button"
         disabled={isSubmitting || !isFormComplete}
       >
-        {isSubmitting ? "Processando..." : "Criar Conta"}
+        {isSubmitting ? t.submitting : t.submit}
       </Button>
     </div>
   );

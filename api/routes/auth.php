@@ -83,6 +83,16 @@ try {
         $authController = new AuthController($db);
         $authController->validateToken();
 
+    } elseif ($method === 'POST' && strpos($path, '/auth/forgot-password') !== false) {
+        error_log("AUTH: Processando recuperação de senha");
+        $authController = new AuthController($db);
+        $authController->forgotPassword();
+
+    } elseif ($method === 'POST' && strpos($path, '/auth/reset-password') !== false) {
+        error_log("AUTH: Processando redefinição de senha");
+        $authController = new AuthController($db);
+        $authController->resetPassword();
+
     } else {
         error_log("AUTH ERROR: Endpoint não encontrado - " . $path);
         http_response_code(404);

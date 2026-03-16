@@ -71,13 +71,13 @@ class EmailService {
     
     private function getPasswordResetTemplate($resetToken) {
         $resetUrl = $_ENV['FRONTEND_URL'] . '/reset-password?token=' . $resetToken;
-        
+
         return "
         <html>
         <body>
-            <h1>Redefinição de senha</h1>
-            <p>Clique no link abaixo para redefinir sua senha:</p>
-            <a href='{$resetUrl}'>Redefinir senha</a>
+            <h1>Recuperação de senha</h1>
+            <p>Para continuar, confirme a leitura clicando no botão abaixo:</p>
+            <p><a href='{$resetUrl}' style='display:inline-block;padding:10px 16px;background:#111;color:#fff;text-decoration:none;border-radius:6px;'>Confirmar leitura e atualizar senha</a></p>
             <p>Se você não solicitou esta redefinição, ignore este e-mail.</p>
         </body>
         </html>

@@ -1,20 +1,29 @@
 
 import React from 'react';
 import LoadingScreen from '@/components/layout/LoadingScreen';
+import { useLocale } from '@/contexts/LocaleContext';
 
 interface LoginLoadingScreenProps {
   message?: string;
   variant?: 'auth' | 'dashboard' | 'default';
 }
 
-const LoginLoadingScreen: React.FC<LoginLoadingScreenProps> = ({ 
-  message = "Verificando sessão",
-  variant = "auth" 
+const defaultMessageByLocale = {
+  'pt-BR': 'Verificando sessão',
+  en: 'Checking session',
+  es: 'Verificando sesión',
+} as const;
+
+const LoginLoadingScreen: React.FC<LoginLoadingScreenProps> = ({
+  message,
+  variant = 'auth',
 }) => {
+  const { locale } = useLocale();
+
   return (
-    <LoadingScreen 
-      message={message} 
-      variant={variant} 
+    <LoadingScreen
+      message={message || defaultMessageByLocale[locale]}
+      variant={variant}
     />
   );
 };

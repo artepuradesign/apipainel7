@@ -30,7 +30,7 @@ import AuthLoading from '@/pages/AuthLoading';
 import Logout from '@/pages/Logout';
 import IndicacoesPublicas from '@/pages/IndicacoesPublicas';
 import Modulos from '@/pages/Modulos';
-
+import ResetPassword from '@/pages/ResetPassword';
 
 import TermsOfService from '@/pages/TermsOfService';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
@@ -234,6 +234,7 @@ function App() {
                     <Route path="/privacy" element={<PrivacyPolicy />} />
                     <Route path="/cookies" element={<CookiePolicy />} />
                     <Route path="/verify-email" element={<VerifyEmail />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/api-docs" element={<ApiDocs />} />
                     <Route path="/planos" element={<PricingPage />} />
                     <Route path="/planos-publicos" element={<PublicPlanos />} />

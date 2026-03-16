@@ -429,4 +429,65 @@ class AuthController {
             Response::error('Erro interno do servidor: ' . $e->getMessage(), 500);
         }
     }
+
+    public function forgotPassword() {
+        try {
+            $rawInput = file_get_contents('php://input');
+            $input = json_decode($rawInput, true);
+
+            if (!$input || !isset($input['email'])) {
+                Response::error('Email é obrigatório', 400);
+                return;
+            }
+
+            $email = trim(strtolower($input['email']));
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                Response::error('Email inválido', 400);
+                return;
+            }
+
+            $result = $this->authService->forgotPassword($email);
+
+            if ($result['success']) {
+                Response::success(null, $result['message']);
+            } else {
+                Response::error($result['message'], $result['status_code'] ?? 400);
+            }
+        } catch (Exception $e) {
+            error_log("AUTHCONTROLLER FORGOT_PASSWORD EXCEPTION: " . $e->getMessage());
+            Response::error('Erro interno do servidor', 500);
+        }
+    }
+
+    public function resetPassword() {
+        try {
+            $rawInput = file_get_contents('php://input');
+            $input = json_decode($rawInput, true);
+
+            if (!$input || !isset($input['token']) || !isset($input['new_password'])) {
+                Response::error('Token e nova senha são obrigatórios', 400);
+                return;
+            }
+
+            $token = trim($input['token']);
+            $newPassword = trim($input['new_password']);
+
+            if (strlen($newPassword) < 6) {
+                Response::error('A nova senha deve ter pelo menos 6 caracteres', 400);
+                return;
+            }
+
+            $result = $this->authService->resetPassword($token, $newPassword);
+
+            if ($result['success']) {
+                Response::success(null, $result['message']);
+            } else {
+                Response::error($result['message'], $result['status_code'] ?? 400);
+            }
+        } catch (Exception $e) {
+            error_log("AUTHCONTROLLER RESET_PASSWORD EXCEPTION: " . $e->getMessage());
+            Response::error('Erro interno do servidor', 500);
+        }
+    }
 }

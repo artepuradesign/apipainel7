@@ -41,6 +41,10 @@ try {
         $authController->updateProfile();
     } elseif ($method === 'POST' && $path === '/auth/change-password') {
         $authController->changePassword();
+    } elseif ($method === 'POST' && $path === '/auth/forgot-password') {
+        $authController->forgotPassword();
+    } elseif ($method === 'POST' && $path === '/auth/reset-password') {
+        $authController->resetPassword();
     } elseif ($method === 'GET' && $path === '/auth/referrals') {
         handleAuthReferrals($db, $method, $path);
     } elseif ($method === 'POST' && $path === '/auth/process-referral-bonus') {
