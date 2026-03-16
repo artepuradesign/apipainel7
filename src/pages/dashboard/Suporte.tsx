@@ -392,7 +392,7 @@ const Suporte = () => {
                 className="h-10 sm:h-12 px-6 sm:px-8 font-semibold border-2 hover:border-primary/50 hover:bg-primary/5"
               >
                 <Plus className="h-5 w-5 mr-2" />
-                Ver mais {filteredFAQs.length - 5} perguntas
+                {t.showMore} {filteredFAQs.length - 5}
               </Button>
             </div>
           )}
