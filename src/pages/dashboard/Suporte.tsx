@@ -428,9 +428,9 @@ const Suporte = () => {
           {!searchTerm && (
             <div className="mt-8 sm:mt-12 p-4 sm:p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl border border-primary/10">
               <div className="text-center">
-                <h3 className="font-semibold text-lg mb-2">Ainda tem dúvidas?</h3>
+                <h3 className="font-semibold text-lg mb-2">{t.stillQuestions}</h3>
                 <p className="text-sm sm:text-base text-muted-foreground mb-4">
-                  Nossa equipe está aqui para ajudar! Entre em contato conosco através dos canais disponíveis.
+                  {t.stillQuestionsDesc}
                 </p>
                 <div className="flex flex-wrap gap-3 justify-center">
                   <Badge variant="outline" className="px-3 py-1">
