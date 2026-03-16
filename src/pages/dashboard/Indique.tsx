@@ -284,7 +284,7 @@ const Indique = () => {
         <Card className="overflow-hidden border-border/60">
           <CardHeader className="pb-2">
             <CardTitle id="como-funciona" className="text-lg sm:text-xl font-semibold text-foreground">
-              Como Funciona
+              {t.howItWorks}
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
