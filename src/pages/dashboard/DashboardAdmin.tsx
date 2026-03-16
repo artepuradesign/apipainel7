@@ -152,8 +152,8 @@ const DashboardAdmin = () => {
   return (
     <div className="space-y-6 relative z-10">
       <PageHeaderCard
-        title="Painel Administrativo"
-        subtitle="Visão geral de caixa, transações e usuários online"
+        title={t.title}
+        subtitle={t.subtitle}
       />
 
       {/* Stats Cards Unificados - 3 linhas de 4 cards */}
