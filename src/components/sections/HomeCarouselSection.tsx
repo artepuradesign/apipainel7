@@ -317,7 +317,7 @@ const HomeCarouselSection: React.FC = () => {
                   )}
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-                  Plataforma Online
+                  {content.platformBadge}
                 </span>
               </motion.div>
 
