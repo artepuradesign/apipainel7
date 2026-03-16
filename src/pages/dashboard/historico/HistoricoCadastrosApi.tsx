@@ -67,6 +67,8 @@ const textByLocale: Record<Locale, {
 };
 
 const HistoricoCadastrosApi = () => {
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [orders, setOrders] = useState<UnifiedOrder[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
