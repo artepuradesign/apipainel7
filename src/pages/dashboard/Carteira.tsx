@@ -18,11 +18,45 @@ import { useLocale } from '@/contexts/LocaleContext';
 const Carteira = () => {
   const { user, isSupport } = useAuth();
   const navigate = useNavigate();
+  const { locale } = useLocale();
   const [balance, setBalance] = useState({ saldo: 0, saldo_plano: 0, total: 0 });
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const t = {
+    'pt-BR': {
+      title: 'Carteira Digital',
+      active: 'Ativa',
+      error: 'Erro',
+      prepaid: 'Pré-Pago',
+      transferSuccess: 'Transferência de {amount} realizada com sucesso!',
+      transferError: 'Erro ao realizar transferência',
+      giftSuccess: 'Gift Card de {amount} enviado com sucesso!',
+      giftError: 'Erro ao enviar Gift Card',
+    },
+    en: {
+      title: 'Digital Wallet',
+      active: 'Active',
+      error: 'Error',
+      prepaid: 'Prepaid',
+      transferSuccess: 'Transfer of {amount} completed successfully!',
+      transferError: 'Error making transfer',
+      giftSuccess: 'Gift Card of {amount} sent successfully!',
+      giftError: 'Error sending Gift Card',
+    },
+    es: {
+      title: 'Cartera Digital',
+      active: 'Activa',
+      error: 'Error',
+      prepaid: 'Prepago',
+      transferSuccess: 'Transferencia de {amount} realizada con éxito!',
+      transferError: 'Error al realizar la transferencia',
+      giftSuccess: 'Gift Card de {amount} enviado con éxito!',
+      giftError: 'Error al enviar Gift Card',
+    },
+  }[locale];
 
   // Load balance from API
   const loadBalance = async () => {
