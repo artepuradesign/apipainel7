@@ -511,7 +511,7 @@ const PublicPlansSection = () => {
           <div className="flex justify-center items-center py-8">
             <div className="text-center">
               <Loader2 className="h-6 w-6 animate-spin text-brand-purple mx-auto mb-2" />
-              <p className="text-sm text-gray-500 dark:text-gray-400">Carregando...</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{content.loadingShort}</p>
             </div>
           </div>
         </div>
