@@ -278,10 +278,10 @@ const Suporte = () => {
             <div className="p-2 bg-primary/10 rounded-xl">
               <HelpCircle className="h-6 w-6 text-primary" />
             </div>
-            Perguntas Frequentes
+            {t.faqTitle}
           </CardTitle>
           <p className="text-sm sm:text-base text-muted-foreground mt-2">
-            Explore nossa base de conhecimento e encontre respostas rápidas
+            {t.faqSubtitle}
           </p>
         </CardHeader>
         <CardContent className="space-y-5 sm:space-y-8">
