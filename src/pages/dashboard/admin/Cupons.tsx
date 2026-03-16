@@ -265,7 +265,7 @@ const AdminCupons = () => {
           backTo="/dashboard/admin"
         />
         <div className="flex items-center justify-center py-12">
-          <RefreshCw className="w-8 h-8 animate-spin text-primary" />
+          <div className="flex items-center gap-2"><RefreshCw className="w-8 h-8 animate-spin text-primary" /><span className="text-sm text-muted-foreground">{t.loading}</span></div>
         </div>
       </div>
     );
