@@ -241,7 +241,7 @@ const Revenda = () => {
           <CardHeader className="pb-1 sm:pb-2 p-3 sm:p-6">
             <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground flex items-center gap-1.5 sm:gap-2">
               <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
-              <span className="truncate">Indicados Ativos</span>
+              <span className="truncate">{t.activeReferrals}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-3 sm:p-6 pt-0">
