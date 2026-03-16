@@ -267,7 +267,7 @@ const Suporte = () => {
   return (
     <div className="space-y-4 sm:space-y-6 relative z-10 px-1 sm:px-0">
       <DashboardTitleCard
-        title="Central de Suporte"
+        title={t.pageTitle}
         icon={<HelpCircle className="h-4 w-4 sm:h-5 sm:w-5" />}
       />
 
