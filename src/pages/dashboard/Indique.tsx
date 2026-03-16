@@ -415,7 +415,7 @@ const Indique = () => {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <CardTitle id="historico-indicacoes" className="text-lg sm:text-xl font-semibold">
-                  Histórico de Indicações
+                  {t.referralHistory}
                 </CardTitle>
                 <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
                   {referralEarnings.length} {referralEarnings.length === 1 ? 'indicação registrada' : 'indicações registradas'}
