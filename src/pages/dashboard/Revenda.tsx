@@ -293,12 +293,12 @@ const Revenda = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Indicado</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Valor Plano</TableHead>
-                      <TableHead className="text-right">Comissão</TableHead>
-                      <TableHead>Data Pagamento</TableHead>
+                      <TableHead>{t.referred}</TableHead>
+                      <TableHead>{t.email}</TableHead>
+                      <TableHead>{t.status}</TableHead>
+                      <TableHead className="text-right">{t.planValue}</TableHead>
+                      <TableHead className="text-right">{t.commission}</TableHead>
+                      <TableHead>{t.paymentDate}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
