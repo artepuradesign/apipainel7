@@ -553,7 +553,7 @@ const PublicPlansSection = () => {
                       className="bg-destructive hover:bg-destructive/90 text-white text-xs"
                     >
                       <RefreshCw className="h-3 w-3 mr-1" />
-                      Tentar Novamente
+                      {content.retry}
                     </Button>
                   </div>
                 </CardContent>
