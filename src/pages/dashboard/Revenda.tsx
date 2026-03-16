@@ -327,7 +327,7 @@ const Revenda = () => {
                 {historico.map((item) => (
                   <div key={item.id} className="border rounded-lg p-3 space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-sm truncate flex-1">{item.indicado_nome || 'Não informado'}</span>
+                      <span className="font-medium text-sm truncate flex-1">{item.indicado_nome || t.notInformed}</span>
                       {getStatusBadge(item.status)}
                     </div>
                     <p className="text-xs text-muted-foreground truncate">{item.indicado_email || '-'}</p>
