@@ -68,9 +68,9 @@ const localeContent: Record<Locale, {
 };
 
 const languageOptions: Array<{ locale: Locale; flag: string; label: string }> = [
-  { locale: 'pt-BR', flag: '🇧🇷', label: 'Português (Brasil)' },
   { locale: 'en', flag: '🇺🇸', label: 'English' },
   { locale: 'es', flag: '🇪🇸', label: 'Español' },
+  { locale: 'pt-BR', flag: '🇧🇷', label: 'Português (Brasil)' },
 ];
 
 const MenuSuperior = () => {
