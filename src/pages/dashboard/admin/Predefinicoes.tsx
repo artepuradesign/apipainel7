@@ -305,7 +305,7 @@ const Predefinicoes = () => {
           <CardContent className="text-center py-12 space-y-3">
             <p className="text-sm text-muted-foreground">{error}</p>
             <Button variant="outline" size="sm" onClick={fetchConfigs}>
-              <RefreshCw className="h-4 w-4 mr-2" /> Tentar novamente
+              <RefreshCw className="h-4 w-4 mr-2" /> {t.tryAgain}
             </Button>
           </CardContent>
         </Card>
