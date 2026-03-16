@@ -198,12 +198,12 @@ const HistoricoCadastrosApi = () => {
           {isLoading ? (
             <div className="text-center py-8">
               <div className="animate-spin mx-auto w-6 h-6 border-2 border-primary border-t-transparent rounded-full mb-2" />
-              <p className="text-sm text-muted-foreground">Carregando pedidos...</p>
+              <p className="text-sm text-muted-foreground">{t.loading}</p>
             </div>
           ) : orders.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <Package className="h-10 w-10 mx-auto mb-2 opacity-40" />
-              <p className="text-sm">Nenhum pedido encontrado</p>
+              <p className="text-sm">{t.empty}</p>
             </div>
           ) : (
             <div className="space-y-2">
