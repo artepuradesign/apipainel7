@@ -284,7 +284,7 @@ const Predefinicoes = () => {
             onClick={fetchConfigs}
             disabled={loading}
             className="h-7 w-7 sm:h-8 sm:w-8 p-0"
-            title="Recarregar"
+            title={t.reload}
           >
             <RefreshCw className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
