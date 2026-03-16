@@ -32,6 +32,19 @@ export const localeContent: Record<Locale, {
   languageModalDescription: string;
   applyLanguage: string;
   cancel: string;
+  walletDeposit: string;
+  walletBalance: string;
+  walletWalletBalance: string;
+  walletPlanBalance: string;
+  walletPlan: string;
+  walletDiscount: string;
+  walletPlanStart: string;
+  walletPlanEnd: string;
+  walletDaysRemaining: string;
+  walletDaysSuffix: string;
+  walletExpired: string;
+  walletRefresh: string;
+  walletUserFallback: string;
 }> = {
   'pt-BR': {
     switchTheme: 'Alternar tema',
