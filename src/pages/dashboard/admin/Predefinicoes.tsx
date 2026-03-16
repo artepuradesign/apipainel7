@@ -35,7 +35,39 @@ const isMultilineField = (key: string): boolean => {
   return key.includes('whatsapp_message') || key.includes('default_message');
 };
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    title: 'Predefinições do Sistema',
+    errorSubtitle: 'Erro ao carregar dados',
+    subtitle: 'Gerencie as configurações globais da plataforma',
+    reload: 'Recarregar',
+    loading: 'Carregando...',
+    tryAgain: 'Tentar novamente',
+    saveAll: 'Salvar Todas as Alterações',
+  },
+  en: {
+    title: 'System Presets',
+    errorSubtitle: 'Error loading data',
+    subtitle: 'Manage global platform settings',
+    reload: 'Reload',
+    loading: 'Loading...',
+    tryAgain: 'Try again',
+    saveAll: 'Save All Changes',
+  },
+  es: {
+    title: 'Predefiniciones del Sistema',
+    errorSubtitle: 'Error al cargar datos',
+    subtitle: 'Administra las configuraciones globales de la plataforma',
+    reload: 'Recargar',
+    loading: 'Cargando...',
+    tryAgain: 'Intentar nuevamente',
+    saveAll: 'Guardar Todos los Cambios',
+  },
+};
+
 const Predefinicoes = () => {
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [configs, setConfigs] = useState<SystemConfigItem[]>([]);
   const [editedValues, setEditedValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
