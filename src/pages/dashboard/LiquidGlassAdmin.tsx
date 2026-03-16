@@ -275,7 +275,7 @@ const LiquidGlassAdmin = () => {
               {/* Glass button preview */}
               <div className="relative z-10">
                 <LiquidGlassButton variant="primary">
-                  Botão Liquid Glass
+                  {t.previewButton}
                 </LiquidGlassButton>
               </div>
             </div>
