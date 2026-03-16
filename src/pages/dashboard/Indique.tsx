@@ -427,7 +427,7 @@ const Indique = () => {
                 onClick={loadReferralData}
                 disabled={isLoading}
                 className="h-8 w-8"
-                aria-label="Atualizar histórico"
+                aria-label={t.refreshHistory}
               >
                 <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
               </Button>
