@@ -277,7 +277,7 @@ const Indique = () => {
   return (
     <div className="space-y-6 sm:space-y-7 px-1 sm:px-0">
       {/* 1) Título */}
-      <DashboardTitleCard title="Programa de Indicação" icon={<Gift className="h-4 w-4 sm:h-5 sm:w-5" />} />
+      <DashboardTitleCard title={t.pageTitle} icon={<Gift className="h-4 w-4 sm:h-5 sm:w-5" />} />
 
       {/* 2) Como Funciona */}
       <section aria-labelledby="como-funciona">
