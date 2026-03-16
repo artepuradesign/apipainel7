@@ -20,6 +20,7 @@ import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
 import { cupomApiService, Cupom } from '@/services/cupomApiService';
 import CupomFormModal from '@/components/cupons/admin/CupomFormModal';
 import DeleteConfirmDialog from '@/components/cupons/admin/DeleteConfirmDialog';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface HistoricoCupom {
   id: number;
