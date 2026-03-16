@@ -126,7 +126,7 @@ const DashboardLayout = ({
     }
   };
 
-  const sidebarItems = createSidebarItems(handleLogout, isSupport, panelMenus);
+  const sidebarItems = createSidebarItems(handleLogout, isSupport, panelMenus, locale);
 
   const isSubmenuActive = (subItems?: any[]) => {
     if (!subItems) return false;

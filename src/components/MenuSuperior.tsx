@@ -80,7 +80,7 @@ const MenuSuperior = () => {
     setIsMenuOpen(false);
   };
 
-  const sidebarItems = user ? createSidebarItems(handleLogout, isSupport, panelMenus) : [];
+  const sidebarItems = user ? createSidebarItems(handleLogout, isSupport, panelMenus, locale) : [];
 
   const isSubmenuActive = (subItems?: any[]) => {
     if (!subItems) return false;

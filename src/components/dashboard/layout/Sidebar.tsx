@@ -82,7 +82,7 @@ const Sidebar = ({
                   text-primary dark:text-primary
                   group
                 `}
-                aria-label={collapsed ? 'Expandir menu' : 'Recolher menu'}
+                aria-label={collapsed ? content.sidebarExpandMenu : content.sidebarCollapseMenu}
               >
                 {collapsed ? (
                   <ChevronRight size={12} className="transition-transform group-hover:scale-110" />
@@ -92,7 +92,7 @@ const Sidebar = ({
               </button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={8}>
-              <p>{collapsed ? 'Expandir menu' : 'Recolher menu'}</p>
+              <p>{collapsed ? content.sidebarExpandMenu : content.sidebarCollapseMenu}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
