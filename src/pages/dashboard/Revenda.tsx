@@ -333,7 +333,7 @@ const Revenda = () => {
                     <p className="text-xs text-muted-foreground truncate">{item.indicado_email || '-'}</p>
                     <div className="flex items-center justify-between pt-2 border-t">
                       <div>
-                        <p className="text-xs text-muted-foreground">Valor Plano</p>
+                        <p className="text-xs text-muted-foreground">{t.planValue}</p>
                         <p className="text-sm font-medium">{item.valor_plano ? formatCurrency(item.valor_plano) : '-'}</p>
                       </div>
                       <div className="text-right">
