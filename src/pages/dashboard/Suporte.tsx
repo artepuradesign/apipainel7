@@ -164,7 +164,57 @@ const faqData: FAQ[] = [
   }
 ];
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    pageTitle: 'Central de Suporte',
+    faqTitle: 'Perguntas Frequentes',
+    faqSubtitle: 'Explore nossa base de conhecimento e encontre respostas rápidas',
+    searchPlaceholder: 'Digite sua dúvida ou palavra-chave...',
+    filterByCategory: 'Filtrar por categoria',
+    all: 'Todas',
+    highlight: 'DESTAQUE',
+    showMore: 'Ver mais',
+    showLess: 'Mostrar menos perguntas',
+    notFound: 'Nenhuma pergunta encontrada',
+    notFoundDesc: 'Não encontramos resultados para sua busca. Tente usar palavras-chave diferentes ou navegue pelas categorias.',
+    stillQuestions: 'Ainda tem dúvidas?',
+    stillQuestionsDesc: 'Nossa equipe está aqui para ajudar! Entre em contato conosco através dos canais disponíveis.',
+  },
+  en: {
+    pageTitle: 'Support Center',
+    faqTitle: 'Frequently Asked Questions',
+    faqSubtitle: 'Browse our knowledge base and find quick answers',
+    searchPlaceholder: 'Type your question or keyword...',
+    filterByCategory: 'Filter by category',
+    all: 'All',
+    highlight: 'HIGHLIGHT',
+    showMore: 'Show more',
+    showLess: 'Show fewer questions',
+    notFound: 'No questions found',
+    notFoundDesc: 'No results for your search. Try different keywords or browse categories.',
+    stillQuestions: 'Still have questions?',
+    stillQuestionsDesc: 'Our team is here to help! Contact us through available channels.',
+  },
+  es: {
+    pageTitle: 'Centro de Soporte',
+    faqTitle: 'Preguntas Frecuentes',
+    faqSubtitle: 'Explora nuestra base de conocimiento y encuentra respuestas rápidas',
+    searchPlaceholder: 'Escribe tu duda o palabra clave...',
+    filterByCategory: 'Filtrar por categoría',
+    all: 'Todas',
+    highlight: 'DESTACADO',
+    showMore: 'Ver más',
+    showLess: 'Mostrar menos preguntas',
+    notFound: 'No se encontraron preguntas',
+    notFoundDesc: 'No encontramos resultados para tu búsqueda. Prueba otras palabras clave o navega por categorías.',
+    stillQuestions: '¿Aún tienes dudas?',
+    stillQuestionsDesc: '¡Nuestro equipo está aquí para ayudarte! Contáctanos por los canales disponibles.',
+  },
+};
+
 const Suporte = () => {
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [searchTerm, setSearchTerm] = useState('');
   const [openItems, setOpenItems] = useState<string[]>([]);
   const [showAll, setShowAll] = useState(false);
