@@ -25,7 +25,8 @@ import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
 import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { ptBR, enUS, es } from 'date-fns/locale';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface SupportTicket {
   id: number;
