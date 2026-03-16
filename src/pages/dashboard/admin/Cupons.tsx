@@ -291,7 +291,7 @@ const AdminCupons = () => {
             </Button>
             <Button onClick={handleCreateCupom} size="sm" className="hidden sm:flex">
               <Plus className="h-4 w-4 mr-2" />
-              Novo Cupom
+               {t.newCoupon}
             </Button>
             <Button onClick={handleCreateCupom} size="icon" className="sm:hidden h-9 w-9">
               <Plus className="h-4 w-4" />
