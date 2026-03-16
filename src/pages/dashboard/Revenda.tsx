@@ -279,10 +279,10 @@ const Revenda = () => {
         <CardHeader className="p-3 sm:p-6">
           <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <Store className="h-4 w-4 sm:h-5 sm:w-5" />
-            Histórico de Revendas
+            {t.historyTitle}
           </CardTitle>
           <p className="text-xs sm:text-sm text-muted-foreground">
-            Comissões de 10% pagas quando seus indicados ativam planos
+            {t.historySubtitle}
           </p>
         </CardHeader>
         <CardContent className="p-3 sm:p-6 pt-0">
