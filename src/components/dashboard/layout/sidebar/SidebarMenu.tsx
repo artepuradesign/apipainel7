@@ -194,13 +194,13 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                   )}
                   <Home className={`${collapsed ? 'mx-auto' : 'mr-3'} shrink-0`} size={20} />
                   {!collapsed && (
-                    <span className="text-sm font-semibold relative z-10">Painéis Online</span>
+                    <span className="text-sm font-semibold relative z-10">{content.sidebarOnlinePanels}</span>
                   )}
                 </button>
               </TooltipTrigger>
               {collapsed && (
                 <TooltipContent side="right">
-                  <p>Painéis Online</p>
+                  <p>{content.sidebarOnlinePanels}</p>
                 </TooltipContent>
               )}
             </Tooltip>
