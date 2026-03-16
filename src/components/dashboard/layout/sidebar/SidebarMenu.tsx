@@ -171,7 +171,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   }, [clickedItem, submenuPosition, collapsed, location.pathname, handleSubItemClick, handleMobileClick]);
 
   // Remover "Painéis Online" dos filteredItems já que será renderizado separadamente
-  const menuItems = filteredItems.filter(item => item.label !== 'Painéis Online');
+  const menuItems = filteredItems.filter((item) => item.path !== '/dashboard');
 
   return (
     <TooltipProvider delayDuration={300}>
