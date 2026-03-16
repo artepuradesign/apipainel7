@@ -32,6 +32,20 @@ export const localeContent: Record<Locale, {
   languageModalDescription: string;
   applyLanguage: string;
   cancel: string;
+  walletDeposit: string;
+  walletBalance: string;
+  walletWalletBalance: string;
+  walletPlanBalance: string;
+  walletPlan: string;
+  walletDiscount: string;
+  walletPlanStart: string;
+  walletPlanEnd: string;
+  walletDaysRemaining: string;
+  walletDaysSuffix: string;
+  walletExpired: string;
+  walletRefresh: string;
+  walletUserFallback: string;
+  walletPrepaid: string;
 }> = {
   'pt-BR': {
     switchTheme: 'Alternar tema',
@@ -52,6 +66,20 @@ export const localeContent: Record<Locale, {
     languageModalDescription: 'Escolha o idioma da plataforma e clique em aplicar.',
     applyLanguage: 'Aplicar',
     cancel: 'Cancelar',
+    walletDeposit: 'Depósito',
+    walletBalance: 'Saldo',
+    walletWalletBalance: 'Saldo da Carteira',
+    walletPlanBalance: 'Saldo do plano',
+    walletPlan: 'Plano',
+    walletDiscount: 'Desconto',
+    walletPlanStart: 'Início do Plano',
+    walletPlanEnd: 'Término do Plano',
+    walletDaysRemaining: 'Dias Restantes',
+    walletDaysSuffix: 'dias',
+    walletExpired: 'Expirado',
+    walletRefresh: 'Atualizar',
+    walletUserFallback: 'Usuário',
+    walletPrepaid: 'Pré-Pago',
   },
   en: {
     switchTheme: 'Switch theme',
@@ -72,6 +100,20 @@ export const localeContent: Record<Locale, {
     languageModalDescription: 'Choose the platform language and click apply.',
     applyLanguage: 'Apply',
     cancel: 'Cancel',
+    walletDeposit: 'Deposit',
+    walletBalance: 'Balance',
+    walletWalletBalance: 'Wallet balance',
+    walletPlanBalance: 'Plan balance',
+    walletPlan: 'Plan',
+    walletDiscount: 'Discount',
+    walletPlanStart: 'Plan start',
+    walletPlanEnd: 'Plan end',
+    walletDaysRemaining: 'Days remaining',
+    walletDaysSuffix: 'days',
+    walletExpired: 'Expired',
+    walletRefresh: 'Refresh',
+    walletUserFallback: 'User',
+    walletPrepaid: 'Prepaid',
   },
   es: {
     switchTheme: 'Cambiar tema',
@@ -92,6 +134,20 @@ export const localeContent: Record<Locale, {
     languageModalDescription: 'Elige el idioma de la plataforma y pulsa aplicar.',
     applyLanguage: 'Aplicar',
     cancel: 'Cancelar',
+    walletDeposit: 'Depósito',
+    walletBalance: 'Saldo',
+    walletWalletBalance: 'Saldo de la cartera',
+    walletPlanBalance: 'Saldo del plan',
+    walletPlan: 'Plan',
+    walletDiscount: 'Descuento',
+    walletPlanStart: 'Inicio del plan',
+    walletPlanEnd: 'Fin del plan',
+    walletDaysRemaining: 'Días restantes',
+    walletDaysSuffix: 'días',
+    walletExpired: 'Expirado',
+    walletRefresh: 'Actualizar',
+    walletUserFallback: 'Usuario',
+    walletPrepaid: 'Prepago',
   },
 };
 
@@ -103,9 +159,6 @@ const getInitialLocale = (): Locale => {
     return storedLocale;
   }
 
-  const browserLocale = navigator.language.toLowerCase();
-  if (browserLocale.startsWith('en')) return 'en';
-  if (browserLocale.startsWith('es')) return 'es';
   return 'pt-BR';
 };
 
