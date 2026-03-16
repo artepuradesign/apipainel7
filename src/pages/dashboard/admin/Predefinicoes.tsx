@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { Settings, Save, Loader2, Globe, MessageCircle, Shield, DollarSign, Users, RefreshCw, Instagram, Send, Music, Phone } from 'lucide-react';
 import { systemConfigAdminService, SystemConfigItem } from '@/services/systemConfigAdminService';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 const CATEGORY_LABELS: Record<string, { label: string; icon: React.ReactNode }> = {
   general: { label: 'Geral', icon: <Globe className="h-4 w-4" /> },
