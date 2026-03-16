@@ -221,7 +221,7 @@ const LiquidGlassAdmin = () => {
                   className="gap-2"
                 >
                   {previewDark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-                  {previewDark ? 'Claro' : 'Escuro'}
+                  {previewDark ? t.light : t.dark}
                 </Button>
               </div>
             </div>
