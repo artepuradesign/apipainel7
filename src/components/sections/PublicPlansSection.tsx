@@ -444,7 +444,7 @@ const PublicPlansSection = () => {
                     className="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white text-xs h-9 rounded-xl font-semibold shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
                     onClick={() => handlePlanSelection(plan)}
                   >
-                    Adquirir Plano
+                    {content.buyPlan}
                   </Button>
                 )}
 
