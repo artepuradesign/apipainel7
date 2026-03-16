@@ -163,7 +163,7 @@ const Carteira = () => {
         detail: { shouldAnimate: true, amount: amount, method: 'manual' }
       }));
       
-      toast.success(`Transferência de ${formatBrazilianCurrency(amount)} realizada com sucesso!`);
+      toast.success(t.transferSuccess.replace('{amount}', formatBrazilianCurrency(amount)));
     } catch (error) {
       toast.error("Erro ao realizar transferência");
     } finally {
