@@ -4,37 +4,86 @@ import { UserPlus, ListChecks, CreditCard, Search, ArrowRight } from 'lucide-rea
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useSiteTheme } from '@/contexts/SiteThemeContext';
+import { Locale, useLocale } from '@/contexts/LocaleContext';
 
-const steps = [
+type StepContent = {
+  title: string;
+  desc: string;
+};
+
+const stepTranslations: Record<Locale, StepContent[]> = {
+  'pt-BR': [
+    { title: 'Crie sua conta', desc: 'Cadastro rápido e seguro em menos de 1 minuto.' },
+    { title: 'Escolha seu plano', desc: 'Planos flexíveis que se adaptam à sua operação.' },
+    { title: 'Recarregue ou assine', desc: 'PIX, boleto ou cartão. Saldo disponível na hora.' },
+    { title: 'Consulte em segundos', desc: 'Acesse dados completos com rapidez e precisão.' },
+  ],
+  en: [
+    { title: 'Create your account', desc: 'Fast and secure signup in under 1 minute.' },
+    { title: 'Choose your plan', desc: 'Flexible plans that fit your operation.' },
+    { title: 'Top up or subscribe', desc: 'PIX, bank slip, or card. Instant available balance.' },
+    { title: 'Search in seconds', desc: 'Access complete data quickly and accurately.' },
+  ],
+  es: [
+    { title: 'Crea tu cuenta', desc: 'Registro rápido y seguro en menos de 1 minuto.' },
+    { title: 'Elige tu plan', desc: 'Planes flexibles que se adaptan a tu operación.' },
+    { title: 'Recarga o suscríbete', desc: 'PIX, boleto o tarjeta. Saldo disponible al instante.' },
+    { title: 'Consulta en segundos', desc: 'Accede a datos completos con rapidez y precisión.' },
+  ],
+};
+
+const sectionTranslations: Record<Locale, {
+  badge: string;
+  title: string;
+  description: string;
+  cta: string;
+  footer: string;
+}> = {
+  'pt-BR': {
+    badge: 'Passo a passo',
+    title: 'Como funciona',
+    description: 'Comece a consultar em minutos. Quatro etapas simples para transformar dados em decisões.',
+    cta: 'Comece agora — é grátis',
+    footer: 'Sem cartão de crédito. Cancele quando quiser.',
+  },
+  en: {
+    badge: 'Step by step',
+    title: 'How it works',
+    description: 'Start searching in minutes. Four simple steps to turn data into decisions.',
+    cta: 'Start now — it’s free',
+    footer: 'No credit card required. Cancel anytime.',
+  },
+  es: {
+    badge: 'Paso a paso',
+    title: 'Cómo funciona',
+    description: 'Empieza a consultar en minutos. Cuatro pasos simples para convertir datos en decisiones.',
+    cta: 'Empieza ahora — es gratis',
+    footer: 'Sin tarjeta de crédito. Cancela cuando quieras.',
+  },
+};
+
+const baseSteps = [
   {
     icon: UserPlus,
     number: '01',
-    title: 'Crie sua conta',
-    desc: 'Cadastro rápido e seguro em menos de 1 minuto.',
     accent: 'from-[hsl(262,83%,58%)] to-[hsl(280,80%,55%)]',
     matrixAccent: 'from-green-500 to-green-400',
   },
   {
     icon: ListChecks,
     number: '02',
-    title: 'Escolha seu plano',
-    desc: 'Planos flexíveis que se adaptam à sua operação.',
     accent: 'from-secondary to-[hsl(160,70%,40%)]',
     matrixAccent: 'from-green-400 to-emerald-500',
   },
   {
     icon: CreditCard,
     number: '03',
-    title: 'Recarregue ou assine',
-    desc: 'PIX, boleto ou cartão. Saldo disponível na hora.',
     accent: 'from-[hsl(200,80%,50%)] to-[hsl(220,75%,55%)]',
     matrixAccent: 'from-emerald-500 to-green-500',
   },
   {
     icon: Search,
     number: '04',
-    title: 'Consulte em segundos',
-    desc: 'Acesse dados completos com rapidez e precisão.',
     accent: 'from-[hsl(340,75%,55%)] to-[hsl(320,70%,50%)]',
     matrixAccent: 'from-green-500 to-lime-500',
   },
@@ -43,11 +92,15 @@ const steps = [
 const CleanHowItWorksSection: React.FC = () => {
   const navigate = useNavigate();
   const { currentVisualTheme } = useSiteTheme();
+  const { locale } = useLocale();
   const isMatrix = currentVisualTheme === 'matrix';
+  const content = sectionTranslations[locale];
+  const translatedSteps = stepTranslations[locale];
+
+  const steps = baseSteps.map((step, index) => ({ ...step, ...translatedSteps[index] }));
 
   return (
     <section className="relative py-16 sm:py-24 lg:py-32 overflow-hidden bg-background">
-      {/* Background effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className={cn(
@@ -64,7 +117,6 @@ const CleanHowItWorksSection: React.FC = () => {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -86,18 +138,17 @@ const CleanHowItWorksSection: React.FC = () => {
                 isMatrix ? "bg-green-400" : "bg-[hsl(262,83%,58%)]"
               )}
             />
-            Passo a passo
+            {content.badge}
           </span>
 
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground tracking-tight mt-3">
-            Como funciona
+            {content.title}
           </h2>
           <p className="text-muted-foreground mt-3 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
-            Comece a consultar em minutos. Quatro etapas simples para transformar dados em decisões.
+            {content.description}
           </p>
         </motion.div>
 
-        {/* Steps grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-5">
           {steps.map((step, i) => {
             const Icon = step.icon;
@@ -111,7 +162,6 @@ const CleanHowItWorksSection: React.FC = () => {
                 whileHover={{ y: -6 }}
                 className="group relative"
               >
-                {/* Connector line - desktop only */}
                 {i < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-10 left-[60%] w-[calc(100%-20%)] h-px">
                     <div
@@ -138,7 +188,6 @@ const CleanHowItWorksSection: React.FC = () => {
                   </div>
                 )}
 
-                {/* Card */}
                 <div
                   className={cn(
                     "relative rounded-2xl p-6 h-full transition-all duration-300",
@@ -152,7 +201,6 @@ const CleanHowItWorksSection: React.FC = () => {
                     WebkitBackdropFilter: 'blur(12px)',
                   }}
                 >
-                  {/* Number + Icon row */}
                   <div className="flex items-center justify-between mb-5">
                     <div
                       className={cn(
@@ -172,7 +220,6 @@ const CleanHowItWorksSection: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* Text */}
                   <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">
                     {step.title}
                   </h3>
@@ -180,7 +227,6 @@ const CleanHowItWorksSection: React.FC = () => {
                     {step.desc}
                   </p>
 
-                  {/* Bottom accent bar */}
                   <div className="mt-5 h-0.5 w-full rounded-full overflow-hidden bg-border/30">
                     <motion.div
                       className={cn(
@@ -199,7 +245,6 @@ const CleanHowItWorksSection: React.FC = () => {
           })}
         </div>
 
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -221,12 +266,12 @@ const CleanHowItWorksSection: React.FC = () => {
               WebkitBackdropFilter: 'blur(12px)',
             }}
           >
-            Comece agora — é grátis
+            {content.cta}
             <ArrowRight className="h-4 w-4" />
           </button>
 
           <p className="text-xs text-muted-foreground mt-4">
-            Sem cartão de crédito. Cancele quando quiser.
+            {content.footer}
           </p>
         </motion.div>
       </div>
