@@ -111,7 +111,6 @@ const UserWalletDropdown = ({ onLogout }: UserWalletDropdownProps) => {
   if (!user || !profile) return null;
 
   const currentPlan = subscription?.plan_name || user.tipoplano || content.walletPrepaid;
-  const isPrepaidPlan = ['Pré-Pago', 'Prepaid', 'Prepago'].includes(currentPlan);
 
   return (
     <div className="relative" ref={dropdownRef}>
