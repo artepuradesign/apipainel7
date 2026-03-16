@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { User, RefreshCw, X, LogOut, Wallet, Eye, EyeOff, Languages } from 'lucide-react';
+import { RefreshCw, X, LogOut, Wallet, Eye, EyeOff, Languages } from 'lucide-react';
 import NotificationIcon from '@/components/notifications/NotificationIcon';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { useAuth } from '@/contexts/AuthContext';
