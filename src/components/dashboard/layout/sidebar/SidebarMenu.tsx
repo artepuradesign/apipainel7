@@ -6,6 +6,7 @@ import { ChevronRight, Home } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { SidebarItem } from '../types';
+import { localeContent, useLocale } from '@/contexts/LocaleContext';
 
 interface SidebarMenuProps {
   filteredItems: SidebarItem[];
