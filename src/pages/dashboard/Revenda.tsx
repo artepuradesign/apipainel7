@@ -168,7 +168,7 @@ const Revenda = () => {
     } catch (error) {
       console.error('❌ [REVENDA] Erro ao carregar dashboard:', error);
       if (error instanceof Error && !error.message.includes('401')) {
-        toast.error('Erro ao carregar dados de revenda');
+        toast.error(t.loadError);
       }
     } finally {
       setIsLoading(false);
