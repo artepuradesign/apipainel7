@@ -492,7 +492,7 @@ const HomeCarouselSection: React.FC = () => {
               <button
                 key={i}
                 type="button"
-                aria-label={`Ir para slide ${i + 1}`}
+                aria-label={`${content.goToSlide} ${i + 1}`}
                 onClick={() => setActive(i)}
                 className={cn(
                   "h-1 rounded-full transition-all duration-500",
