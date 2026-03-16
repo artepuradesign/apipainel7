@@ -501,10 +501,10 @@ const PublicPlansSection = () => {
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <div className="text-center mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              Planos Disponíveis
+              {content.loadingTitle}
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Carregando planos...
+              {content.loadingSubtitle}
             </p>
           </div>
           
