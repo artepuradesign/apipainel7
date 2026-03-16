@@ -387,7 +387,7 @@ const HomeCarouselSection: React.FC = () => {
                     <Search className="h-4 w-4 text-white/50 shrink-0" />
                     <input
                       type="text"
-                      placeholder="Digite..."
+                      placeholder={content.searchPlaceholder}
                       value={searchValue}
                       onChange={(e) => setSearchValue(e.target.value)}
                       className="flex-1 bg-transparent border-none outline-none text-sm text-white placeholder:text-white/40 py-3.5"
