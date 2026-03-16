@@ -348,7 +348,7 @@ const AdminCupons = () => {
           <CardContent className="p-3 sm:p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">Total Usos</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">{t.statsUses}</p>
                 <p className="text-2xl sm:text-3xl font-bold text-purple-600 mt-1">{stats.totalUsos}</p>
               </div>
               <div className="h-10 w-10 rounded-full bg-purple-500/10 flex items-center justify-center">
