@@ -264,9 +264,9 @@ const Indique = () => {
         <DashboardTitleCard title={t.pageTitle} icon={<Gift className="h-4 w-4 sm:h-5 sm:w-5" />} />
         <Card>
           <CardContent className="py-10 text-center">
-            <h2 className="text-lg font-semibold text-foreground">Código de indicação indisponível</h2>
+            <h2 className="text-lg font-semibold text-foreground">{t.codeUnavailable}</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Não encontramos seu código agora. Atualize a página ou entre em contato com o suporte.
+              {t.codeUnavailableDesc}
             </p>
           </CardContent>
         </Card>
