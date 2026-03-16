@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { Settings, Palette, Shield, Trash2, Eye, Save, Check } from 'lucide-react';
 import { useSiteTheme, SiteThemeId } from '@/contexts/SiteThemeContext';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,33 +19,147 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 
-const themes = [
-  {
-    id: 'apipainel' as SiteThemeId,
-    name: 'APIPainel (Padrão)',
-    description: 'Tema padrão do sistema com cores verdes e interface limpa.',
-    preview: 'bg-gradient-to-br from-green-50 via-white to-emerald-50 border-green-300',
-    previewDark: 'bg-gradient-to-br from-green-900/30 via-gray-900 to-emerald-900/30 border-green-700',
-    accent: 'bg-green-500',
+const textByLocale: Record<Locale, any> = {
+  'pt-BR': {
+    pageTitle: 'Preferências',
+    previewInfo: 'Tema aplicado como pré-visualização. Clique em "Salvar" para manter.',
+    previewCanceled: 'Pré-visualização cancelada.',
+    themeSaved: 'Tema salvo com sucesso!',
+    prefUpdated: 'Preferência atualizada!',
+    deleted: 'Todas as consultas foram apagadas com sucesso!',
+    previewing: 'Você está pré-visualizando o tema',
+    cancel: 'Cancelar',
+    saveTheme: 'Salvar Tema',
+    themeSystem: 'Tema do Sistema',
+    themeDescription: 'Selecione um tema visual para personalizar a aparência do sistema. Clique em "Aplicar" para pré-visualizar ou "Salvar" para aplicar definitivamente.',
+    active: 'Ativo',
+    applyPreview: 'Aplicar (Pré-visualizar)',
+    accountPrefs: 'Preferências da Conta',
+    accountPrefsDesc: 'Configure como o sistema gerencia seus dados e notificações.',
+    saveHistory: 'Salvar histórico de consultas',
+    saveHistoryDesc: 'Manter registro de todas as consultas realizadas',
+    emailNotifications: 'Notificações por e-mail',
+    emailNotificationsDesc: 'Receber alertas e atualizações por e-mail',
+    pushNotifications: 'Notificações push',
+    pushNotificationsDesc: 'Receber notificações no navegador',
+    marketingEmails: 'E-mails de marketing',
+    marketingEmailsDesc: 'Receber promoções e novidades por e-mail',
+    dangerZone: 'Zona de Perigo',
+    dangerZoneDesc: 'Ações irreversíveis que afetam seus dados.',
+    deleteConsultations: 'Apagar todas as minhas consultas',
+    deleteConsultationsDesc: 'Remove permanentemente todo o histórico de consultas da sua conta.',
+    deleteAll: 'Apagar Tudo',
+    sure: 'Tem certeza?',
+    sureDesc: 'Esta ação é irreversível. Todo o histórico de consultas será permanentemente removido da sua conta.',
+    yesDelete: 'Sim, apagar tudo',
+    themeNames: { apipainel: 'APIPainel (Padrão)', matrix: 'Matrix' },
+    themeDescriptions: {
+      apipainel: 'Tema padrão do sistema com cores verdes e interface limpa.',
+      matrix: 'Tema inspirado no filme Matrix com chuva de caracteres animada e tons de verde neon.',
+    },
   },
-  {
-    id: 'matrix' as SiteThemeId,
-    name: 'Matrix',
-    description: 'Tema inspirado no filme Matrix com chuva de caracteres animada e tons de verde neon.',
-    preview: 'bg-gradient-to-br from-black via-green-950 to-black border-green-500',
-    previewDark: 'bg-gradient-to-br from-black via-green-950 to-black border-green-400',
-    accent: 'bg-green-400',
+  en: {
+    pageTitle: 'Preferences',
+    previewInfo: 'Theme applied in preview mode. Click "Save" to keep it.',
+    previewCanceled: 'Preview canceled.',
+    themeSaved: 'Theme saved successfully!',
+    prefUpdated: 'Preference updated!',
+    deleted: 'All consultations were deleted successfully!',
+    previewing: 'You are previewing theme',
+    cancel: 'Cancel',
+    saveTheme: 'Save Theme',
+    themeSystem: 'System Theme',
+    themeDescription: 'Select a visual theme to customize the system appearance. Click "Apply" to preview or "Save" to apply permanently.',
+    active: 'Active',
+    applyPreview: 'Apply (Preview)',
+    accountPrefs: 'Account Preferences',
+    accountPrefsDesc: 'Configure how the system handles your data and notifications.',
+    saveHistory: 'Save consultation history',
+    saveHistoryDesc: 'Keep a record of all completed consultations',
+    emailNotifications: 'Email notifications',
+    emailNotificationsDesc: 'Receive alerts and updates by email',
+    pushNotifications: 'Push notifications',
+    pushNotificationsDesc: 'Receive browser notifications',
+    marketingEmails: 'Marketing emails',
+    marketingEmailsDesc: 'Receive promotions and updates by email',
+    dangerZone: 'Danger Zone',
+    dangerZoneDesc: 'Irreversible actions that affect your data.',
+    deleteConsultations: 'Delete all my consultations',
+    deleteConsultationsDesc: 'Permanently removes your full consultation history.',
+    deleteAll: 'Delete All',
+    sure: 'Are you sure?',
+    sureDesc: 'This action is irreversible. Your entire consultation history will be permanently removed.',
+    yesDelete: 'Yes, delete everything',
+    themeNames: { apipainel: 'APIPainel (Default)', matrix: 'Matrix' },
+    themeDescriptions: {
+      apipainel: 'Default system theme with green accents and a clean interface.',
+      matrix: 'Matrix-inspired theme with animated character rain and neon green tones.',
+    },
   },
-];
+  es: {
+    pageTitle: 'Preferencias',
+    previewInfo: 'Tema aplicado en vista previa. Haz clic en "Guardar" para mantenerlo.',
+    previewCanceled: 'Vista previa cancelada.',
+    themeSaved: '¡Tema guardado con éxito!',
+    prefUpdated: '¡Preferencia actualizada!',
+    deleted: '¡Todas las consultas fueron eliminadas con éxito!',
+    previewing: 'Estás previsualizando el tema',
+    cancel: 'Cancelar',
+    saveTheme: 'Guardar tema',
+    themeSystem: 'Tema del sistema',
+    themeDescription: 'Selecciona un tema visual para personalizar la apariencia del sistema. Haz clic en "Aplicar" para previsualizar o en "Guardar" para aplicar definitivamente.',
+    active: 'Activo',
+    applyPreview: 'Aplicar (Vista previa)',
+    accountPrefs: 'Preferencias de la cuenta',
+    accountPrefsDesc: 'Configura cómo el sistema gestiona tus datos y notificaciones.',
+    saveHistory: 'Guardar historial de consultas',
+    saveHistoryDesc: 'Mantener registro de todas las consultas realizadas',
+    emailNotifications: 'Notificaciones por correo',
+    emailNotificationsDesc: 'Recibir alertas y actualizaciones por correo',
+    pushNotifications: 'Notificaciones push',
+    pushNotificationsDesc: 'Recibir notificaciones en el navegador',
+    marketingEmails: 'Correos de marketing',
+    marketingEmailsDesc: 'Recibir promociones y novedades por correo',
+    dangerZone: 'Zona de peligro',
+    dangerZoneDesc: 'Acciones irreversibles que afectan tus datos.',
+    deleteConsultations: 'Eliminar todas mis consultas',
+    deleteConsultationsDesc: 'Elimina permanentemente todo el historial de consultas de tu cuenta.',
+    deleteAll: 'Eliminar todo',
+    sure: '¿Estás seguro?',
+    sureDesc: 'Esta acción es irreversible. Todo tu historial de consultas será eliminado permanentemente.',
+    yesDelete: 'Sí, eliminar todo',
+    themeNames: { apipainel: 'APIPainel (Predeterminado)', matrix: 'Matrix' },
+    themeDescriptions: {
+      apipainel: 'Tema predeterminado del sistema con colores verdes e interfaz limpia.',
+      matrix: 'Tema inspirado en Matrix con lluvia de caracteres animada y tonos verde neón.',
+    },
+  },
+};
 
 const Preferencias = () => {
   const { activeTheme, previewTheme, applyTheme, saveTheme, cancelPreview, currentVisualTheme } = useSiteTheme();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
+
+  const themes = [
+    {
+      id: 'apipainel' as SiteThemeId,
+      name: t.themeNames.apipainel,
+      description: t.themeDescriptions.apipainel,
+      preview: 'bg-gradient-to-br from-green-50 via-white to-emerald-50 border-green-300',
+    },
+    {
+      id: 'matrix' as SiteThemeId,
+      name: t.themeNames.matrix,
+      description: t.themeDescriptions.matrix,
+      preview: 'bg-gradient-to-br from-black via-green-950 to-black border-green-500',
+    },
+  ];
 
   const [selectedTheme, setSelectedTheme] = useState<SiteThemeId>(activeTheme);
-  
-  // Account preferences (local state - will integrate with API later)
+
   const [preferences, setPreferences] = useState(() => {
     const saved = localStorage.getItem('user_preferences');
     return saved ? JSON.parse(saved) : {
@@ -55,36 +170,31 @@ const Preferencias = () => {
     };
   });
 
-  const handleThemeSelect = (themeId: SiteThemeId) => {
-    setSelectedTheme(themeId);
-  };
-
   const handleApplyPreview = () => {
     applyTheme(selectedTheme);
-    toast.info('Tema aplicado como pré-visualização. Clique em "Salvar" para manter.');
+    toast.info(t.previewInfo);
   };
 
   const handleSaveTheme = () => {
     saveTheme(selectedTheme);
-    toast.success('Tema salvo com sucesso!');
+    toast.success(t.themeSaved);
   };
 
   const handleCancelPreview = () => {
     cancelPreview();
     setSelectedTheme(activeTheme);
-    toast.info('Pré-visualização cancelada.');
+    toast.info(t.previewCanceled);
   };
 
   const handlePreferenceChange = (key: string, value: boolean) => {
     const updated = { ...preferences, [key]: value };
     setPreferences(updated);
     localStorage.setItem('user_preferences', JSON.stringify(updated));
-    toast.success('Preferência atualizada!');
+    toast.success(t.prefUpdated);
   };
 
   const handleDeleteAllConsultas = () => {
-    // This would call the API to delete all user consultations
-    toast.success('Todas as consultas foram apagadas com sucesso!');
+    toast.success(t.deleted);
   };
 
   const isPreviewActive = previewTheme !== null;
@@ -92,85 +202,56 @@ const Preferencias = () => {
   return (
     <div className="space-y-4 sm:space-y-6 px-1 sm:px-0">
       <DashboardTitleCard
-        title="Preferências"
+        title={t.pageTitle}
         icon={<Settings className="h-4 w-4 sm:h-5 sm:w-5" />}
       />
 
-      {/* Preview banner */}
       {isPreviewActive && (
         <Card className="border-yellow-500/50 bg-yellow-500/10">
           <CardContent className="py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
             <p className="text-sm font-medium flex items-center gap-2">
               <Eye className="h-4 w-4" />
-              Você está pré-visualizando o tema <strong>{themes.find(t => t.id === previewTheme)?.name}</strong>
+              {t.previewing} <strong>{themes.find((theme) => theme.id === previewTheme)?.name}</strong>
             </p>
             <div className="flex gap-2">
-              <Button size="sm" variant="outline" onClick={handleCancelPreview}>
-                Cancelar
-              </Button>
+              <Button size="sm" variant="outline" onClick={handleCancelPreview}>{t.cancel}</Button>
               <Button size="sm" onClick={handleSaveTheme}>
                 <Save className="h-3 w-3 mr-1" />
-                Salvar Tema
+                {t.saveTheme}
               </Button>
             </div>
           </CardContent>
         </Card>
       )}
 
-      {/* Theme Selection */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Palette className="h-5 w-5" />
-            Tema do Sistema
+            {t.themeSystem}
           </CardTitle>
-          <CardDescription>
-            Selecione um tema visual para personalizar a aparência do sistema. Clique em "Aplicar" para pré-visualizar ou "Salvar" para aplicar definitivamente.
-          </CardDescription>
+          <CardDescription>{t.themeDescription}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             {themes.map((theme) => (
               <div
                 key={theme.id}
-                onClick={() => handleThemeSelect(theme.id)}
-                className={`
-                  relative cursor-pointer rounded-xl border-2 p-4 transition-all duration-300
-                  hover:scale-[1.02] hover:shadow-lg
-                  ${selectedTheme === theme.id 
-                    ? 'border-primary ring-2 ring-primary/30 shadow-md' 
-                    : 'border-border hover:border-primary/50'}
-                `}
+                onClick={() => setSelectedTheme(theme.id)}
+                className={`relative cursor-pointer rounded-xl border-2 p-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${
+                  selectedTheme === theme.id
+                    ? 'border-primary ring-2 ring-primary/30 shadow-md'
+                    : 'border-border hover:border-primary/50'
+                }`}
               >
-                {/* Active badge */}
                 {activeTheme === theme.id && (
                   <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
                     <Check className="h-3 w-3" />
-                    Ativo
+                    {t.active}
                   </div>
                 )}
 
-                {/* Theme preview area */}
-                <div className={`h-24 rounded-lg mb-3 ${theme.preview} border relative overflow-hidden`}>
-                  {theme.id === 'matrix' && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-green-400 font-mono text-xs leading-tight opacity-70 text-center">
-                        {'01001010\n10110100\n01010101\n11001100'}
-                      </div>
-                    </div>
-                  )}
-                  {theme.id === 'apipainel' && (
-                    <div className="absolute inset-0 flex items-center justify-center gap-2 p-3">
-                      <div className="h-full w-1/3 bg-green-200/50 rounded" />
-                      <div className="h-full flex-1 space-y-2">
-                        <div className="h-3 bg-green-300/40 rounded w-3/4" />
-                        <div className="h-3 bg-green-200/30 rounded w-1/2" />
-                        <div className="h-6 bg-green-500/30 rounded w-full mt-2" />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
+                <div className={`h-24 rounded-lg mb-3 ${theme.preview} border relative overflow-hidden`} />
                 <h3 className="font-semibold text-sm">{theme.name}</h3>
                 <p className="text-xs text-muted-foreground mt-1">{theme.description}</p>
               </div>
@@ -178,134 +259,97 @@ const Preferencias = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-2 justify-end">
-            <Button
-              variant="outline"
-              onClick={handleApplyPreview}
-              disabled={selectedTheme === currentVisualTheme}
-            >
+            <Button variant="outline" onClick={handleApplyPreview} disabled={selectedTheme === currentVisualTheme}>
               <Eye className="h-4 w-4 mr-2" />
-              Aplicar (Pré-visualizar)
+              {t.applyPreview}
             </Button>
-            <Button
-              onClick={handleSaveTheme}
-              disabled={selectedTheme === activeTheme && !isPreviewActive}
-            >
+            <Button onClick={handleSaveTheme} disabled={selectedTheme === activeTheme && !isPreviewActive}>
               <Save className="h-4 w-4 mr-2" />
-              Salvar Tema
+              {t.saveTheme}
             </Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* Account Preferences */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" />
-            Preferências da Conta
+            {t.accountPrefs}
           </CardTitle>
-          <CardDescription>
-            Configure como o sistema gerencia seus dados e notificações.
-          </CardDescription>
+          <CardDescription>{t.accountPrefsDesc}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label className="text-sm font-medium">Salvar histórico de consultas</Label>
-              <p className="text-xs text-muted-foreground">
-                Manter registro de todas as consultas realizadas
-              </p>
+              <Label className="text-sm font-medium">{t.saveHistory}</Label>
+              <p className="text-xs text-muted-foreground">{t.saveHistoryDesc}</p>
             </div>
-            <Switch
-              checked={preferences.salvar_historico}
-              onCheckedChange={(v) => handlePreferenceChange('salvar_historico', v)}
-            />
+            <Switch checked={preferences.salvar_historico} onCheckedChange={(v) => handlePreferenceChange('salvar_historico', v)} />
           </div>
 
           <Separator />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label className="text-sm font-medium">Notificações por e-mail</Label>
-              <p className="text-xs text-muted-foreground">
-                Receber alertas e atualizações por e-mail
-              </p>
+              <Label className="text-sm font-medium">{t.emailNotifications}</Label>
+              <p className="text-xs text-muted-foreground">{t.emailNotificationsDesc}</p>
             </div>
-            <Switch
-              checked={preferences.notificacoes_email}
-              onCheckedChange={(v) => handlePreferenceChange('notificacoes_email', v)}
-            />
+            <Switch checked={preferences.notificacoes_email} onCheckedChange={(v) => handlePreferenceChange('notificacoes_email', v)} />
           </div>
 
           <Separator />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label className="text-sm font-medium">Notificações push</Label>
-              <p className="text-xs text-muted-foreground">
-                Receber notificações no navegador
-              </p>
+              <Label className="text-sm font-medium">{t.pushNotifications}</Label>
+              <p className="text-xs text-muted-foreground">{t.pushNotificationsDesc}</p>
             </div>
-            <Switch
-              checked={preferences.notificacoes_push}
-              onCheckedChange={(v) => handlePreferenceChange('notificacoes_push', v)}
-            />
+            <Switch checked={preferences.notificacoes_push} onCheckedChange={(v) => handlePreferenceChange('notificacoes_push', v)} />
           </div>
 
           <Separator />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label className="text-sm font-medium">E-mails de marketing</Label>
-              <p className="text-xs text-muted-foreground">
-                Receber promoções e novidades por e-mail
-              </p>
+              <Label className="text-sm font-medium">{t.marketingEmails}</Label>
+              <p className="text-xs text-muted-foreground">{t.marketingEmailsDesc}</p>
             </div>
-            <Switch
-              checked={preferences.marketing_emails}
-              onCheckedChange={(v) => handlePreferenceChange('marketing_emails', v)}
-            />
+            <Switch checked={preferences.marketing_emails} onCheckedChange={(v) => handlePreferenceChange('marketing_emails', v)} />
           </div>
         </CardContent>
       </Card>
 
-      {/* Danger Zone */}
       <Card className="border-destructive/30">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-destructive">
             <Trash2 className="h-5 w-5" />
-            Zona de Perigo
+            {t.dangerZone}
           </CardTitle>
-          <CardDescription>
-            Ações irreversíveis que afetam seus dados.
-          </CardDescription>
+          <CardDescription>{t.dangerZoneDesc}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="space-y-0.5">
-              <p className="text-sm font-medium">Apagar todas as minhas consultas</p>
-              <p className="text-xs text-muted-foreground">
-                Remove permanentemente todo o histórico de consultas da sua conta.
-              </p>
+              <p className="text-sm font-medium">{t.deleteConsultations}</p>
+              <p className="text-xs text-muted-foreground">{t.deleteConsultationsDesc}</p>
             </div>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" size="sm">
                   <Trash2 className="h-3 w-3 mr-1" />
-                  Apagar Tudo
+                  {t.deleteAll}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Tem certeza?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Esta ação é irreversível. Todo o histórico de consultas será permanentemente removido da sua conta.
-                  </AlertDialogDescription>
+                  <AlertDialogTitle>{t.sure}</AlertDialogTitle>
+                  <AlertDialogDescription>{t.sureDesc}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogCancel>{t.cancel}</AlertDialogCancel>
                   <AlertDialogAction onClick={handleDeleteAllConsultas} className="bg-destructive hover:bg-destructive/90">
-                    Sim, apagar tudo
+                    {t.yesDelete}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
