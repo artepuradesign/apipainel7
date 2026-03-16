@@ -415,7 +415,7 @@ const GerenciarChamados = () => {
           {filteredTickets.length === 0 ? (
             <div className="text-center py-8">
               <MessageSquare className="h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground text-sm">Nenhum chamado encontrado</p>
+              <p className="text-muted-foreground text-sm">{t.noneFound}</p>
             </div>
           ) : (
             <div className="space-y-3 sm:space-y-4">
