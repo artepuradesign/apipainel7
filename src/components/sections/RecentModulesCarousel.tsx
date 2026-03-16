@@ -8,24 +8,21 @@ import { useApiModules } from '@/hooks/useApiModules';
 import { useAuth } from '@/contexts/AuthContext';
 import { Locale, useLocale } from '@/contexts/LocaleContext';
 
-const contentByLocale: Record<Locale, { badge: string; title: string; subtitle: string; status: string }> = {
+const contentByLocale: Record<Locale, { badge: string; title: string; subtitle: string }> = {
   'pt-BR': {
     badge: 'Novidades',
     title: 'Últimos módulos adicionados',
     subtitle: 'Confira os módulos mais recentes da plataforma',
-    status: 'ativo',
   },
   en: {
     badge: 'News',
     title: 'Latest modules added',
     subtitle: 'Check out the most recent platform modules',
-    status: 'active',
   },
   es: {
     badge: 'Novedades',
     title: 'Últimos módulos agregados',
     subtitle: 'Descubre los módulos más recientes de la plataforma',
-    status: 'activo',
   },
 };
 
