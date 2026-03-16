@@ -337,7 +337,7 @@ const Revenda = () => {
                         <p className="text-sm font-medium">{item.valor_plano ? formatCurrency(item.valor_plano) : '-'}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-xs text-muted-foreground">Comissão</p>
+                        <p className="text-xs text-muted-foreground">{t.commission}</p>
                         <p className="text-sm font-bold text-green-600">{item.comissao_paga ? formatCurrency(item.comissao_paga) : '-'}</p>
                       </div>
                     </div>
