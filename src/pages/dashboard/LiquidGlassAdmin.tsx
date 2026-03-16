@@ -11,6 +11,7 @@ import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
 import { useTheme } from '@/components/ThemeProvider';
 import ContainedMatrixRain from '@/components/effects/ContainedMatrixRain';
 import LiquidGlassButton from '@/components/ui/LiquidGlassButton';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface SliderParam {
   key: keyof LiquidGlassConfig;
