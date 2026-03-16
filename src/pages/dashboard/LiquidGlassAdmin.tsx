@@ -159,8 +159,8 @@ const LiquidGlassAdmin = () => {
             {/* Enable/Disable Toggle */}
             <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border">
               <div>
-                <label className="text-sm font-medium text-foreground">Ativar Liquid Glass</label>
-                <p className="text-xs text-muted-foreground">Aplicar efeito nos temas atuais</p>
+                <label className="text-sm font-medium text-foreground">{t.enable}</label>
+                <p className="text-xs text-muted-foreground">{t.enableDesc}</p>
               </div>
               <Switch
                 checked={config.enabled}
