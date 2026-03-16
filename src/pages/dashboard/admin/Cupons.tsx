@@ -36,7 +36,51 @@ interface HistoricoCupom {
   created_at: string;
 }
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    title: 'Gerenciar Cupons',
+    subtitle: 'Crie e gerencie cupons de desconto',
+    newCoupon: 'Novo Cupom',
+    loading: 'Carregando...',
+    statsTotal: 'Total Cupons',
+    statsActive: 'Ativos',
+    statsExpired: 'Expirados',
+    statsUses: 'Total Usos',
+    listTitle: 'Lista de Cupons',
+    listSubtitle: 'Crie e gerencie cupons de desconto e bônus',
+    historyTitle: 'Histórico de Uso',
+  },
+  en: {
+    title: 'Manage Coupons',
+    subtitle: 'Create and manage discount coupons',
+    newCoupon: 'New Coupon',
+    loading: 'Loading...',
+    statsTotal: 'Total Coupons',
+    statsActive: 'Active',
+    statsExpired: 'Expired',
+    statsUses: 'Total Uses',
+    listTitle: 'Coupons List',
+    listSubtitle: 'Create and manage discount and bonus coupons',
+    historyTitle: 'Usage History',
+  },
+  es: {
+    title: 'Gestionar Cupones',
+    subtitle: 'Crea y gestiona cupones de descuento',
+    newCoupon: 'Nuevo Cupón',
+    loading: 'Cargando...',
+    statsTotal: 'Total Cupones',
+    statsActive: 'Activos',
+    statsExpired: 'Expirados',
+    statsUses: 'Usos Totales',
+    listTitle: 'Lista de Cupones',
+    listSubtitle: 'Crea y gestiona cupones de descuento y bonos',
+    historyTitle: 'Historial de Uso',
+  },
+};
+
 const AdminCupons = () => {
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [cupons, setCupons] = useState<Cupom[]>([]);
   const [filteredCupons, setFilteredCupons] = useState<Cupom[]>([]);
   const [historico, setHistorico] = useState<HistoricoCupom[]>([]);
