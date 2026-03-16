@@ -23,14 +23,85 @@ import { createSidebarItems } from './dashboard/layout/sidebarData';
 import { usePanelMenus } from '@/hooks/usePanelMenus';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
+type Locale = 'pt-BR' | 'en' | 'es';
+
+const localeContent: Record<Locale, {
+  switchTheme: string;
+  notifications: string;
+  home: string;
+  modules: string;
+  plans: string;
+  panels: string;
+  register: string;
+  login: string;
+}> = {
+  'pt-BR': {
+    switchTheme: 'Alternar tema',
+    notifications: 'Notificações',
+    home: 'Início',
+    modules: 'Módulos',
+    plans: 'Planos',
+    panels: 'Painéis',
+    register: 'Cadastre-se',
+    login: 'Entrar',
+  },
+  en: {
+    switchTheme: 'Switch theme',
+    notifications: 'Notifications',
+    home: 'Home',
+    modules: 'Modules',
+    plans: 'Plans',
+    panels: 'Panels',
+    register: 'Sign up',
+    login: 'Sign in',
+  },
+  es: {
+    switchTheme: 'Cambiar tema',
+    notifications: 'Notificaciones',
+    home: 'Inicio',
+    modules: 'Módulos',
+    plans: 'Planes',
+    panels: 'Paneles',
+    register: 'Regístrate',
+    login: 'Entrar',
+  },
+};
+
+const languageOptions: Array<{ locale: Locale; flag: string; label: string }> = [
+  { locale: 'en', flag: '🇺🇸', label: 'English' },
+  { locale: 'es', flag: '🇪🇸', label: 'Español' },
+  { locale: 'pt-BR', flag: '🇧🇷', label: 'Português (Brasil)' },
+];
+
 const MenuSuperior = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [locale, setLocale] = useState<Locale>('pt-BR');
   const navigate = useNavigate();
   const location = useLocation();
   const { user, signOut, isSupport } = useAuth();
   const { totalAvailableBalance } = useUserBalance();
   const { panelMenus } = usePanelMenus();
   const { config: liquidGlassConfig } = useLiquidGlass();
+
+  useEffect(() => {
+    const storedLocale = localStorage.getItem('site-locale') as Locale | null;
+    if (storedLocale && ['pt-BR', 'en', 'es'].includes(storedLocale)) {
+      setLocale(storedLocale);
+      return;
+    }
+
+    const browserLocale = navigator.language.toLowerCase();
+    if (browserLocale.startsWith('en')) setLocale('en');
+    else if (browserLocale.startsWith('es')) setLocale('es');
+    else setLocale('pt-BR');
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    localStorage.setItem('site-locale', locale);
+  }, [locale]);
+
+  const content = localeContent[locale];
 
   // Verificar páginas atuais para exibir links contextuais
   const isDashboardPage = location.pathname.startsWith('/dashboard');
@@ -116,9 +187,39 @@ const MenuSuperior = () => {
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Alternar tema</p>
+                    <p>{content.switchTheme}</p>
                   </TooltipContent>
                 </Tooltip>
+
+                <div className="hidden lg:flex items-center gap-1">
+                  {languageOptions.map((option) => {
+                    const isActive = option.locale === locale;
+
+                    return (
+                      <Tooltip key={option.locale}>
+                        <TooltipTrigger asChild>
+                          <button
+                            type="button"
+                            aria-label={option.label}
+                            onClick={() => setLocale(option.locale)}
+                            className={cn(
+                              "h-8 w-8 rounded-md flex items-center justify-center transition-colors border",
+                              isActive
+                                ? "bg-accent text-accent-foreground border-border"
+                                : "bg-transparent text-muted-foreground border-transparent hover:bg-muted hover:text-foreground"
+                            )}
+                          >
+                            <span className="text-sm leading-none" aria-hidden="true">{option.flag}</span>
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{option.label}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    );
+                  })}
+                </div>
+
                 {user && (
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -127,7 +228,7 @@ const MenuSuperior = () => {
                       </div>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Notificações</p>
+                      <p>{content.notifications}</p>
                     </TooltipContent>
                   </Tooltip>
                 )}
@@ -144,18 +245,18 @@ const MenuSuperior = () => {
               <nav className="hidden lg:flex items-center space-x-1">
                 {!isHomePage && (
                   <Link to="/">
-                    <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>Início</Button>
+                    <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>{content.home}</Button>
                   </Link>
                 )}
                 <Link to="/modulos">
-                  <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>Módulos</Button>
+                  <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>{content.modules}</Button>
                 </Link>
                 <Link to="/planos-publicos">
-                  <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>Planos</Button>
+                  <Button variant="ghost" size="sm" className={cn("text-muted-foreground hover:text-foreground", liquidGlassConfig.enabled && "hover:bg-white/10")}>{content.plans}</Button>
                 </Link>
                 {!isDashboardPage && (
                   <Link to="/dashboard">
-                    <Button variant="ghost" size="sm" className={cn("menu-paineis-link text-muted-foreground hover:text-foreground font-semibold", liquidGlassConfig.enabled && "hover:bg-white/10")}>Painéis</Button>
+                    <Button variant="ghost" size="sm" className={cn("menu-paineis-link text-muted-foreground hover:text-foreground font-semibold", liquidGlassConfig.enabled && "hover:bg-white/10")}>{content.panels}</Button>
                   </Link>
                 )}
               </nav>
@@ -173,25 +274,25 @@ const MenuSuperior = () => {
                         className="text-sm text-muted-foreground hover:text-primary cursor-pointer transition-colors duration-200"
                         onClick={() => navigate('/registration')}
                       >
-                        Cadastre-se
+                        {content.register}
                       </span>
                       <LiquidGlassButton
                         variant="outline"
                         className="text-sm px-4 py-2"
                         onClick={() => navigate('/login')}
-                        ariaLabel="Entrar"
+                        ariaLabel={content.login}
                       >
-                        Entrar
+                        {content.login}
                       </LiquidGlassButton>
                     </>
                   ) : (
                     <>
                       <Link to="/registration" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
-                        Cadastre-se
+                        {content.register}
                       </Link>
                       <Link to="/login">
                         <Button size="sm" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold">
-                          Entrar
+                          {content.login}
                         </Button>
                       </Link>
                     </>
