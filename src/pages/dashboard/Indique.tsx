@@ -347,13 +347,13 @@ const Indique = () => {
                 <div>
                   <Badge variant="secondary" className="mb-3">
                     <Sparkles className="h-3.5 w-3.5 mr-1" />
-                    Indique e Ganhe
+                    {t.earnBadge}
                   </Badge>
                   <h2 id="indique-ganhe" className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-                    Compartilhe seu código e aumente seus ganhos
+                    {t.earnTitle}
                   </h2>
                   <p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-2xl">
-                    O valor do bônus é dinâmico e segue as predefinições do sistema, sempre vindo da API.
+                    {t.earnDesc}
                   </p>
                 </div>
 
