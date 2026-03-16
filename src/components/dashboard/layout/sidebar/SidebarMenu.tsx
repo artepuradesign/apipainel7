@@ -32,6 +32,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   setCollapsed
 }) => {
   const navigate = useNavigate();
+  const { locale } = useLocale();
+  const content = localeContent[locale];
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [expandedSubItems, setExpandedSubItems] = useState<Set<string>>(new Set());
   const [clickedItem, setClickedItem] = useState<string | null>(null);
