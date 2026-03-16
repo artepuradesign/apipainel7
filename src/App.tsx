@@ -30,7 +30,7 @@ import AuthLoading from '@/pages/AuthLoading';
 import Logout from '@/pages/Logout';
 import IndicacoesPublicas from '@/pages/IndicacoesPublicas';
 import Modulos from '@/pages/Modulos';
-
+import ResetPassword from '@/pages/ResetPassword';
 
 import TermsOfService from '@/pages/TermsOfService';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
