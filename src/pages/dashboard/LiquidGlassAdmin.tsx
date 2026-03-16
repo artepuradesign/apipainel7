@@ -40,7 +40,78 @@ const sliderParams: SliderParam[] = [
 
 type PreviewTheme = 'default' | 'matrix';
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    subtitle: 'Configure o estilo Liquid Glass dos elementos do sistema',
+    saved: 'Configurações salvas!',
+    save: 'Salvar',
+    customize: 'Personalizar',
+    customizeDesc: 'Ajuste os parâmetros do efeito Liquid Glass',
+    reset: 'Resetar',
+    enable: 'Ativar Liquid Glass',
+    enableDesc: 'Aplicar efeito nos temas atuais',
+    preview: 'Pré-visualização',
+    previewDesc: 'Visualize o efeito em tempo real',
+    defaultTheme: 'Padrão',
+    light: 'Claro',
+    dark: 'Escuro',
+    previewTitle: 'Prévia Liquid Glass',
+    previewText: 'Este card reflete todas as configurações em tempo real.',
+    previewButton: 'Botão Liquid Glass',
+    currentConfig: 'Configuração Atual',
+    active: 'Ativo',
+    yes: 'Sim',
+    no: 'Não',
+  },
+  en: {
+    subtitle: 'Configure the Liquid Glass style across system elements',
+    saved: 'Settings saved!',
+    save: 'Save',
+    customize: 'Customize',
+    customizeDesc: 'Adjust Liquid Glass effect parameters',
+    reset: 'Reset',
+    enable: 'Enable Liquid Glass',
+    enableDesc: 'Apply effect to active themes',
+    preview: 'Preview',
+    previewDesc: 'See the effect in real time',
+    defaultTheme: 'Default',
+    light: 'Light',
+    dark: 'Dark',
+    previewTitle: 'Liquid Glass Preview',
+    previewText: 'This card reflects all settings in real time.',
+    previewButton: 'Liquid Glass Button',
+    currentConfig: 'Current Configuration',
+    active: 'Active',
+    yes: 'Yes',
+    no: 'No',
+  },
+  es: {
+    subtitle: 'Configura el estilo Liquid Glass de los elementos del sistema',
+    saved: '¡Configuraciones guardadas!',
+    save: 'Guardar',
+    customize: 'Personalizar',
+    customizeDesc: 'Ajusta los parámetros del efecto Liquid Glass',
+    reset: 'Restablecer',
+    enable: 'Activar Liquid Glass',
+    enableDesc: 'Aplicar efecto a los temas actuales',
+    preview: 'Vista previa',
+    previewDesc: 'Visualiza el efecto en tiempo real',
+    defaultTheme: 'Predeterminado',
+    light: 'Claro',
+    dark: 'Oscuro',
+    previewTitle: 'Vista previa Liquid Glass',
+    previewText: 'Esta tarjeta refleja todas las configuraciones en tiempo real.',
+    previewButton: 'Botón Liquid Glass',
+    currentConfig: 'Configuración Actual',
+    active: 'Activo',
+    yes: 'Sí',
+    no: 'No',
+  },
+};
+
 const LiquidGlassAdmin = () => {
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const { config, updateParam, resetToDefaults } = useLiquidGlass();
   const { theme } = useTheme();
   const isDarkMode = theme === 'dark';
