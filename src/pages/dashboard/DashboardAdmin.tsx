@@ -8,6 +8,7 @@ import PageHeaderCard from '@/components/dashboard/PageHeaderCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useApiDashboardAdmin } from '@/hooks/useApiDashboardAdmin';
 import { useNotifications } from '@/hooks/useNotifications';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 const DashboardAdmin = () => {
   const { isSupport } = useAuth();
