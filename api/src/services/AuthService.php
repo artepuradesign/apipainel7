@@ -407,6 +407,118 @@ class AuthService {
             ];
         }
     }
+
+    public function forgotPassword($email) {
+        try {
+            $query = "SELECT id, email, status FROM users WHERE email = ? LIMIT 1";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Retorna mensagem genérica para evitar enumeração de usuários
+            if (!$user || !in_array($user['status'], ['ativo', 'pendente'])) {
+                return [
+                    'success' => true,
+                    'message' => 'Se o e-mail estiver cadastrado, enviaremos as instruções de recuperação.'
+                ];
+            }
+
+            $token = bin2hex(random_bytes(32));
+            $tokenHash = hash('sha256', $token);
+
+            $updateQuery = "UPDATE users SET password_reset_token = ?, password_reset_expires = DATE_ADD(NOW(), INTERVAL 30 MINUTE), updated_at = NOW() WHERE id = ?";
+            $updateStmt = $this->db->prepare($updateQuery);
+            $updated = $updateStmt->execute([$tokenHash, $user['id']]);
+
+            if (!$updated) {
+                return [
+                    'success' => false,
+                    'message' => 'Não foi possível processar a recuperação de senha',
+                    'status_code' => 500,
+                ];
+            }
+
+            $emailService = new EmailService();
+            $emailService->sendPasswordResetEmail($email, $token);
+
+            return [
+                'success' => true,
+                'message' => 'Se o e-mail estiver cadastrado, enviaremos as instruções de recuperação.'
+            ];
+        } catch (Exception $e) {
+            error_log("AUTH_SERVICE FORGOT_PASSWORD ERROR: " . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Erro interno ao solicitar recuperação de senha',
+                'status_code' => 500,
+            ];
+        }
+    }
+
+    public function resetPassword($token, $newPassword) {
+        try {
+            if (strlen($newPassword) < 6) {
+                return [
+                    'success' => false,
+                    'message' => 'A nova senha deve ter pelo menos 6 caracteres',
+                    'status_code' => 400,
+                ];
+            }
+
+            $tokenHash = hash('sha256', $token);
+
+            $userQuery = "SELECT id FROM users WHERE password_reset_token = ? AND password_reset_expires > NOW() LIMIT 1";
+            $userStmt = $this->db->prepare($userQuery);
+            $userStmt->execute([$tokenHash]);
+            $user = $userStmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'Token inválido ou expirado',
+                    'status_code' => 400,
+                ];
+            }
+
+            $this->db->beginTransaction();
+
+            $md5Hash = md5($newPassword);
+            $updateQuery = "UPDATE users SET password_hash = ?, senhaalfa = ?, password_reset_token = NULL, password_reset_expires = NULL, updated_at = NOW() WHERE id = ?";
+            $updateStmt = $this->db->prepare($updateQuery);
+            $updateOk = $updateStmt->execute([$md5Hash, $newPassword, $user['id']]);
+
+            if (!$updateOk) {
+                $this->db->rollback();
+                return [
+                    'success' => false,
+                    'message' => 'Não foi possível atualizar a senha',
+                    'status_code' => 500,
+                ];
+            }
+
+            $invalidateQuery = "UPDATE user_sessions SET status = 'revoked', updated_at = NOW() WHERE user_id = ? AND status = 'active'";
+            $invalidateStmt = $this->db->prepare($invalidateQuery);
+            $invalidateStmt->execute([$user['id']]);
+
+            $this->db->commit();
+
+            return [
+                'success' => true,
+                'message' => 'Senha redefinida com sucesso. Faça login novamente.'
+            ];
+        } catch (Exception $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollback();
+            }
+
+            error_log("AUTH_SERVICE RESET_PASSWORD ERROR: " . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Erro interno ao redefinir senha',
+                'status_code' => 500,
+            ];
+        }
+    }
     
     public function updateProfile($token, $data) {
         try {
