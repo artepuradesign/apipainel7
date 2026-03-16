@@ -120,6 +120,9 @@ export const localeContent: Record<Locale, {
     walletRefresh: 'Refresh',
     walletUserFallback: 'User',
     walletPrepaid: 'Prepaid',
+    sidebarOnlinePanels: 'Online Panels',
+    sidebarExpandMenu: 'Expand menu',
+    sidebarCollapseMenu: 'Collapse menu',
   },
   es: {
     switchTheme: 'Cambiar tema',
