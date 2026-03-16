@@ -274,8 +274,8 @@ const Predefinicoes = () => {
   return (
     <div className="space-y-4 relative z-10">
       <DashboardTitleCard
-        title="Predefinições do Sistema"
-        subtitle={error ? 'Erro ao carregar dados' : 'Gerencie as configurações globais da plataforma'}
+        title={t.title}
+        subtitle={error ? t.errorSubtitle : t.subtitle}
         icon={<Settings className="h-4 w-4 sm:h-5 sm:w-5" />}
         right={
           <Button
