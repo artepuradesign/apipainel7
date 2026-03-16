@@ -149,9 +149,9 @@ const Revenda = () => {
         });
         
         if (response.status === 401) {
-          toast.error('Sessão expirada. Faça login novamente.');
+          toast.error(t.sessionExpired);
         } else {
-          toast.error(`Erro ao carregar dados de revenda (${response.status})`);
+          toast.error(`${t.loadError} (${response.status})`);
         }
         throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
