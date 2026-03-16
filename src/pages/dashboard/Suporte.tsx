@@ -352,7 +352,7 @@ const Suporte = () => {
                           </Badge>
                           {faq.category === 'Consultas' && (
                             <Badge className="text-[11px] sm:text-xs bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/50 dark:text-blue-300">
-                              DESTAQUE
+                              {t.highlight}
                             </Badge>
                           )}
                         </div>
