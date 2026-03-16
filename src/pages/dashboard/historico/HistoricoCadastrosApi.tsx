@@ -187,10 +187,10 @@ const HistoricoCadastrosApi = () => {
           <div className="flex items-center justify-between">
             <CardTitle className="text-sm sm:text-base flex items-center gap-2">
               <ShoppingCart className="h-4 w-4 text-primary" />
-              Pedidos e Compras
+              {t.sectionTitle}
             </CardTitle>
             <Badge variant="secondary" className="text-xs">
-              {orders.length} registros
+              {orders.length} {t.records}
             </Badge>
           </div>
         </CardHeader>
