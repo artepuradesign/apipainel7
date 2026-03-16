@@ -366,8 +366,8 @@ const Cupons = () => {
               <Ticket className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <p>
                 {searchTerm || filterTipo !== 'all' 
-                  ? 'Nenhum cupom encontrado com os filtros aplicados' 
-                  : 'Nenhum cupom disponível no momento'}
+                  ? t.noCouponsFound 
+                  : t.noCouponsAvailable}
               </p>
               {(searchTerm || filterTipo !== 'all') && (
                 <Button
