@@ -19,6 +19,7 @@ import {
   Plus
 } from 'lucide-react';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface FAQ {
   id: string;
@@ -163,7 +164,57 @@ const faqData: FAQ[] = [
   }
 ];
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    pageTitle: 'Central de Suporte',
+    faqTitle: 'Perguntas Frequentes',
+    faqSubtitle: 'Explore nossa base de conhecimento e encontre respostas rápidas',
+    searchPlaceholder: 'Digite sua dúvida ou palavra-chave...',
+    filterByCategory: 'Filtrar por categoria',
+    all: 'Todas',
+    highlight: 'DESTAQUE',
+    showMore: 'Ver mais',
+    showLess: 'Mostrar menos perguntas',
+    notFound: 'Nenhuma pergunta encontrada',
+    notFoundDesc: 'Não encontramos resultados para sua busca. Tente usar palavras-chave diferentes ou navegue pelas categorias.',
+    stillQuestions: 'Ainda tem dúvidas?',
+    stillQuestionsDesc: 'Nossa equipe está aqui para ajudar! Entre em contato conosco através dos canais disponíveis.',
+  },
+  en: {
+    pageTitle: 'Support Center',
+    faqTitle: 'Frequently Asked Questions',
+    faqSubtitle: 'Browse our knowledge base and find quick answers',
+    searchPlaceholder: 'Type your question or keyword...',
+    filterByCategory: 'Filter by category',
+    all: 'All',
+    highlight: 'HIGHLIGHT',
+    showMore: 'Show more',
+    showLess: 'Show fewer questions',
+    notFound: 'No questions found',
+    notFoundDesc: 'No results for your search. Try different keywords or browse categories.',
+    stillQuestions: 'Still have questions?',
+    stillQuestionsDesc: 'Our team is here to help! Contact us through available channels.',
+  },
+  es: {
+    pageTitle: 'Centro de Soporte',
+    faqTitle: 'Preguntas Frecuentes',
+    faqSubtitle: 'Explora nuestra base de conocimiento y encuentra respuestas rápidas',
+    searchPlaceholder: 'Escribe tu duda o palabra clave...',
+    filterByCategory: 'Filtrar por categoría',
+    all: 'Todas',
+    highlight: 'DESTACADO',
+    showMore: 'Ver más',
+    showLess: 'Mostrar menos preguntas',
+    notFound: 'No se encontraron preguntas',
+    notFoundDesc: 'No encontramos resultados para tu búsqueda. Prueba otras palabras clave o navega por categorías.',
+    stillQuestions: '¿Aún tienes dudas?',
+    stillQuestionsDesc: '¡Nuestro equipo está aquí para ayudarte! Contáctanos por los canales disponibles.',
+  },
+};
+
 const Suporte = () => {
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [searchTerm, setSearchTerm] = useState('');
   const [openItems, setOpenItems] = useState<string[]>([]);
   const [showAll, setShowAll] = useState(false);
@@ -216,7 +267,7 @@ const Suporte = () => {
   return (
     <div className="space-y-4 sm:space-y-6 relative z-10 px-1 sm:px-0">
       <DashboardTitleCard
-        title="Central de Suporte"
+        title={t.pageTitle}
         icon={<HelpCircle className="h-4 w-4 sm:h-5 sm:w-5" />}
       />
 
@@ -227,10 +278,10 @@ const Suporte = () => {
             <div className="p-2 bg-primary/10 rounded-xl">
               <HelpCircle className="h-6 w-6 text-primary" />
             </div>
-            Perguntas Frequentes
+            {t.faqTitle}
           </CardTitle>
           <p className="text-sm sm:text-base text-muted-foreground mt-2">
-            Explore nossa base de conhecimento e encontre respostas rápidas
+            {t.faqSubtitle}
           </p>
         </CardHeader>
         <CardContent className="space-y-5 sm:space-y-8">
@@ -238,7 +289,7 @@ const Suporte = () => {
           <div className="relative">
             <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             <Input
-              placeholder="Digite sua dúvida ou palavra-chave..."
+              placeholder={t.searchPlaceholder}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 sm:pl-12 h-10 sm:h-12 text-sm sm:text-base border-2 focus:border-primary/50 bg-background/50"
@@ -247,7 +298,7 @@ const Suporte = () => {
 
           {/* Filtros por Categoria com design moderno */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-base sm:text-lg">Filtrar por categoria</h3>
+            <h3 className="font-semibold text-base sm:text-lg">{t.filterByCategory}</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               <Button
                 variant={searchTerm === '' ? 'default' : 'outline'}
@@ -256,7 +307,7 @@ const Suporte = () => {
                 className="h-10 sm:h-12 justify-start font-medium"
               >
                 <HelpCircle className="h-4 w-4 mr-2" />
-                Todas
+                {t.all}
               </Button>
               {categories.map(category => (
                 <Button
@@ -301,7 +352,7 @@ const Suporte = () => {
                           </Badge>
                           {faq.category === 'Consultas' && (
                             <Badge className="text-[11px] sm:text-xs bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/50 dark:text-blue-300">
-                              DESTAQUE
+                              {t.highlight}
                             </Badge>
                           )}
                         </div>
@@ -341,7 +392,7 @@ const Suporte = () => {
                 className="h-10 sm:h-12 px-6 sm:px-8 font-semibold border-2 hover:border-primary/50 hover:bg-primary/5"
               >
                 <Plus className="h-5 w-5 mr-2" />
-                Ver mais {filteredFAQs.length - 5} perguntas
+                {t.showMore} {filteredFAQs.length - 5}
               </Button>
             </div>
           )}
@@ -355,7 +406,7 @@ const Suporte = () => {
                 size="sm"
                 className="text-muted-foreground hover:text-foreground"
               >
-                Mostrar menos perguntas
+                {t.showLess}
               </Button>
             </div>
           )}
@@ -366,9 +417,9 @@ const Suporte = () => {
               <div className="p-4 bg-muted/30 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
                 <HelpCircle className="h-12 w-12 text-muted-foreground" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Nenhuma pergunta encontrada</h3>
+              <h3 className="font-semibold text-lg mb-2">{t.notFound}</h3>
               <p className="text-muted-foreground max-w-md mx-auto">
-                Não encontramos resultados para sua busca. Tente usar palavras-chave diferentes ou navegue pelas categorias.
+                {t.notFoundDesc}
               </p>
             </div>
           )}
@@ -377,9 +428,9 @@ const Suporte = () => {
           {!searchTerm && (
             <div className="mt-8 sm:mt-12 p-4 sm:p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl border border-primary/10">
               <div className="text-center">
-                <h3 className="font-semibold text-lg mb-2">Ainda tem dúvidas?</h3>
+                <h3 className="font-semibold text-lg mb-2">{t.stillQuestions}</h3>
                 <p className="text-sm sm:text-base text-muted-foreground mb-4">
-                  Nossa equipe está aqui para ajudar! Entre em contato conosco através dos canais disponíveis.
+                  {t.stillQuestionsDesc}
                 </p>
                 <div className="flex flex-wrap gap-3 justify-center">
                   <Badge variant="outline" className="px-3 py-1">

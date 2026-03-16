@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { Settings, Save, Loader2, Globe, MessageCircle, Shield, DollarSign, Users, RefreshCw, Instagram, Send, Music, Phone } from 'lucide-react';
 import { systemConfigAdminService, SystemConfigItem } from '@/services/systemConfigAdminService';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 const CATEGORY_LABELS: Record<string, { label: string; icon: React.ReactNode }> = {
   general: { label: 'Geral', icon: <Globe className="h-4 w-4" /> },
@@ -34,7 +35,39 @@ const isMultilineField = (key: string): boolean => {
   return key.includes('whatsapp_message') || key.includes('default_message');
 };
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    title: 'Predefinições do Sistema',
+    errorSubtitle: 'Erro ao carregar dados',
+    subtitle: 'Gerencie as configurações globais da plataforma',
+    reload: 'Recarregar',
+    loading: 'Carregando...',
+    tryAgain: 'Tentar novamente',
+    saveAll: 'Salvar Todas as Alterações',
+  },
+  en: {
+    title: 'System Presets',
+    errorSubtitle: 'Error loading data',
+    subtitle: 'Manage global platform settings',
+    reload: 'Reload',
+    loading: 'Loading...',
+    tryAgain: 'Try again',
+    saveAll: 'Save All Changes',
+  },
+  es: {
+    title: 'Predefiniciones del Sistema',
+    errorSubtitle: 'Error al cargar datos',
+    subtitle: 'Administra las configuraciones globales de la plataforma',
+    reload: 'Recargar',
+    loading: 'Cargando...',
+    tryAgain: 'Intentar nuevamente',
+    saveAll: 'Guardar Todos los Cambios',
+  },
+};
+
 const Predefinicoes = () => {
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [configs, setConfigs] = useState<SystemConfigItem[]>([]);
   const [editedValues, setEditedValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
@@ -241,8 +274,8 @@ const Predefinicoes = () => {
   return (
     <div className="space-y-4 relative z-10">
       <DashboardTitleCard
-        title="Predefinições do Sistema"
-        subtitle={error ? 'Erro ao carregar dados' : 'Gerencie as configurações globais da plataforma'}
+        title={t.title}
+        subtitle={error ? t.errorSubtitle : t.subtitle}
         icon={<Settings className="h-4 w-4 sm:h-5 sm:w-5" />}
         right={
           <Button
@@ -251,7 +284,7 @@ const Predefinicoes = () => {
             onClick={fetchConfigs}
             disabled={loading}
             className="h-7 w-7 sm:h-8 sm:w-8 p-0"
-            title="Recarregar"
+            title={t.reload}
           >
             <RefreshCw className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
@@ -262,7 +295,7 @@ const Predefinicoes = () => {
       {loading && (
         <div className="flex items-center justify-center py-16">
           <Loader2 className="h-6 w-6 animate-spin text-primary" />
-          <span className="ml-2 text-sm text-muted-foreground">Carregando...</span>
+          <span className="ml-2 text-sm text-muted-foreground">{t.loading}</span>
         </div>
       )}
 
@@ -272,7 +305,7 @@ const Predefinicoes = () => {
           <CardContent className="text-center py-12 space-y-3">
             <p className="text-sm text-muted-foreground">{error}</p>
             <Button variant="outline" size="sm" onClick={fetchConfigs}>
-              <RefreshCw className="h-4 w-4 mr-2" /> Tentar novamente
+              <RefreshCw className="h-4 w-4 mr-2" /> {t.tryAgain}
             </Button>
           </CardContent>
         </Card>
@@ -312,7 +345,7 @@ const Predefinicoes = () => {
                 ) : (
                   <Save className="h-4 w-4 mr-2" />
                 )}
-                Salvar Todas as Alterações
+                {t.saveAll}
               </Button>
             </CardContent>
           </Card>

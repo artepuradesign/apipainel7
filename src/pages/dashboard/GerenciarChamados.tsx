@@ -25,7 +25,8 @@ import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
 import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { ptBR, enUS, es } from 'date-fns/locale';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface SupportTicket {
   id: number;
@@ -47,8 +48,55 @@ interface SupportTicket {
   user_email?: string;
 }
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    title: 'Gerenciar Chamados',
+    subtitle: 'Visualize e responda aos chamados dos usuários',
+    loading: 'Carregando chamados...',
+    open: 'Abertos',
+    inProgress: 'Em Andamento',
+    resolved: 'Resolvidos',
+    urgent: 'Urgentes',
+    filters: 'Filtros',
+    tickets: 'Chamados',
+    noneFound: 'Nenhum chamado encontrado',
+  },
+  en: {
+    title: 'Manage Tickets',
+    subtitle: 'View and respond to user support tickets',
+    loading: 'Loading tickets...',
+    open: 'Open',
+    inProgress: 'In Progress',
+    resolved: 'Resolved',
+    urgent: 'Urgent',
+    filters: 'Filters',
+    tickets: 'Tickets',
+    noneFound: 'No tickets found',
+  },
+  es: {
+    title: 'Gestionar Tickets',
+    subtitle: 'Visualiza y responde a los tickets de los usuarios',
+    loading: 'Cargando tickets...',
+    open: 'Abiertos',
+    inProgress: 'En Progreso',
+    resolved: 'Resueltos',
+    urgent: 'Urgentes',
+    filters: 'Filtros',
+    tickets: 'Tickets',
+    noneFound: 'No se encontraron tickets',
+  },
+};
+
+const dateFnsLocaleByLocale: Record<Locale, any> = {
+  'pt-BR': ptBR,
+  en: enUS,
+  es,
+};
+
 const GerenciarChamados = () => {
   const { user } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [tickets, setTickets] = useState<SupportTicket[]>([]);
   const [filteredTickets, setFilteredTickets] = useState<SupportTicket[]>([]);
   const [loading, setLoading] = useState(true);
@@ -235,15 +283,15 @@ const GerenciarChamados = () => {
     return (
       <div className="space-y-4 sm:space-y-6">
         <DashboardTitleCard
-          title="Gerenciar Chamados"
-          subtitle="Visualize e responda aos chamados dos usuários"
+          title={t.title}
+          subtitle={t.subtitle}
           icon={<Headphones className="h-4 w-4 sm:h-5 sm:w-5" />}
           backTo="/dashboard/admin"
         />
         <Card>
           <CardContent className="flex items-center justify-center py-8">
             <RefreshCw className="h-6 w-6 animate-spin mr-2" />
-            <span className="text-sm">Carregando chamados...</span>
+            <span className="text-sm">{t.loading}</span>
           </CardContent>
         </Card>
       </div>
@@ -253,8 +301,8 @@ const GerenciarChamados = () => {
   return (
     <div className="space-y-4 sm:space-y-6">
       <DashboardTitleCard
-        title="Gerenciar Chamados"
-        subtitle="Visualize e responda aos chamados dos usuários"
+        title={t.title}
+        subtitle={t.subtitle}
         icon={<Headphones className="h-4 w-4 sm:h-5 sm:w-5" />}
         backTo="/dashboard/admin"
       />
@@ -264,25 +312,25 @@ const GerenciarChamados = () => {
         <Card>
           <CardContent className="p-3 sm:p-6">
             <div className="text-xl sm:text-2xl font-bold text-blue-600">{tickets.filter(t => t.status === 'aberto').length}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground">Abertos</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t.open}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-3 sm:p-6">
             <div className="text-xl sm:text-2xl font-bold text-yellow-600">{tickets.filter(t => t.status === 'em_andamento').length}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground">Em Andamento</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t.inProgress}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-3 sm:p-6">
             <div className="text-xl sm:text-2xl font-bold text-green-600">{tickets.filter(t => t.status === 'resolvido').length}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground">Resolvidos</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t.resolved}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-3 sm:p-6">
             <div className="text-xl sm:text-2xl font-bold text-red-600">{tickets.filter(t => t.priority === 'urgente').length}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground">Urgentes</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t.urgent}</p>
           </CardContent>
         </Card>
       </div>
@@ -292,7 +340,7 @@ const GerenciarChamados = () => {
         <CardHeader className="p-3 sm:p-6">
           <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <Filter className="h-4 w-4 sm:h-5 sm:w-5" />
-            Filtros
+            {t.filters}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-3 sm:p-6 pt-0">
@@ -355,13 +403,13 @@ const GerenciarChamados = () => {
       {/* Lista de Chamados */}
       <Card>
         <CardHeader className="p-3 sm:p-6">
-          <CardTitle className="text-base sm:text-lg">Chamados ({filteredTickets.length})</CardTitle>
+          <CardTitle className="text-base sm:text-lg">{t.tickets} ({filteredTickets.length})</CardTitle>
         </CardHeader>
         <CardContent className="p-3 sm:p-6 pt-0">
           {filteredTickets.length === 0 ? (
             <div className="text-center py-8">
               <MessageSquare className="h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground text-sm">Nenhum chamado encontrado</p>
+              <p className="text-muted-foreground text-sm">{t.noneFound}</p>
             </div>
           ) : (
             <div className="space-y-3 sm:space-y-4">
@@ -398,7 +446,7 @@ const GerenciarChamados = () => {
                           <Calendar className="h-3 w-3" />
                           {formatDistanceToNow(new Date(ticket.created_at), {
                             addSuffix: true,
-                            locale: ptBR
+                            locale: dateFnsLocaleByLocale[locale]
                           })}
                         </div>
                         {ticket.satisfaction_rating && (

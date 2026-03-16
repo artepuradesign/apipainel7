@@ -20,6 +20,7 @@ import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
 import { cupomApiService, Cupom } from '@/services/cupomApiService';
 import CupomFormModal from '@/components/cupons/admin/CupomFormModal';
 import DeleteConfirmDialog from '@/components/cupons/admin/DeleteConfirmDialog';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface HistoricoCupom {
   id: number;
@@ -35,7 +36,51 @@ interface HistoricoCupom {
   created_at: string;
 }
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    title: 'Gerenciar Cupons',
+    subtitle: 'Crie e gerencie cupons de desconto',
+    newCoupon: 'Novo Cupom',
+    loading: 'Carregando...',
+    statsTotal: 'Total Cupons',
+    statsActive: 'Ativos',
+    statsExpired: 'Expirados',
+    statsUses: 'Total Usos',
+    listTitle: 'Lista de Cupons',
+    listSubtitle: 'Crie e gerencie cupons de desconto e bônus',
+    historyTitle: 'Histórico de Uso',
+  },
+  en: {
+    title: 'Manage Coupons',
+    subtitle: 'Create and manage discount coupons',
+    newCoupon: 'New Coupon',
+    loading: 'Loading...',
+    statsTotal: 'Total Coupons',
+    statsActive: 'Active',
+    statsExpired: 'Expired',
+    statsUses: 'Total Uses',
+    listTitle: 'Coupons List',
+    listSubtitle: 'Create and manage discount and bonus coupons',
+    historyTitle: 'Usage History',
+  },
+  es: {
+    title: 'Gestionar Cupones',
+    subtitle: 'Crea y gestiona cupones de descuento',
+    newCoupon: 'Nuevo Cupón',
+    loading: 'Cargando...',
+    statsTotal: 'Total Cupones',
+    statsActive: 'Activos',
+    statsExpired: 'Expirados',
+    statsUses: 'Usos Totales',
+    listTitle: 'Lista de Cupones',
+    listSubtitle: 'Crea y gestiona cupones de descuento y bonos',
+    historyTitle: 'Historial de Uso',
+  },
+};
+
 const AdminCupons = () => {
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [cupons, setCupons] = useState<Cupom[]>([]);
   const [filteredCupons, setFilteredCupons] = useState<Cupom[]>([]);
   const [historico, setHistorico] = useState<HistoricoCupom[]>([]);
@@ -214,13 +259,13 @@ const AdminCupons = () => {
     return (
       <div className="space-y-4 sm:space-y-6">
         <DashboardTitleCard
-          title="Gerenciar Cupons"
-          subtitle="Crie e gerencie cupons de desconto"
+           title={t.title}
+           subtitle={t.subtitle}
           icon={<Ticket className="h-4 w-4 sm:h-5 sm:w-5" />}
           backTo="/dashboard/admin"
         />
         <div className="flex items-center justify-center py-12">
-          <RefreshCw className="w-8 h-8 animate-spin text-primary" />
+          <div className="flex items-center gap-2"><RefreshCw className="w-8 h-8 animate-spin text-primary" /><span className="text-sm text-muted-foreground">{t.loading}</span></div>
         </div>
       </div>
     );
@@ -229,8 +274,8 @@ const AdminCupons = () => {
   return (
     <div className="space-y-4 sm:space-y-6">
       <DashboardTitleCard
-        title="Gerenciar Cupons"
-        subtitle="Crie e gerencie cupons de desconto"
+        title={t.title}
+        subtitle={t.subtitle}
         icon={<Ticket className="h-4 w-4 sm:h-5 sm:w-5" />}
         backTo="/dashboard/admin"
         right={
@@ -246,7 +291,7 @@ const AdminCupons = () => {
             </Button>
             <Button onClick={handleCreateCupom} size="sm" className="hidden sm:flex">
               <Plus className="h-4 w-4 mr-2" />
-              Novo Cupom
+               {t.newCoupon}
             </Button>
             <Button onClick={handleCreateCupom} size="icon" className="sm:hidden h-9 w-9">
               <Plus className="h-4 w-4" />
@@ -261,7 +306,7 @@ const AdminCupons = () => {
           <CardContent className="p-3 sm:p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">Total Cupons</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">{t.statsTotal}</p>
                 <p className="text-2xl sm:text-3xl font-bold mt-1">{stats.total}</p>
               </div>
               <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center">
@@ -275,7 +320,7 @@ const AdminCupons = () => {
           <CardContent className="p-3 sm:p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">Ativos</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">{t.statsActive}</p>
                 <p className="text-2xl sm:text-3xl font-bold text-green-600 mt-1">{stats.ativos}</p>
               </div>
               <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
@@ -289,7 +334,7 @@ const AdminCupons = () => {
           <CardContent className="p-3 sm:p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">Expirados</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">{t.statsExpired}</p>
                 <p className="text-2xl sm:text-3xl font-bold text-red-600 mt-1">{stats.expirados}</p>
               </div>
               <div className="h-10 w-10 rounded-full bg-red-500/10 flex items-center justify-center">
@@ -303,7 +348,7 @@ const AdminCupons = () => {
           <CardContent className="p-3 sm:p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">Total Usos</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">{t.statsUses}</p>
                 <p className="text-2xl sm:text-3xl font-bold text-purple-600 mt-1">{stats.totalUsos}</p>
               </div>
               <div className="h-10 w-10 rounded-full bg-purple-500/10 flex items-center justify-center">
@@ -319,10 +364,10 @@ const AdminCupons = () => {
         <CardHeader className="p-3 sm:p-6">
           <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <Ticket className="h-4 w-4 sm:h-5 sm:w-5" />
-            Lista de Cupons
+            {t.listTitle}
           </CardTitle>
           <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-            Crie e gerencie cupons de desconto e bônus
+            {t.listSubtitle}
           </p>
         </CardHeader>
         <CardContent className="p-3 sm:p-6 pt-0">
@@ -433,7 +478,7 @@ const AdminCupons = () => {
         <CardHeader className="p-3 sm:p-6">
           <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <History className="h-4 w-4 sm:h-5 sm:w-5" />
-            Histórico de Uso
+            {t.historyTitle}
           </CardTitle>
           <p className="text-xs sm:text-sm text-muted-foreground">
             Últimos cupons utilizados pelos usuários

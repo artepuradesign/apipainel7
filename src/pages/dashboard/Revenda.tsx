@@ -10,6 +10,7 @@ import { cookieUtils } from '@/utils/cookieUtils';
 import { RefreshCw, Store, TrendingUp, DollarSign } from 'lucide-react';
 import { toast } from 'sonner';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface RevendaHistorico {
   id: number;
@@ -32,8 +33,85 @@ interface DashboardStats {
   bonus_este_mes: number;
 }
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    sessionExpired: 'Sessão expirada. Faça login novamente.',
+    loadError: 'Erro ao carregar dados de revenda',
+    pageTitle: 'Revenda',
+    totalReferrals: 'Total Indicados',
+    activeReferrals: 'Indicados Ativos',
+    totalCommissions: 'Total Comissões',
+    thisMonth: 'Este Mês',
+    historyTitle: 'Histórico de Revendas',
+    historySubtitle: 'Comissões de 10% pagas quando seus indicados ativam planos',
+    referred: 'Indicado',
+    email: 'Email',
+    status: 'Status',
+    planValue: 'Valor Plano',
+    commission: 'Comissão',
+    paymentDate: 'Data Pagamento',
+    notInformed: 'Não informado',
+    paidOn: 'Pago em:',
+    emptyTitle: 'Nenhuma revenda encontrada',
+    emptyDesc: 'Quando seus indicados ativarem planos, as comissões aparecerão aqui',
+    active: 'Ativo',
+    pending: 'Pendente',
+    inactive: 'Inativo',
+  },
+  en: {
+    sessionExpired: 'Session expired. Please sign in again.',
+    loadError: 'Error loading reseller data',
+    pageTitle: 'Reseller',
+    totalReferrals: 'Total Referrals',
+    activeReferrals: 'Active Referrals',
+    totalCommissions: 'Total Commissions',
+    thisMonth: 'This Month',
+    historyTitle: 'Reseller History',
+    historySubtitle: '10% commissions paid when your referrals activate plans',
+    referred: 'Referred',
+    email: 'Email',
+    status: 'Status',
+    planValue: 'Plan Value',
+    commission: 'Commission',
+    paymentDate: 'Payment Date',
+    notInformed: 'Not informed',
+    paidOn: 'Paid on:',
+    emptyTitle: 'No reseller records found',
+    emptyDesc: 'When your referrals activate plans, commissions will appear here',
+    active: 'Active',
+    pending: 'Pending',
+    inactive: 'Inactive',
+  },
+  es: {
+    sessionExpired: 'Sesión expirada. Inicia sesión nuevamente.',
+    loadError: 'Error al cargar datos de reventa',
+    pageTitle: 'Reventa',
+    totalReferrals: 'Total Referidos',
+    activeReferrals: 'Referidos Activos',
+    totalCommissions: 'Comisiones Totales',
+    thisMonth: 'Este Mes',
+    historyTitle: 'Historial de Reventa',
+    historySubtitle: 'Comisiones del 10% pagadas cuando tus referidos activan planes',
+    referred: 'Referido',
+    email: 'Email',
+    status: 'Estado',
+    planValue: 'Valor del Plan',
+    commission: 'Comisión',
+    paymentDate: 'Fecha de Pago',
+    notInformed: 'No informado',
+    paidOn: 'Pagado en:',
+    emptyTitle: 'No se encontraron reventas',
+    emptyDesc: 'Cuando tus referidos activen planes, las comisiones aparecerán aquí',
+    active: 'Activo',
+    pending: 'Pendiente',
+    inactive: 'Inactivo',
+  },
+};
+
 const Revenda = () => {
   const { user } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [historico, setHistorico] = useState<RevendaHistorico[]>([]);
   const [stats, setStats] = useState<DashboardStats>({
     total_indicados: 0,
@@ -71,9 +149,9 @@ const Revenda = () => {
         });
         
         if (response.status === 401) {
-          toast.error('Sessão expirada. Faça login novamente.');
+          toast.error(t.sessionExpired);
         } else {
-          toast.error(`Erro ao carregar dados de revenda (${response.status})`);
+          toast.error(`${t.loadError} (${response.status})`);
         }
         throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
@@ -90,7 +168,7 @@ const Revenda = () => {
     } catch (error) {
       console.error('❌ [REVENDA] Erro ao carregar dashboard:', error);
       if (error instanceof Error && !error.message.includes('401')) {
-        toast.error('Erro ao carregar dados de revenda');
+        toast.error(t.loadError);
       }
     } finally {
       setIsLoading(false);
@@ -121,9 +199,9 @@ const Revenda = () => {
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, { className: string; label: string }> = {
-      ativo: { className: 'bg-green-500', label: 'Ativo' },
-      pendente: { className: 'bg-yellow-500', label: 'Pendente' },
-      inativo: { className: 'bg-gray-500', label: 'Inativo' }
+      ativo: { className: 'bg-green-500', label: t.active },
+      pendente: { className: 'bg-yellow-500', label: t.pending },
+      inativo: { className: 'bg-gray-500', label: t.inactive }
     };
 
     const variant = variants[status] || variants.pendente;
@@ -142,7 +220,7 @@ const Revenda = () => {
 
   return (
     <div className="space-y-4 sm:space-y-6 px-1 sm:px-0">
-      <DashboardTitleCard title="Revenda" icon={<Store className="h-4 w-4 sm:h-5 sm:w-5" />} />
+      <DashboardTitleCard title={t.pageTitle} icon={<Store className="h-4 w-4 sm:h-5 sm:w-5" />} />
       <RevendaToggle />
 
       {/* Estatísticas */}
@@ -151,7 +229,7 @@ const Revenda = () => {
           <CardHeader className="pb-1 sm:pb-2 p-3 sm:p-6">
             <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground flex items-center gap-1.5 sm:gap-2">
               <Store className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
-              <span className="truncate">Total Indicados</span>
+              <span className="truncate">{t.totalReferrals}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-3 sm:p-6 pt-0">
@@ -163,7 +241,7 @@ const Revenda = () => {
           <CardHeader className="pb-1 sm:pb-2 p-3 sm:p-6">
             <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground flex items-center gap-1.5 sm:gap-2">
               <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
-              <span className="truncate">Indicados Ativos</span>
+              <span className="truncate">{t.activeReferrals}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-3 sm:p-6 pt-0">
@@ -175,7 +253,7 @@ const Revenda = () => {
           <CardHeader className="pb-1 sm:pb-2 p-3 sm:p-6">
             <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground flex items-center gap-1.5 sm:gap-2">
               <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
-              <span className="truncate">Total Comissões</span>
+              <span className="truncate">{t.totalCommissions}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-3 sm:p-6 pt-0">
@@ -187,7 +265,7 @@ const Revenda = () => {
           <CardHeader className="pb-1 sm:pb-2 p-3 sm:p-6">
             <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground flex items-center gap-1.5 sm:gap-2">
               <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
-              <span className="truncate">Este Mês</span>
+              <span className="truncate">{t.thisMonth}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-3 sm:p-6 pt-0">
@@ -201,10 +279,10 @@ const Revenda = () => {
         <CardHeader className="p-3 sm:p-6">
           <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <Store className="h-4 w-4 sm:h-5 sm:w-5" />
-            Histórico de Revendas
+            {t.historyTitle}
           </CardTitle>
           <p className="text-xs sm:text-sm text-muted-foreground">
-            Comissões de 10% pagas quando seus indicados ativam planos
+            {t.historySubtitle}
           </p>
         </CardHeader>
         <CardContent className="p-3 sm:p-6 pt-0">
@@ -215,18 +293,18 @@ const Revenda = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Indicado</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Valor Plano</TableHead>
-                      <TableHead className="text-right">Comissão</TableHead>
-                      <TableHead>Data Pagamento</TableHead>
+                      <TableHead>{t.referred}</TableHead>
+                      <TableHead>{t.email}</TableHead>
+                      <TableHead>{t.status}</TableHead>
+                      <TableHead className="text-right">{t.planValue}</TableHead>
+                      <TableHead className="text-right">{t.commission}</TableHead>
+                      <TableHead>{t.paymentDate}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {historico.map((item) => (
                       <TableRow key={item.id}>
-                        <TableCell className="font-medium">{item.indicado_nome || 'Não informado'}</TableCell>
+                        <TableCell className="font-medium">{item.indicado_nome || t.notInformed}</TableCell>
                         <TableCell className="text-sm text-muted-foreground">{item.indicado_email || '-'}</TableCell>
                         <TableCell>{getStatusBadge(item.status)}</TableCell>
                         <TableCell className="text-right">
@@ -249,22 +327,22 @@ const Revenda = () => {
                 {historico.map((item) => (
                   <div key={item.id} className="border rounded-lg p-3 space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-sm truncate flex-1">{item.indicado_nome || 'Não informado'}</span>
+                      <span className="font-medium text-sm truncate flex-1">{item.indicado_nome || t.notInformed}</span>
                       {getStatusBadge(item.status)}
                     </div>
                     <p className="text-xs text-muted-foreground truncate">{item.indicado_email || '-'}</p>
                     <div className="flex items-center justify-between pt-2 border-t">
                       <div>
-                        <p className="text-xs text-muted-foreground">Valor Plano</p>
+                        <p className="text-xs text-muted-foreground">{t.planValue}</p>
                         <p className="text-sm font-medium">{item.valor_plano ? formatCurrency(item.valor_plano) : '-'}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-xs text-muted-foreground">Comissão</p>
+                        <p className="text-xs text-muted-foreground">{t.commission}</p>
                         <p className="text-sm font-bold text-green-600">{item.comissao_paga ? formatCurrency(item.comissao_paga) : '-'}</p>
                       </div>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Pago em: {formatDate(item.data_pagamento_comissao)}
+                      {t.paidOn} {formatDate(item.data_pagamento_comissao)}
                     </p>
                   </div>
                 ))}
@@ -273,9 +351,9 @@ const Revenda = () => {
           ) : (
             <div className="text-center py-8 sm:py-12 text-muted-foreground">
               <Store className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 opacity-50" />
-              <p className="font-medium text-sm sm:text-base">Nenhuma revenda encontrada</p>
+              <p className="font-medium text-sm sm:text-base">{t.emptyTitle}</p>
               <p className="text-xs sm:text-sm mt-2">
-                Quando seus indicados ativarem planos, as comissões aparecerão aqui
+                {t.emptyDesc}
               </p>
             </div>
           )}

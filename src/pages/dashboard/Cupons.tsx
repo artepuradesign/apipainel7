@@ -23,9 +23,36 @@ import { useAuth } from '@/contexts/AuthContext';
 import { cupomApiService, Cupom } from '@/services/cupomApiService';
 import CupomValidationModal from '@/components/cupons/CupomValidationModal';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
+
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    pageTitle: 'Cupons',
+    loadingCoupons: 'Carregando cupons...',
+    noCouponsFound: 'Nenhum cupom encontrado com os filtros aplicados',
+    noCouponsAvailable: 'Nenhum cupom disponível no momento',
+    clearFilters: 'Limpar Filtros',
+  },
+  en: {
+    pageTitle: 'Coupons',
+    loadingCoupons: 'Loading coupons...',
+    noCouponsFound: 'No coupons found with applied filters',
+    noCouponsAvailable: 'No coupons available right now',
+    clearFilters: 'Clear Filters',
+  },
+  es: {
+    pageTitle: 'Cupones',
+    loadingCoupons: 'Cargando cupones...',
+    noCouponsFound: 'No se encontraron cupones con los filtros aplicados',
+    noCouponsAvailable: 'No hay cupones disponibles en este momento',
+    clearFilters: 'Limpiar Filtros',
+  },
+};
 
 const Cupons = () => {
   const { user, isSupport } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [cuponsDisponiveis, setCuponsDisponiveis] = useState<Cupom[]>([]);
   const [filteredCupons, setFilteredCupons] = useState<Cupom[]>([]);
   const [historicoUso, setHistoricoUso] = useState<any[]>([]);
@@ -188,7 +215,7 @@ const Cupons = () => {
   return (
     <div className="space-y-4 sm:space-y-6 relative z-10 px-1 sm:px-0">
       <DashboardTitleCard
-        title="Cupons"
+        title={t.pageTitle}
         icon={<Ticket className="h-4 w-4 sm:h-5 sm:w-5" />}
       />
       {/* Estatísticas - Cards Compactos (ocultos em mobile) */}
@@ -331,7 +358,7 @@ const Cupons = () => {
             <div className="flex items-center justify-center py-8">
               <div className="flex items-center gap-2">
                 <RefreshCw className="h-4 w-4 animate-spin" />
-                <span>Carregando cupons...</span>
+                <span>{t.loadingCoupons}</span>
               </div>
             </div>
           ) : filteredCupons.length === 0 ? (
@@ -339,8 +366,8 @@ const Cupons = () => {
               <Ticket className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <p>
                 {searchTerm || filterTipo !== 'all' 
-                  ? 'Nenhum cupom encontrado com os filtros aplicados' 
-                  : 'Nenhum cupom disponível no momento'}
+                  ? t.noCouponsFound 
+                  : t.noCouponsAvailable}
               </p>
               {(searchTerm || filterTipo !== 'all') && (
                 <Button
@@ -352,7 +379,7 @@ const Cupons = () => {
                   }}
                   className="mt-4"
                 >
-                  Limpar Filtros
+                  {t.clearFilters}
                 </Button>
               )}
             </div>

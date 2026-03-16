@@ -23,6 +23,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { walletApiService } from '@/services/walletApiService';
 import { newReferralApiService } from '@/services/newReferralApiService';
 import { toast } from 'sonner';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface ReferralEarning {
   id: string;
@@ -34,8 +35,64 @@ interface ReferralEarning {
   referred_name: string;
 }
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    pageTitle: 'Programa de Indicação',
+    codeUnavailable: 'Código de indicação indisponível',
+    codeUnavailableDesc: 'Não encontramos seu código agora. Atualize a página ou entre em contato com o suporte.',
+    howItWorks: 'Como Funciona',
+    referralSummary: 'Resumo das Indicações',
+    earnBadge: 'Indique e Ganhe',
+    earnTitle: 'Compartilhe seu código e aumente seus ganhos',
+    earnDesc: 'O valor do bônus é dinâmico e segue as predefinições do sistema, sempre vindo da API.',
+    currentValue: 'Valor atual:',
+    referralLink: 'Link de indicação',
+    referralHistory: 'Histórico de Indicações',
+    refreshHistory: 'Atualizar histórico',
+    noReferrals: 'Nenhuma indicação ainda',
+    noReferralsDesc: 'Compartilhe seu link para começar a receber bônus.',
+    copyLink: 'Copiar link',
+  },
+  en: {
+    pageTitle: 'Referral Program',
+    codeUnavailable: 'Referral code unavailable',
+    codeUnavailableDesc: 'We could not find your code right now. Refresh the page or contact support.',
+    howItWorks: 'How It Works',
+    referralSummary: 'Referral Summary',
+    earnBadge: 'Refer and Earn',
+    earnTitle: 'Share your code and increase your earnings',
+    earnDesc: 'The bonus value is dynamic and follows the system presets from the API.',
+    currentValue: 'Current value:',
+    referralLink: 'Referral link',
+    referralHistory: 'Referral History',
+    refreshHistory: 'Refresh history',
+    noReferrals: 'No referrals yet',
+    noReferralsDesc: 'Share your link to start earning bonuses.',
+    copyLink: 'Copy link',
+  },
+  es: {
+    pageTitle: 'Programa de Referidos',
+    codeUnavailable: 'Código de referido no disponible',
+    codeUnavailableDesc: 'No encontramos tu código ahora. Actualiza la página o contacta con soporte.',
+    howItWorks: 'Cómo funciona',
+    referralSummary: 'Resumen de Referidos',
+    earnBadge: 'Indica y Gana',
+    earnTitle: 'Comparte tu código y aumenta tus ganancias',
+    earnDesc: 'El valor del bono es dinámico y sigue las predefiniciones del sistema desde la API.',
+    currentValue: 'Valor actual:',
+    referralLink: 'Enlace de referido',
+    referralHistory: 'Historial de Referidos',
+    refreshHistory: 'Actualizar historial',
+    noReferrals: 'Aún no hay referidos',
+    noReferralsDesc: 'Comparte tu enlace para empezar a recibir bonos.',
+    copyLink: 'Copiar enlace',
+  },
+};
+
 const Indique = () => {
   const { user } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
 
   const [referralEarnings, setReferralEarnings] = useState<ReferralEarning[]>([]);
   const [bonusAmount, setBonusAmount] = useState<number | null>(null);
@@ -204,12 +261,12 @@ const Indique = () => {
   if (!referralCode) {
     return (
       <div className="space-y-6 px-1 sm:px-0">
-        <DashboardTitleCard title="Programa de Indicação" icon={<Gift className="h-4 w-4 sm:h-5 sm:w-5" />} />
+        <DashboardTitleCard title={t.pageTitle} icon={<Gift className="h-4 w-4 sm:h-5 sm:w-5" />} />
         <Card>
           <CardContent className="py-10 text-center">
-            <h2 className="text-lg font-semibold text-foreground">Código de indicação indisponível</h2>
+            <h2 className="text-lg font-semibold text-foreground">{t.codeUnavailable}</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Não encontramos seu código agora. Atualize a página ou entre em contato com o suporte.
+              {t.codeUnavailableDesc}
             </p>
           </CardContent>
         </Card>
@@ -220,14 +277,14 @@ const Indique = () => {
   return (
     <div className="space-y-6 sm:space-y-7 px-1 sm:px-0">
       {/* 1) Título */}
-      <DashboardTitleCard title="Programa de Indicação" icon={<Gift className="h-4 w-4 sm:h-5 sm:w-5" />} />
+      <DashboardTitleCard title={t.pageTitle} icon={<Gift className="h-4 w-4 sm:h-5 sm:w-5" />} />
 
       {/* 2) Como Funciona */}
       <section aria-labelledby="como-funciona">
         <Card className="overflow-hidden border-border/60">
           <CardHeader className="pb-2">
             <CardTitle id="como-funciona" className="text-lg sm:text-xl font-semibold text-foreground">
-              Como Funciona
+              {t.howItWorks}
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
@@ -256,7 +313,7 @@ const Indique = () => {
       {/* 3) Cards */}
       <section aria-labelledby="resumo-indicacoes">
         <h2 id="resumo-indicacoes" className="sr-only">
-          Resumo das Indicações
+          {t.referralSummary}
         </h2>
         <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
           {stats.map((stat, index) => (
@@ -290,19 +347,19 @@ const Indique = () => {
                 <div>
                   <Badge variant="secondary" className="mb-3">
                     <Sparkles className="h-3.5 w-3.5 mr-1" />
-                    Indique e Ganhe
+                    {t.earnBadge}
                   </Badge>
                   <h2 id="indique-ganhe" className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-                    Compartilhe seu código e aumente seus ganhos
+                    {t.earnTitle}
                   </h2>
                   <p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-2xl">
-                    O valor do bônus é dinâmico e segue as predefinições do sistema, sempre vindo da API.
+                    {t.earnDesc}
                   </p>
                 </div>
 
                 <div className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-muted/20 px-3 py-2">
                   <Wallet className="h-4 w-4 text-primary" />
-                  <span className="text-xs sm:text-sm text-muted-foreground">Valor atual:</span>
+                  <span className="text-xs sm:text-sm text-muted-foreground">{t.currentValue}</span>
                   <span className="text-sm sm:text-base font-semibold text-foreground">
                     {bonusAmount !== null ? formatCurrency(bonusAmount) : '—'}
                   </span>
@@ -311,7 +368,7 @@ const Indique = () => {
 
               <div className="mt-5 space-y-3">
                 <div className="rounded-xl border border-border/60 bg-background/70 p-3 sm:p-4">
-                  <p className="text-[11px] sm:text-xs font-medium text-muted-foreground mb-1">Link de indicação</p>
+                  <p className="text-[11px] sm:text-xs font-medium text-muted-foreground mb-1">{t.referralLink}</p>
                   <div className="flex items-center gap-2">
                     <p className="text-xs sm:text-sm text-foreground truncate font-mono flex-1">{referralLink}</p>
                     <Button
@@ -358,7 +415,7 @@ const Indique = () => {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <CardTitle id="historico-indicacoes" className="text-lg sm:text-xl font-semibold">
-                  Histórico de Indicações
+                  {t.referralHistory}
                 </CardTitle>
                 <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
                   {referralEarnings.length} {referralEarnings.length === 1 ? 'indicação registrada' : 'indicações registradas'}
@@ -370,7 +427,7 @@ const Indique = () => {
                 onClick={loadReferralData}
                 disabled={isLoading}
                 className="h-8 w-8"
-                aria-label="Atualizar histórico"
+                aria-label={t.refreshHistory}
               >
                 <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
               </Button>
@@ -420,9 +477,9 @@ const Indique = () => {
                 <div className="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-muted/40">
                   <Users className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-sm sm:text-base font-semibold text-foreground">Nenhuma indicação ainda</h3>
+                <h3 className="text-sm sm:text-base font-semibold text-foreground">{t.noReferrals}</h3>
                 <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
-                  Compartilhe seu link para começar a receber bônus.
+                  {t.noReferralsDesc}
                 </p>
                 <Button
                   type="button"
@@ -432,7 +489,7 @@ const Indique = () => {
                   onClick={() => copyToClipboard(referralLink, 'link')}
                 >
                   <Copy className="h-4 w-4 mr-1.5" />
-                  Copiar link
+                  {t.copyLink}
                 </Button>
               </div>
             )}

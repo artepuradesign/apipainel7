@@ -11,6 +11,7 @@ import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
 import { useTheme } from '@/components/ThemeProvider';
 import ContainedMatrixRain from '@/components/effects/ContainedMatrixRain';
 import LiquidGlassButton from '@/components/ui/LiquidGlassButton';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface SliderParam {
   key: keyof LiquidGlassConfig;
@@ -39,7 +40,78 @@ const sliderParams: SliderParam[] = [
 
 type PreviewTheme = 'default' | 'matrix';
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    subtitle: 'Configure o estilo Liquid Glass dos elementos do sistema',
+    saved: 'Configurações salvas!',
+    save: 'Salvar',
+    customize: 'Personalizar',
+    customizeDesc: 'Ajuste os parâmetros do efeito Liquid Glass',
+    reset: 'Resetar',
+    enable: 'Ativar Liquid Glass',
+    enableDesc: 'Aplicar efeito nos temas atuais',
+    preview: 'Pré-visualização',
+    previewDesc: 'Visualize o efeito em tempo real',
+    defaultTheme: 'Padrão',
+    light: 'Claro',
+    dark: 'Escuro',
+    previewTitle: 'Prévia Liquid Glass',
+    previewText: 'Este card reflete todas as configurações em tempo real.',
+    previewButton: 'Botão Liquid Glass',
+    currentConfig: 'Configuração Atual',
+    active: 'Ativo',
+    yes: 'Sim',
+    no: 'Não',
+  },
+  en: {
+    subtitle: 'Configure the Liquid Glass style across system elements',
+    saved: 'Settings saved!',
+    save: 'Save',
+    customize: 'Customize',
+    customizeDesc: 'Adjust Liquid Glass effect parameters',
+    reset: 'Reset',
+    enable: 'Enable Liquid Glass',
+    enableDesc: 'Apply effect to active themes',
+    preview: 'Preview',
+    previewDesc: 'See the effect in real time',
+    defaultTheme: 'Default',
+    light: 'Light',
+    dark: 'Dark',
+    previewTitle: 'Liquid Glass Preview',
+    previewText: 'This card reflects all settings in real time.',
+    previewButton: 'Liquid Glass Button',
+    currentConfig: 'Current Configuration',
+    active: 'Active',
+    yes: 'Yes',
+    no: 'No',
+  },
+  es: {
+    subtitle: 'Configura el estilo Liquid Glass de los elementos del sistema',
+    saved: '¡Configuraciones guardadas!',
+    save: 'Guardar',
+    customize: 'Personalizar',
+    customizeDesc: 'Ajusta los parámetros del efecto Liquid Glass',
+    reset: 'Restablecer',
+    enable: 'Activar Liquid Glass',
+    enableDesc: 'Aplicar efecto a los temas actuales',
+    preview: 'Vista previa',
+    previewDesc: 'Visualiza el efecto en tiempo real',
+    defaultTheme: 'Predeterminado',
+    light: 'Claro',
+    dark: 'Oscuro',
+    previewTitle: 'Vista previa Liquid Glass',
+    previewText: 'Esta tarjeta refleja todas las configuraciones en tiempo real.',
+    previewButton: 'Botón Liquid Glass',
+    currentConfig: 'Configuración Actual',
+    active: 'Activo',
+    yes: 'Sí',
+    no: 'No',
+  },
+};
+
 const LiquidGlassAdmin = () => {
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const { config, updateParam, resetToDefaults } = useLiquidGlass();
   const { theme } = useTheme();
   const isDarkMode = theme === 'dark';
@@ -51,19 +123,19 @@ const LiquidGlassAdmin = () => {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      <DashboardTitleCard
-        title="Liquid Glass"
-        subtitle="Configure o estilo Liquid Glass dos elementos do sistema"
-        icon={<Droplets className="h-4 w-4 sm:h-5 sm:w-5" />}
-        backTo="/dashboard/admin"
-        right={
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => toast.success('Configurações salvas!')}
-            className="rounded-full h-9 w-9"
-            aria-label="Salvar"
-            title="Salvar"
+        <DashboardTitleCard
+          title="Liquid Glass"
+          subtitle={t.subtitle}
+          icon={<Droplets className="h-4 w-4 sm:h-5 sm:w-5" />}
+          backTo="/dashboard/admin"
+          right={
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => toast.success(t.saved)}
+              className="rounded-full h-9 w-9"
+              aria-label={t.save}
+              title={t.save}
           >
             <Save className="h-4 w-4" />
           </Button>
@@ -75,20 +147,20 @@ const LiquidGlassAdmin = () => {
         <Card className="bg-card border-border">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
             <div>
-              <CardTitle className="text-lg font-semibold text-foreground">Customize</CardTitle>
-              <CardDescription>Ajuste os parâmetros do efeito Liquid Glass</CardDescription>
+              <CardTitle className="text-lg font-semibold text-foreground">{t.customize}</CardTitle>
+              <CardDescription>{t.customizeDesc}</CardDescription>
             </div>
             <Button variant="outline" size="sm" onClick={resetToDefaults} className="gap-2">
               <RotateCcw className="h-3.5 w-3.5" />
-              Reset
+              {t.reset}
             </Button>
           </CardHeader>
           <CardContent className="space-y-5">
             {/* Enable/Disable Toggle */}
             <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border">
               <div>
-                <label className="text-sm font-medium text-foreground">Ativar Liquid Glass</label>
-                <p className="text-xs text-muted-foreground">Aplicar efeito nos temas atuais</p>
+                <label className="text-sm font-medium text-foreground">{t.enable}</label>
+                <p className="text-xs text-muted-foreground">{t.enableDesc}</p>
               </div>
               <Switch
                 checked={config.enabled}
@@ -125,9 +197,9 @@ const LiquidGlassAdmin = () => {
               <div>
                 <CardTitle className="flex items-center gap-2 text-lg text-foreground">
                   <Eye className="h-4 w-4" />
-                  Preview
+                  {t.preview}
                 </CardTitle>
-                <CardDescription>Visualize o efeito em tempo real</CardDescription>
+                <CardDescription>{t.previewDesc}</CardDescription>
               </div>
               <div className="flex items-center gap-2">
                 {/* Theme select */}
@@ -137,7 +209,7 @@ const LiquidGlassAdmin = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="default">Padrão</SelectItem>
+                    <SelectItem value="default">{t.defaultTheme}</SelectItem>
                     <SelectItem value="matrix">Matrix</SelectItem>
                   </SelectContent>
                 </Select>
@@ -149,7 +221,7 @@ const LiquidGlassAdmin = () => {
                   className="gap-2"
                 >
                   {previewDark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-                  {previewDark ? 'Claro' : 'Escuro'}
+                  {previewDark ? t.light : t.dark}
                 </Button>
               </div>
             </div>
@@ -193,28 +265,28 @@ const LiquidGlassAdmin = () => {
                 }}
               >
                 <p className="text-base font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                  Liquid Glass Preview
+                  {t.previewTitle}
                 </p>
                 <p className="text-sm mt-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  Este card reflete todas as configurações em tempo real.
+                  {t.previewText}
                 </p>
               </div>
 
               {/* Glass button preview */}
               <div className="relative z-10">
                 <LiquidGlassButton variant="primary">
-                  Botão Liquid Glass
+                  {t.previewButton}
                 </LiquidGlassButton>
               </div>
             </div>
 
             {/* Current Config Summary */}
             <div className="mt-4 p-3 rounded-lg bg-muted/50 border border-border">
-              <p className="text-xs font-medium text-muted-foreground mb-2">Configuração Atual</p>
+              <p className="text-xs font-medium text-muted-foreground mb-2">{t.currentConfig}</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-xs">
                 <div className="flex justify-between gap-1">
-                  <span className="text-muted-foreground truncate">Ativo:</span>
-                  <span className="font-mono font-medium text-foreground">{config.enabled ? 'Sim' : 'Não'}</span>
+                  <span className="text-muted-foreground truncate">{t.active}:</span>
+                  <span className="font-mono font-medium text-foreground">{config.enabled ? t.yes : t.no}</span>
                 </div>
                 {sliderParams.map((param) => (
                   <div key={param.key} className="flex justify-between gap-1">

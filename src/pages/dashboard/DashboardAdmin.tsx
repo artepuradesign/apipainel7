@@ -8,9 +8,33 @@ import PageHeaderCard from '@/components/dashboard/PageHeaderCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useApiDashboardAdmin } from '@/hooks/useApiDashboardAdmin';
 import { useNotifications } from '@/hooks/useNotifications';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
+
+const textByLocale: Record<Locale, { denied: string; noPermission: string; title: string; subtitle: string }> = {
+  'pt-BR': {
+    denied: 'Acesso Negado',
+    noPermission: 'Você não tem permissão para acessar esta página.',
+    title: 'Painel Administrativo',
+    subtitle: 'Visão geral de caixa, transações e usuários online',
+  },
+  en: {
+    denied: 'Access Denied',
+    noPermission: 'You do not have permission to access this page.',
+    title: 'Admin Dashboard',
+    subtitle: 'Overview of cash flow, transactions and online users',
+  },
+  es: {
+    denied: 'Acceso denegado',
+    noPermission: 'No tienes permiso para acceder a esta página.',
+    title: 'Panel Administrativo',
+    subtitle: 'Resumen de caja, transacciones y usuarios en línea',
+  },
+};
 
 const DashboardAdmin = () => {
   const { isSupport } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const { stats, transactions, isLoading, loadStats, loadTransactions, optimisticIncrementCash, optimisticIncrementRecharges, optimisticIncrementPlanSales } = useApiDashboardAdmin();
   const { notifications } = useNotifications(false); // Desabilitar auto-refresh aqui
   
@@ -118,8 +142,8 @@ const DashboardAdmin = () => {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Acesso Negado</h2>
-          <p className="text-gray-600 dark:text-gray-400">Você não tem permissão para acessar esta página.</p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t.denied}</h2>
+          <p className="text-gray-600 dark:text-gray-400">{t.noPermission}</p>
         </div>
       </div>
     );
@@ -128,8 +152,8 @@ const DashboardAdmin = () => {
   return (
     <div className="space-y-6 relative z-10">
       <PageHeaderCard
-        title="Painel Administrativo"
-        subtitle="Visão geral de caixa, transações e usuários online"
+        title={t.title}
+        subtitle={t.subtitle}
       />
 
       {/* Stats Cards Unificados - 3 linhas de 4 cards */}
