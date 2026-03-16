@@ -6,10 +6,31 @@ import { Link } from 'react-router-dom';
 import ModuleCardTemplates from '@/components/configuracoes/personalization/ModuleCardTemplates';
 import { useApiModules } from '@/hooks/useApiModules';
 import { useAuth } from '@/contexts/AuthContext';
+import { Locale, useLocale } from '@/contexts/LocaleContext';
+
+const contentByLocale: Record<Locale, { badge: string; title: string; subtitle: string }> = {
+  'pt-BR': {
+    badge: 'Novidades',
+    title: 'Últimos módulos adicionados',
+    subtitle: 'Confira os módulos mais recentes da plataforma',
+  },
+  en: {
+    badge: 'News',
+    title: 'Latest modules added',
+    subtitle: 'Check out the most recent platform modules',
+  },
+  es: {
+    badge: 'Novedades',
+    title: 'Últimos módulos agregados',
+    subtitle: 'Descubre los módulos más recientes de la plataforma',
+  },
+};
 
 const RecentModulesCarousel: React.FC = () => {
   const { modules, isLoading } = useApiModules();
   const { user, loading: authLoading } = useAuth();
+  const { locale } = useLocale();
+  const content = contentByLocale[locale];
 
   const getModulePageRoute = (module: (typeof modules)[number]): string => {
     const raw = (module?.api_endpoint || module?.path || '').toString().trim();
@@ -20,7 +41,6 @@ const RecentModulesCarousel: React.FC = () => {
     return `/module/${module.slug}`;
   };
 
-  // Only active modules with operational_status 'on', last 10
   const activeModules = modules
     .filter(m => m.is_active && m.operational_status === 'on')
     .slice(-10)
@@ -40,13 +60,13 @@ const RecentModulesCarousel: React.FC = () => {
           className="text-center mb-10"
         >
           <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary mb-2">
-            Novidades
+            {content.badge}
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
-            Últimos módulos adicionados
+            {content.title}
           </h2>
           <p className="text-muted-foreground max-w-md mx-auto">
-            Confira os módulos mais recentes da plataforma
+            {content.subtitle}
           </p>
         </motion.div>
 

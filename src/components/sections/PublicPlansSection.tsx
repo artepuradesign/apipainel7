@@ -14,6 +14,85 @@ import { useWalletBalance } from '@/hooks/useWalletBalance';
 import { planPurchaseService } from '@/services/planPurchaseService';
 import { useLiquidGlass } from '@/contexts/LiquidGlassContext';
 import LiquidGlassButton from '@/components/ui/LiquidGlassButton';
+import { Locale, useLocale } from '@/contexts/LocaleContext';
+
+const sectionContent: Record<Locale, {
+  loadingTitle: string;
+  loadingSubtitle: string;
+  loadingShort: string;
+  loadError: string;
+  loadErrorDescription: string;
+  retry: string;
+  noPlansTitle: string;
+  noPlansDescription: string;
+  noPlansSoon: string;
+  sectionBadge: string;
+  sectionTitle: string;
+  sectionDescription: string;
+  currentPlan: string;
+  additionalFeatures: string;
+  buyPlan: string;
+  missingForUpgrade: string;
+  addBalance: string;
+}> = {
+  'pt-BR': {
+    loadingTitle: 'Planos Disponíveis',
+    loadingSubtitle: 'Carregando planos...',
+    loadingShort: 'Carregando...',
+    loadError: 'Erro de Carregamento',
+    loadErrorDescription: 'Não foi possível carregar os planos',
+    retry: 'Tentar Novamente',
+    noPlansTitle: 'Planos Disponíveis',
+    noPlansDescription: 'Ainda não temos planos cadastrados',
+    noPlansSoon: 'Em breve teremos novos planos.',
+    sectionBadge: 'Plataforma de consultas',
+    sectionTitle: 'Planos Empresarial',
+    sectionDescription: 'Escolha o plano ideal para o seu negócio e comece a consultar agora mesmo.',
+    currentPlan: '✦ PLANO ATUAL',
+    additionalFeatures: 'recursos adicionais',
+    buyPlan: 'Adquirir Plano',
+    missingForUpgrade: 'Faltam',
+    addBalance: '+ Adicionar Saldo',
+  },
+  en: {
+    loadingTitle: 'Available Plans',
+    loadingSubtitle: 'Loading plans...',
+    loadingShort: 'Loading...',
+    loadError: 'Loading Error',
+    loadErrorDescription: 'Could not load plans',
+    retry: 'Try Again',
+    noPlansTitle: 'Available Plans',
+    noPlansDescription: 'No plans have been registered yet',
+    noPlansSoon: 'New plans will be available soon.',
+    sectionBadge: 'Query platform',
+    sectionTitle: 'Business Plans',
+    sectionDescription: 'Choose the ideal plan for your business and start querying now.',
+    currentPlan: '✦ CURRENT PLAN',
+    additionalFeatures: 'additional features',
+    buyPlan: 'Buy Plan',
+    missingForUpgrade: 'Missing',
+    addBalance: '+ Add Balance',
+  },
+  es: {
+    loadingTitle: 'Planes disponibles',
+    loadingSubtitle: 'Cargando planes...',
+    loadingShort: 'Cargando...',
+    loadError: 'Error de carga',
+    loadErrorDescription: 'No se pudieron cargar los planes',
+    retry: 'Reintentar',
+    noPlansTitle: 'Planes disponibles',
+    noPlansDescription: 'Aún no tenemos planes registrados',
+    noPlansSoon: 'Pronto tendremos nuevos planes.',
+    sectionBadge: 'Plataforma de consultas',
+    sectionTitle: 'Planes empresariales',
+    sectionDescription: 'Elige el plan ideal para tu negocio y empieza a consultar ahora mismo.',
+    currentPlan: '✦ PLAN ACTUAL',
+    additionalFeatures: 'recursos adicionales',
+    buyPlan: 'Adquirir plan',
+    missingForUpgrade: 'Faltan',
+    addBalance: '+ Agregar saldo',
+  },
+};
 
 const CarouselWithControls = ({ categoryPlans, categoryName, PlanCard }: any) => {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -116,6 +195,8 @@ const PublicPlansSection = () => {
   const { user } = useAuth();
   const { balance } = useWalletBalance();
   const { config: liquidGlassConfig } = useLiquidGlass();
+  const { locale } = useLocale();
+  const content = sectionContent[locale];
 
   const handlePlanSelection = (plan: any) => {
     // Redirecionar diretamente para a página de pagamento público
@@ -286,7 +367,7 @@ const PublicPlansSection = () => {
               {isCurrent && (
                 <div className="absolute top-3 left-3 z-10">
                   <Badge className="text-[10px] px-2 py-0.5 bg-primary text-primary-foreground font-semibold shadow-sm">
-                    ✦ PLANO ATUAL
+                    {content.currentPlan}
                   </Badge>
                 </div>
               )}
@@ -342,7 +423,7 @@ const PublicPlansSection = () => {
                 ))}
                 {remainingFeatures > 0 && (
                   <div className="text-[11px] text-purple-500 dark:text-purple-400 font-medium pl-6">
-                    +{remainingFeatures} recursos adicionais
+                    +{remainingFeatures} {content.additionalFeatures}
                   </div>
                 )}
               </div>
@@ -355,7 +436,7 @@ const PublicPlansSection = () => {
                     className="w-full text-xs h-9 font-semibold"
                     onClick={() => handlePlanSelection(plan)}
                   >
-                    Adquirir Plano
+                    {content.buyPlan}
                   </LiquidGlassButton>
                 ) : (
                   <Button
@@ -363,7 +444,7 @@ const PublicPlansSection = () => {
                     className="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white text-xs h-9 rounded-xl font-semibold shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
                     onClick={() => handlePlanSelection(plan)}
                   >
-                    Adquirir Plano
+                    {content.buyPlan}
                   </Button>
                 )}
 
@@ -391,7 +472,7 @@ const PublicPlansSection = () => {
               {user && !hasSufficientBalance && (
                 <div className="mt-3 text-center p-2 rounded-xl bg-red-50/80 dark:bg-red-900/20 border border-red-200/50 dark:border-red-800/30">
                   <p className="text-[10px] text-red-500 dark:text-red-400 mb-1 font-medium">
-                    Faltam R$ {(planPrice - userWalletBalance).toFixed(2)} para Upgrade
+                    {content.missingForUpgrade} R$ {(planPrice - userWalletBalance).toFixed(2)} para Upgrade
                   </p>
                   <Button
                     variant="ghost"
@@ -403,7 +484,7 @@ const PublicPlansSection = () => {
                       )
                     }
                   >
-                    + Adicionar Saldo
+                    {content.addBalance}
                   </Button>
                 </div>
               )}
@@ -420,17 +501,17 @@ const PublicPlansSection = () => {
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <div className="text-center mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              Planos Disponíveis
+              {content.loadingTitle}
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Carregando planos...
+              {content.loadingSubtitle}
             </p>
           </div>
           
           <div className="flex justify-center items-center py-8">
             <div className="text-center">
               <Loader2 className="h-6 w-6 animate-spin text-brand-purple mx-auto mb-2" />
-              <p className="text-sm text-gray-500 dark:text-gray-400">Carregando...</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{content.loadingShort}</p>
             </div>
           </div>
         </div>
@@ -444,7 +525,7 @@ const PublicPlansSection = () => {
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <div className="text-center mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              Planos Disponíveis
+              {content.loadingTitle}
             </h2>
           </div>
           
@@ -459,10 +540,10 @@ const PublicPlansSection = () => {
                     
                     <div className="space-y-1">
                       <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                        Erro de Carregamento
+                        {content.loadError}
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-300">
-                        Não foi possível carregar os planos
+                        {content.loadErrorDescription}
                       </p>
                     </div>
                     
@@ -472,7 +553,7 @@ const PublicPlansSection = () => {
                       className="bg-destructive hover:bg-destructive/90 text-white text-xs"
                     >
                       <RefreshCw className="h-3 w-3 mr-1" />
-                      Tentar Novamente
+                      {content.retry}
                     </Button>
                   </div>
                 </CardContent>
@@ -490,7 +571,7 @@ const PublicPlansSection = () => {
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <div className="text-center mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              Planos Disponíveis
+              {content.noPlansTitle}
             </h2>
           </div>
           
@@ -498,10 +579,10 @@ const PublicPlansSection = () => {
             <div className="text-center">
               <AlertCircle className="h-6 w-6 text-blue-500 mx-auto mb-2" />
               <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">
-                Ainda não temos planos cadastrados
+                {content.noPlansDescription}
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Em breve teremos novos planos.
+                {content.noPlansSoon}
               </p>
             </div>
           </div>
@@ -517,13 +598,13 @@ const PublicPlansSection = () => {
         {/* Section Header */}
         <div className="text-center mb-8">
           <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
-            Plataforma de consultas
+            {content.sectionBadge}
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
-            Planos Empresarial
+            {content.sectionTitle}
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto">
-            Escolha o plano ideal para o seu negócio e comece a consultar agora mesmo.
+            {content.sectionDescription}
           </p>
         </div>
 

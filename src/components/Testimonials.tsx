@@ -2,15 +2,16 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Star, Quote, ArrowLeft, ArrowRight } from "lucide-react";
+import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useTestimonials } from '@/hooks/useTestimonials';
 import TestimonialForm from './testimonials/TestimonialForm';
 import { useLiquidGlass } from '@/contexts/LiquidGlassContext';
 import LiquidGlassButton from '@/components/ui/LiquidGlassButton';
+import { Locale, useLocale } from '@/contexts/LocaleContext';
+
 interface TestimonialType {
   id: number;
   name: string;
@@ -22,16 +23,47 @@ interface TestimonialType {
   avatar?: string;
   created_at: string;
 }
-const TestimonialCard = ({ testimonial }: { testimonial: TestimonialType }) => {
+
+const contentByLocale: Record<Locale, {
+  title: string;
+  subtitle: string;
+  share: string;
+  customerFallback: string;
+  goToTestimonial: string;
+}> = {
+  'pt-BR': {
+    title: 'Depoimentos',
+    subtitle: 'Profissionais que confiam em nossa plataforma',
+    share: 'Compartilhe sua experiência',
+    customerFallback: 'Cliente',
+    goToTestimonial: 'Ir para depoimento',
+  },
+  en: {
+    title: 'Testimonials',
+    subtitle: 'Professionals who trust our platform',
+    share: 'Share your experience',
+    customerFallback: 'Customer',
+    goToTestimonial: 'Go to testimonial',
+  },
+  es: {
+    title: 'Testimonios',
+    subtitle: 'Profesionales que confían en nuestra plataforma',
+    share: 'Comparte tu experiencia',
+    customerFallback: 'Cliente',
+    goToTestimonial: 'Ir al testimonio',
+  },
+};
+
+const TestimonialCard = ({ testimonial, customerFallback }: { testimonial: TestimonialType; customerFallback: string }) => {
   const getInitials = (name: string) => {
     return name.split(' ').map(word => word.charAt(0)).join('').toUpperCase().slice(0, 2);
   };
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
-      <Star 
-        key={i} 
-        className={`h-3 w-3 ${i < rating ? 'text-amber-400 fill-current' : 'text-gray-300 dark:text-gray-600'}`} 
+      <Star
+        key={i}
+        className={`h-3 w-3 ${i < rating ? 'text-amber-400 fill-current' : 'text-gray-300 dark:text-gray-600'}`}
       />
     ));
   };
@@ -39,7 +71,6 @@ const TestimonialCard = ({ testimonial }: { testimonial: TestimonialType }) => {
   return (
     <Card className="h-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/30 shadow-md hover:shadow-lg transition-all duration-300 group">
       <CardContent className="p-4 h-full flex flex-col">
-        {/* Header compacto */}
         <div className="flex items-center gap-3 mb-3">
           <Avatar className="h-9 w-9 ring-1 ring-brand-purple/20 flex-shrink-0">
             <AvatarFallback className="bg-gradient-to-br from-brand-purple to-purple-600 text-white font-medium text-xs">
@@ -51,9 +82,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TestimonialType }) => {
               {testimonial.name}
             </h4>
             <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-              {testimonial.position && testimonial.company 
+              {testimonial.position && testimonial.company
                 ? `${testimonial.position} • ${testimonial.company}`
-                : testimonial.company || testimonial.position || 'Cliente'
+                : testimonial.company || testimonial.position || customerFallback
               }
             </p>
           </div>
@@ -62,7 +93,6 @@ const TestimonialCard = ({ testimonial }: { testimonial: TestimonialType }) => {
           </div>
         </div>
 
-        {/* Message compacta */}
         <blockquote className="flex-1 text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3 relative pl-3 border-l-2 border-brand-purple/30">
           {testimonial.message}
         </blockquote>
@@ -72,12 +102,14 @@ const TestimonialCard = ({ testimonial }: { testimonial: TestimonialType }) => {
 };
 
 const Testimonials = ({ maxVisible }: { maxVisible?: number }) => {
-  const { testimonials, loading, error } = useTestimonials();
+  const { testimonials, loading } = useTestimonials();
   const [showTestimonialForm, setShowTestimonialForm] = useState(false);
   const { config: liquidGlassConfig } = useLiquidGlass();
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const { locale } = useLocale();
+  const content = contentByLocale[locale];
 
   const autoplayPlugin = React.useRef(
     Autoplay({ delay: 60000 })
@@ -96,7 +128,6 @@ const Testimonials = ({ maxVisible }: { maxVisible?: number }) => {
     api?.scrollTo(index);
   }, [api]);
 
-  // Loading state compacto
   if (loading) {
     return (
       <section className="py-8 sm:py-10 relative overflow-hidden">
@@ -116,28 +147,24 @@ const Testimonials = ({ maxVisible }: { maxVisible?: number }) => {
 
   return (
     <section className="py-8 sm:py-10 relative overflow-hidden">
-      {/* Background gradiente sutil */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5 dark:from-purple-500/10 dark:to-blue-500/10" />
-      
-      {/* Elementos decorativos */}
       <div className="absolute top-4 left-4 w-20 h-20 bg-gradient-to-br from-brand-purple/10 to-transparent rounded-full blur-2xl" />
       <div className="absolute bottom-4 right-4 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-2xl" />
 
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
-        {/* Header compacto */}
-        <motion.div 
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6" 
-          initial={{ opacity: 0, y: 15 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          viewport={{ once: true }} 
+        <motion.div
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6"
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.4 }}
         >
           <div className="text-center sm:text-left">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              Depoimentos
+              {content.title}
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Profissionais que confiam em nossa plataforma
+              {content.subtitle}
             </p>
           </div>
           {liquidGlassConfig.enabled ? (
@@ -146,22 +173,21 @@ const Testimonials = ({ maxVisible }: { maxVisible?: number }) => {
               className="text-xs px-4"
               onClick={() => setShowTestimonialForm(true)}
             >
-              Compartilhe sua experiência
+              {content.share}
             </LiquidGlassButton>
           ) : (
-            <Button 
-              onClick={() => setShowTestimonialForm(true)} 
+            <Button
+              onClick={() => setShowTestimonialForm(true)}
               variant="outline"
               size="sm"
               className="border-brand-purple/30 text-brand-purple hover:bg-brand-purple hover:text-white transition-all duration-300 text-xs px-4"
             >
-              Compartilhe sua experiência
+              {content.share}
             </Button>
           )}
         </motion.div>
 
-        {/* Carousel compacto */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -182,8 +208,8 @@ const Testimonials = ({ maxVisible }: { maxVisible?: number }) => {
           >
             <CarouselContent className="-ml-2 sm:-ml-3">
               {displayTestimonials.map((testimonial, index) => (
-                <CarouselItem 
-                  key={testimonial.id} 
+                <CarouselItem
+                  key={testimonial.id}
                   className="pl-2 sm:pl-3 basis-full sm:basis-1/2 lg:basis-1/3"
                 >
                   <motion.div
@@ -193,18 +219,16 @@ const Testimonials = ({ maxVisible }: { maxVisible?: number }) => {
                     transition={{ duration: 0.3, delay: 0.03 * (index % 3) }}
                     className="h-full"
                   >
-                    <TestimonialCard testimonial={testimonial} />
+                    <TestimonialCard testimonial={testimonial} customerFallback={content.customerFallback} />
                   </motion.div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            
-            {/* Navegação compacta */}
+
             <CarouselPrevious className="hidden sm:flex -left-4 lg:-left-6 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 border-gray-200/30 dark:border-gray-700/30 shadow-md h-8 w-8" />
             <CarouselNext className="hidden sm:flex -right-4 lg:-right-6 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 border-gray-200/30 dark:border-gray-700/30 shadow-md h-8 w-8" />
           </Carousel>
 
-          {/* Indicadores compactos */}
           {count > 0 && (
             <div className="flex justify-center mt-4 gap-1.5">
               {Array.from({ length: count }).map((_, index) => (
@@ -216,14 +240,14 @@ const Testimonials = ({ maxVisible }: { maxVisible?: number }) => {
                       ? 'bg-brand-purple w-6'
                       : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 w-1.5'
                   }`}
-                  aria-label={`Ir para depoimento ${index + 1}`}
+                  aria-label={`${content.goToTestimonial} ${index + 1}`}
                 />
               ))}
             </div>
           )}
         </motion.div>
       </div>
-      
+
       <TestimonialForm isOpen={showTestimonialForm} onClose={() => setShowTestimonialForm(false)} />
     </section>
   );
