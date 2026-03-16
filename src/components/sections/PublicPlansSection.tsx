@@ -436,7 +436,7 @@ const PublicPlansSection = () => {
                     className="w-full text-xs h-9 font-semibold"
                     onClick={() => handlePlanSelection(plan)}
                   >
-                    Adquirir Plano
+                    {content.buyPlan}
                   </LiquidGlassButton>
                 ) : (
                   <Button
