@@ -484,7 +484,7 @@ const PublicPlansSection = () => {
                       )
                     }
                   >
-                    + Adicionar Saldo
+                    {content.addBalance}
                   </Button>
                 </div>
               )}
