@@ -205,6 +205,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
+        <LocaleProvider>
         <SiteThemeProvider>
         <LiquidGlassProvider>
         <AuthProvider>
