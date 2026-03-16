@@ -598,13 +598,13 @@ const PublicPlansSection = () => {
         {/* Section Header */}
         <div className="text-center mb-8">
           <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
-            Plataforma de consultas
+            {content.sectionBadge}
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
-            Planos Empresarial
+            {content.sectionTitle}
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto">
-            Escolha o plano ideal para o seu negócio e comece a consultar agora mesmo.
+            {content.sectionDescription}
           </p>
         </div>
 
