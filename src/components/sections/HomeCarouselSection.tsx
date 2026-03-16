@@ -403,8 +403,8 @@ const HomeCarouselSection: React.FC = () => {
                       : "bg-primary hover:bg-primary/80 text-primary-foreground dark:bg-primary dark:hover:bg-primary/80 dark:text-primary-foreground"
                   )}
                 >
-                  <span className="sm:hidden">Verificar</span>
-                  <span className="hidden sm:inline">Verificar Informações</span>
+                  <span className="sm:hidden">{content.verifyShort}</span>
+                  <span className="hidden sm:inline">{content.verifyFull}</span>
                   <Code2 className="h-4 w-4" />
                 </button>
               </motion.form>
