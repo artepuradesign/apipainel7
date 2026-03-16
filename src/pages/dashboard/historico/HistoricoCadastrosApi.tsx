@@ -219,7 +219,7 @@ const HistoricoCadastrosApi = () => {
                     </div>
                     <p className="text-sm font-medium truncate">{order.description}</p>
                     {order.meta?.module_name && (
-                      <p className="text-xs text-muted-foreground">Módulo: {order.meta.module_name}</p>
+                      <p className="text-xs text-muted-foreground">{t.module}: {order.meta.module_name}</p>
                     )}
                   </div>
                   <div className="text-right shrink-0">
