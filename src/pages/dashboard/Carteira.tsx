@@ -185,7 +185,7 @@ const Carteira = () => {
         detail: { shouldAnimate: true, amount: amount, method: 'transfer' }
       }));
       
-      toast.success(`Gift Card de ${formatBrazilianCurrency(amount)} enviado com sucesso!`);
+      toast.success(t.giftSuccess.replace('{amount}', formatBrazilianCurrency(amount)));
     } catch (error) {
       toast.error("Erro ao enviar Gift Card");
     } finally {
