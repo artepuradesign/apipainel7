@@ -478,7 +478,7 @@ const AdminCupons = () => {
         <CardHeader className="p-3 sm:p-6">
           <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <History className="h-4 w-4 sm:h-5 sm:w-5" />
-            Histórico de Uso
+            {t.historyTitle}
           </CardTitle>
           <p className="text-xs sm:text-sm text-muted-foreground">
             Últimos cupons utilizados pelos usuários
