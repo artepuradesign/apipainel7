@@ -97,9 +97,9 @@ const MinhaConta = () => {
   if (!userData) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-500">Erro ao carregar dados do usuário</p>
+        <p className="text-gray-500">{i18n.loadError}</p>
         <Button onClick={() => window.location.reload()} className="mt-4">
-          Tentar novamente
+          {i18n.tryAgain}
         </Button>
       </div>
     );
