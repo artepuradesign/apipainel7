@@ -197,9 +197,9 @@ const LiquidGlassAdmin = () => {
               <div>
                 <CardTitle className="flex items-center gap-2 text-lg text-foreground">
                   <Eye className="h-4 w-4" />
-                  Preview
+                  {t.preview}
                 </CardTitle>
-                <CardDescription>Visualize o efeito em tempo real</CardDescription>
+                <CardDescription>{t.previewDesc}</CardDescription>
               </div>
               <div className="flex items-center gap-2">
                 {/* Theme select */}
