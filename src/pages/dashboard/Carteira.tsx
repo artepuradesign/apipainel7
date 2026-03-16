@@ -199,12 +199,12 @@ const Carteira = () => {
   return (
     <div className="space-y-4 sm:space-y-6 relative z-10 px-1 sm:px-0">
       <DashboardTitleCard
-        title="Carteira Digital"
+        title={t.title}
         icon={<Wallet className="h-4 w-4 sm:h-5 sm:w-5" />}
         right={
           <>
             <Badge variant="secondary" className={`text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 ${error ? "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300" : "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"}`}>
-              {error ? 'Erro' : 'Ativa'}
+              {error ? t.error : t.active}
             </Badge>
             <Button
               variant="ghost"
