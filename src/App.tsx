@@ -181,6 +181,7 @@ import { SiteThemeProvider } from '@/contexts/SiteThemeContext';
 import MatrixRainBackground from '@/components/effects/MatrixRainBackground';
 import LiquidGlassAdmin from '@/pages/dashboard/LiquidGlassAdmin';
 import { LiquidGlassProvider } from '@/contexts/LiquidGlassContext';
+import { LocaleProvider } from '@/contexts/LocaleContext';
 
 // Create a client
 const queryClient = new QueryClient();
