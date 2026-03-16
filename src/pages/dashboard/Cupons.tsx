@@ -215,7 +215,7 @@ const Cupons = () => {
   return (
     <div className="space-y-4 sm:space-y-6 relative z-10 px-1 sm:px-0">
       <DashboardTitleCard
-        title="Cupons"
+        title={t.pageTitle}
         icon={<Ticket className="h-4 w-4 sm:h-5 sm:w-5" />}
       />
       {/* Estatísticas - Cards Compactos (ocultos em mobile) */}
