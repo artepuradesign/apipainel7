@@ -147,12 +147,12 @@ const LiquidGlassAdmin = () => {
         <Card className="bg-card border-border">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
             <div>
-              <CardTitle className="text-lg font-semibold text-foreground">Customize</CardTitle>
-              <CardDescription>Ajuste os parâmetros do efeito Liquid Glass</CardDescription>
+              <CardTitle className="text-lg font-semibold text-foreground">{t.customize}</CardTitle>
+              <CardDescription>{t.customizeDesc}</CardDescription>
             </div>
             <Button variant="outline" size="sm" onClick={resetToDefaults} className="gap-2">
               <RotateCcw className="h-3.5 w-3.5" />
-              Reset
+              {t.reset}
             </Button>
           </CardHeader>
           <CardContent className="space-y-5">
