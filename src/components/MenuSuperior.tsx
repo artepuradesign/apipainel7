@@ -187,9 +187,39 @@ const MenuSuperior = () => {
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Alternar tema</p>
+                    <p>{content.switchTheme}</p>
                   </TooltipContent>
                 </Tooltip>
+
+                <div className="hidden lg:flex items-center gap-1">
+                  {languageOptions.map((option) => {
+                    const isActive = option.locale === locale;
+
+                    return (
+                      <Tooltip key={option.locale}>
+                        <TooltipTrigger asChild>
+                          <button
+                            type="button"
+                            aria-label={option.label}
+                            onClick={() => setLocale(option.locale)}
+                            className={cn(
+                              "h-8 w-8 rounded-md flex items-center justify-center transition-colors border",
+                              isActive
+                                ? "bg-accent text-accent-foreground border-border"
+                                : "bg-transparent text-muted-foreground border-transparent hover:bg-muted hover:text-foreground"
+                            )}
+                          >
+                            <span className="text-sm leading-none" aria-hidden="true">{option.flag}</span>
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{option.label}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    );
+                  })}
+                </div>
+
                 {user && (
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -198,7 +228,7 @@ const MenuSuperior = () => {
                       </div>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Notificações</p>
+                      <p>{content.notifications}</p>
                     </TooltipContent>
                   </Tooltip>
                 )}
