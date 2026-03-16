@@ -409,7 +409,7 @@ const GerenciarChamados = () => {
       {/* Lista de Chamados */}
       <Card>
         <CardHeader className="p-3 sm:p-6">
-          <CardTitle className="text-base sm:text-lg">Chamados ({filteredTickets.length})</CardTitle>
+          <CardTitle className="text-base sm:text-lg">{t.tickets} ({filteredTickets.length})</CardTitle>
         </CardHeader>
         <CardContent className="p-3 sm:p-6 pt-0">
           {filteredTickets.length === 0 ? (
