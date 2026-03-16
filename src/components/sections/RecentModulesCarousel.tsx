@@ -87,7 +87,7 @@ const RecentModulesCarousel: React.FC = () => {
                       title: mod.title,
                       description: mod.description,
                       price: `${Number(mod.price).toFixed(2).replace('.', ',')}`,
-                      status: content.status,
+                      status: 'ativo',
                       operationalStatus: 'on',
                       iconSize: 'medium',
                       showDescription: true,
