@@ -29,6 +29,7 @@ const DashboardLayout = ({
   const isMobile = useIsMobile();
   const [isTablet, setIsTablet] = useState(false);
   const { isSupport, user, loading, signOut } = useAuth();
+  const { locale } = useLocale();
   
   // Registrar visitas de página
   usePageVisitTracker();

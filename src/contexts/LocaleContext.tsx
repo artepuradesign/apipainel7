@@ -157,6 +157,9 @@ export const localeContent: Record<Locale, {
     walletRefresh: 'Actualizar',
     walletUserFallback: 'Usuario',
     walletPrepaid: 'Prepago',
+    sidebarOnlinePanels: 'Paneles Online',
+    sidebarExpandMenu: 'Expandir menú',
+    sidebarCollapseMenu: 'Contraer menú',
   },
 };
 
