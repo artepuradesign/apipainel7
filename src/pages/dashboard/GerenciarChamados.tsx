@@ -330,7 +330,7 @@ const GerenciarChamados = () => {
         <Card>
           <CardContent className="p-3 sm:p-6">
             <div className="text-xl sm:text-2xl font-bold text-green-600">{tickets.filter(t => t.status === 'resolvido').length}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground">Resolvidos</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t.resolved}</p>
           </CardContent>
         </Card>
         <Card>
