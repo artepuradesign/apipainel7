@@ -75,12 +75,33 @@ const languageOptions: Array<{ locale: Locale; flag: string; label: string }> = 
 
 const MenuSuperior = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [locale, setLocale] = useState<Locale>('pt-BR');
   const navigate = useNavigate();
   const location = useLocation();
   const { user, signOut, isSupport } = useAuth();
   const { totalAvailableBalance } = useUserBalance();
   const { panelMenus } = usePanelMenus();
   const { config: liquidGlassConfig } = useLiquidGlass();
+
+  useEffect(() => {
+    const storedLocale = localStorage.getItem('site-locale') as Locale | null;
+    if (storedLocale && ['pt-BR', 'en', 'es'].includes(storedLocale)) {
+      setLocale(storedLocale);
+      return;
+    }
+
+    const browserLocale = navigator.language.toLowerCase();
+    if (browserLocale.startsWith('en')) setLocale('en');
+    else if (browserLocale.startsWith('es')) setLocale('es');
+    else setLocale('pt-BR');
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    localStorage.setItem('site-locale', locale);
+  }, [locale]);
+
+  const content = localeContent[locale];
 
   // Verificar páginas atuais para exibir links contextuais
   const isDashboardPage = location.pathname.startsWith('/dashboard');
