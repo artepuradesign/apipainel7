@@ -172,7 +172,7 @@ const HistoricoCadastrosApi = () => {
   return (
     <div className="space-y-3 sm:space-y-6 relative z-10 px-1 sm:px-0">
       <DashboardTitleCard
-        title="Histórico · Cadastros na API"
+        title={t.title}
         icon={<FileText className="h-4 w-4 sm:h-5 sm:w-5" />}
         backTo="/dashboard/historico"
         right={
