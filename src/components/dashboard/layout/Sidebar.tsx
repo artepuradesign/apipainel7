@@ -33,6 +33,8 @@ const Sidebar = ({
   handleSubItemClick
 }: SidebarProps) => {
   const { config: liquidGlassConfig } = useLiquidGlass();
+  const { locale } = useLocale();
+  const content = localeContent[locale];
   const handleSidebarClick = () => {
     // Em tablets, clicar na sidebar colapsada expande e fixa
     if (isTablet && collapsed) {
