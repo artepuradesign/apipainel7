@@ -297,7 +297,7 @@ const GerenciarChamados = () => {
         <Card>
           <CardContent className="flex items-center justify-center py-8">
             <RefreshCw className="h-6 w-6 animate-spin mr-2" />
-            <span className="text-sm">Carregando chamados...</span>
+            <span className="text-sm">{t.loading}</span>
           </CardContent>
         </Card>
       </div>
