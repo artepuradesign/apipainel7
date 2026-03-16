@@ -477,9 +477,9 @@ const Indique = () => {
                 <div className="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-muted/40">
                   <Users className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-sm sm:text-base font-semibold text-foreground">Nenhuma indicação ainda</h3>
+                <h3 className="text-sm sm:text-base font-semibold text-foreground">{t.noReferrals}</h3>
                 <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
-                  Compartilhe seu link para começar a receber bônus.
+                  {t.noReferralsDesc}
                 </p>
                 <Button
                   type="button"
