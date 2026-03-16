@@ -298,7 +298,7 @@ const Suporte = () => {
 
           {/* Filtros por Categoria com design moderno */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-base sm:text-lg">Filtrar por categoria</h3>
+            <h3 className="font-semibold text-base sm:text-lg">{t.filterByCategory}</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               <Button
                 variant={searchTerm === '' ? 'default' : 'outline'}
