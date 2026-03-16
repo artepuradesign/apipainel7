@@ -423,7 +423,7 @@ const PublicPlansSection = () => {
                 ))}
                 {remainingFeatures > 0 && (
                   <div className="text-[11px] text-purple-500 dark:text-purple-400 font-medium pl-6">
-                    +{remainingFeatures} recursos adicionais
+                    +{remainingFeatures} {content.additionalFeatures}
                   </div>
                 )}
               </div>
