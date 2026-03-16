@@ -8,6 +8,7 @@ import { pdfRgService, type PdfRgPedido } from '@/services/pdfRgService';
 import { editarPdfService, type EditarPdfPedido } from '@/services/pdfPersonalizadoService';
 import { formatDate } from '@/utils/historicoUtils';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface UnifiedOrder {
   id: string;
