@@ -48,8 +48,61 @@ interface SupportTicket {
   user_email?: string;
 }
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    title: 'Gerenciar Chamados',
+    subtitle: 'Visualize e responda aos chamados dos usuários',
+    loading: 'Carregando chamados...',
+    open: 'Abertos',
+    inProgress: 'Em Andamento',
+    resolved: 'Resolvidos',
+    urgent: 'Urgentes',
+    filters: 'Filtros',
+    tickets: 'Chamados',
+    noneFound: 'Nenhum chamado encontrado',
+  },
+  en: {
+    title: 'Manage Tickets',
+    subtitle: 'View and respond to user support tickets',
+    loading: 'Loading tickets...',
+    open: 'Open',
+    inProgress: 'In Progress',
+    resolved: 'Resolved',
+    urgent: 'Urgent',
+    filters: 'Filters',
+    tickets: 'Tickets',
+    noneFound: 'No tickets found',
+  },
+  es: {
+    title: 'Gestionar Tickets',
+    subtitle: 'Visualiza y responde a los tickets de los usuarios',
+    loading: 'Cargando tickets...',
+    open: 'Abiertos',
+    inProgress: 'En Progreso',
+    resolved: 'Resueltos',
+    urgent: 'Urgentes',
+    filters: 'Filtros',
+    tickets: 'Tickets',
+    noneFound: 'No se encontraron tickets',
+  },
+};
+
+const localeByLanguage: Record<Locale, Locale> = {
+  'pt-BR': 'pt-BR',
+  en: 'en-US',
+  es: 'es-ES',
+} as any;
+
+const dateFnsLocaleByLocale: Record<Locale, any> = {
+  'pt-BR': ptBR,
+  en: enUS,
+  es,
+};
+
 const GerenciarChamados = () => {
   const { user } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [tickets, setTickets] = useState<SupportTicket[]>([]);
   const [filteredTickets, setFilteredTickets] = useState<SupportTicket[]>([]);
   const [loading, setLoading] = useState(true);
