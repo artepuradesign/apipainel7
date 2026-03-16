@@ -23,6 +23,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { cupomApiService, Cupom } from '@/services/cupomApiService';
 import CupomValidationModal from '@/components/cupons/CupomValidationModal';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 const Cupons = () => {
   const { user, isSupport } = useAuth();
