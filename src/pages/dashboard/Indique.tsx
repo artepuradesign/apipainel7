@@ -313,7 +313,7 @@ const Indique = () => {
       {/* 3) Cards */}
       <section aria-labelledby="resumo-indicacoes">
         <h2 id="resumo-indicacoes" className="sr-only">
-          Resumo das Indicações
+          {t.referralSummary}
         </h2>
         <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
           {stats.map((stat, index) => (
