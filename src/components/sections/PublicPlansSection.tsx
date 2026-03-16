@@ -472,7 +472,7 @@ const PublicPlansSection = () => {
               {user && !hasSufficientBalance && (
                 <div className="mt-3 text-center p-2 rounded-xl bg-red-50/80 dark:bg-red-900/20 border border-red-200/50 dark:border-red-800/30">
                   <p className="text-[10px] text-red-500 dark:text-red-400 mb-1 font-medium">
-                    Faltam R$ {(planPrice - userWalletBalance).toFixed(2)} para Upgrade
+                    {content.missingForUpgrade} R$ {(planPrice - userWalletBalance).toFixed(2)} para Upgrade
                   </p>
                   <Button
                     variant="ghost"
