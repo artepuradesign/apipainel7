@@ -10,6 +10,7 @@ import { cookieUtils } from '@/utils/cookieUtils';
 import { RefreshCw, Store, TrendingUp, DollarSign } from 'lucide-react';
 import { toast } from 'sonner';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface RevendaHistorico {
   id: number;
