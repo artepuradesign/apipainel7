@@ -13,6 +13,7 @@ import TransactionHistory from '@/components/carteira/TransactionHistory';
 import TransferCard from '@/components/carteira/TransferCard';
 import GiftCard from '@/components/carteira/GiftCard';
 import { useNavigate } from 'react-router-dom';
+import { useLocale } from '@/contexts/LocaleContext';
 
 const Carteira = () => {
   const { user, isSupport } = useAuth();
