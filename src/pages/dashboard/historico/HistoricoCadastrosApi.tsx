@@ -125,7 +125,7 @@ const HistoricoCadastrosApi = () => {
           unified.push({
             id: `pers_${p.id}`,
             type: 'pdf_personalizado',
-            description: `PDF Personalizado - ${(p as any).nome || (p as any).cpf || p.id}`,
+            description: `${t.customPdf} - ${(p as any).nome || (p as any).cpf || p.id}`,
             amount: p.preco_pago,
             status: p.status,
             created_at: p.created_at,
