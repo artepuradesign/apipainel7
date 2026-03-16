@@ -324,7 +324,7 @@ const GerenciarChamados = () => {
         <Card>
           <CardContent className="p-3 sm:p-6">
             <div className="text-xl sm:text-2xl font-bold text-yellow-600">{tickets.filter(t => t.status === 'em_andamento').length}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground">Em Andamento</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t.inProgress}</p>
           </CardContent>
         </Card>
         <Card>
