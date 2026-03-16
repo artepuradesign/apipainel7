@@ -265,10 +265,10 @@ const LiquidGlassAdmin = () => {
                 }}
               >
                 <p className="text-base font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                  Liquid Glass Preview
+                  {t.previewTitle}
                 </p>
                 <p className="text-sm mt-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  Este card reflete todas as configurações em tempo real.
+                  {t.previewText}
                 </p>
               </div>
 
