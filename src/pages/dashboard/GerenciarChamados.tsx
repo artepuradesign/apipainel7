@@ -318,7 +318,7 @@ const GerenciarChamados = () => {
         <Card>
           <CardContent className="p-3 sm:p-6">
             <div className="text-xl sm:text-2xl font-bold text-blue-600">{tickets.filter(t => t.status === 'aberto').length}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground">Abertos</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t.open}</p>
           </CardContent>
         </Card>
         <Card>
