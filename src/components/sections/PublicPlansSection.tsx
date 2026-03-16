@@ -367,7 +367,7 @@ const PublicPlansSection = () => {
               {isCurrent && (
                 <div className="absolute top-3 left-3 z-10">
                   <Badge className="text-[10px] px-2 py-0.5 bg-primary text-primary-foreground font-semibold shadow-sm">
-                    ✦ PLANO ATUAL
+                    {content.currentPlan}
                   </Badge>
                 </div>
               )}
