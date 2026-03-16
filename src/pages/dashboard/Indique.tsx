@@ -359,7 +359,7 @@ const Indique = () => {
 
                 <div className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-muted/20 px-3 py-2">
                   <Wallet className="h-4 w-4 text-primary" />
-                  <span className="text-xs sm:text-sm text-muted-foreground">Valor atual:</span>
+                  <span className="text-xs sm:text-sm text-muted-foreground">{t.currentValue}</span>
                   <span className="text-sm sm:text-base font-semibold text-foreground">
                     {bonusAmount !== null ? formatCurrency(bonusAmount) : '—'}
                   </span>
