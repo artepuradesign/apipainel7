@@ -147,6 +147,7 @@ export const localeContent: Record<Locale, {
     walletExpired: 'Expirado',
     walletRefresh: 'Actualizar',
     walletUserFallback: 'Usuario',
+    walletPrepaid: 'Prepago',
   },
 };
 
