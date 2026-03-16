@@ -123,19 +123,19 @@ const LiquidGlassAdmin = () => {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      <DashboardTitleCard
-        title="Liquid Glass"
-        subtitle="Configure o estilo Liquid Glass dos elementos do sistema"
-        icon={<Droplets className="h-4 w-4 sm:h-5 sm:w-5" />}
-        backTo="/dashboard/admin"
-        right={
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => toast.success('Configurações salvas!')}
-            className="rounded-full h-9 w-9"
-            aria-label="Salvar"
-            title="Salvar"
+        <DashboardTitleCard
+          title="Liquid Glass"
+          subtitle={t.subtitle}
+          icon={<Droplets className="h-4 w-4 sm:h-5 sm:w-5" />}
+          backTo="/dashboard/admin"
+          right={
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => toast.success(t.saved)}
+              className="rounded-full h-9 w-9"
+              aria-label={t.save}
+              title={t.save}
           >
             <Save className="h-4 w-4" />
           </Button>
