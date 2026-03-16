@@ -23,6 +23,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { walletApiService } from '@/services/walletApiService';
 import { newReferralApiService } from '@/services/newReferralApiService';
 import { toast } from 'sonner';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface ReferralEarning {
   id: string;
