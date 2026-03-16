@@ -307,8 +307,8 @@ const GerenciarChamados = () => {
   return (
     <div className="space-y-4 sm:space-y-6">
       <DashboardTitleCard
-        title="Gerenciar Chamados"
-        subtitle="Visualize e responda aos chamados dos usuários"
+        title={t.title}
+        subtitle={t.subtitle}
         icon={<Headphones className="h-4 w-4 sm:h-5 sm:w-5" />}
         backTo="/dashboard/admin"
       />
