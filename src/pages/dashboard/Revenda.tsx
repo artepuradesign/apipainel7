@@ -351,9 +351,9 @@ const Revenda = () => {
           ) : (
             <div className="text-center py-8 sm:py-12 text-muted-foreground">
               <Store className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 opacity-50" />
-              <p className="font-medium text-sm sm:text-base">Nenhuma revenda encontrada</p>
+              <p className="font-medium text-sm sm:text-base">{t.emptyTitle}</p>
               <p className="text-xs sm:text-sm mt-2">
-                Quando seus indicados ativarem planos, as comissões aparecerão aqui
+                {t.emptyDesc}
               </p>
             </div>
           )}
