@@ -13,15 +13,50 @@ import TransactionHistory from '@/components/carteira/TransactionHistory';
 import TransferCard from '@/components/carteira/TransferCard';
 import GiftCard from '@/components/carteira/GiftCard';
 import { useNavigate } from 'react-router-dom';
+import { useLocale } from '@/contexts/LocaleContext';
 
 const Carteira = () => {
   const { user, isSupport } = useAuth();
   const navigate = useNavigate();
+  const { locale } = useLocale();
   const [balance, setBalance] = useState({ saldo: 0, saldo_plano: 0, total: 0 });
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const t = {
+    'pt-BR': {
+      title: 'Carteira Digital',
+      active: 'Ativa',
+      error: 'Erro',
+      prepaid: 'Pré-Pago',
+      transferSuccess: 'Transferência de {amount} realizada com sucesso!',
+      transferError: 'Erro ao realizar transferência',
+      giftSuccess: 'Gift Card de {amount} enviado com sucesso!',
+      giftError: 'Erro ao enviar Gift Card',
+    },
+    en: {
+      title: 'Digital Wallet',
+      active: 'Active',
+      error: 'Error',
+      prepaid: 'Prepaid',
+      transferSuccess: 'Transfer of {amount} completed successfully!',
+      transferError: 'Error making transfer',
+      giftSuccess: 'Gift Card of {amount} sent successfully!',
+      giftError: 'Error sending Gift Card',
+    },
+    es: {
+      title: 'Cartera Digital',
+      active: 'Activa',
+      error: 'Error',
+      prepaid: 'Prepago',
+      transferSuccess: 'Transferencia de {amount} realizada con éxito!',
+      transferError: 'Error al realizar la transferencia',
+      giftSuccess: 'Gift Card de {amount} enviado con éxito!',
+      giftError: 'Error al enviar Gift Card',
+    },
+  }[locale];
 
   // Load balance from API
   const loadBalance = async () => {
@@ -105,7 +140,7 @@ const Carteira = () => {
     };
   }, [user]);
 
-  const currentPlan = user ? localStorage.getItem(`user_plan_${user.id}`) || "Pré-Pago" : "Pré-Pago";
+  const currentPlan = user ? localStorage.getItem(`user_plan_${user.id}`) || t.prepaid : t.prepaid;
 
   const formatBrazilianCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -128,9 +163,9 @@ const Carteira = () => {
         detail: { shouldAnimate: true, amount: amount, method: 'manual' }
       }));
       
-      toast.success(`Transferência de ${formatBrazilianCurrency(amount)} realizada com sucesso!`);
+      toast.success(t.transferSuccess.replace('{amount}', formatBrazilianCurrency(amount)));
     } catch (error) {
-      toast.error("Erro ao realizar transferência");
+      toast.error(t.transferError);
     } finally {
       setIsProcessing(false);
     }
@@ -150,9 +185,9 @@ const Carteira = () => {
         detail: { shouldAnimate: true, amount: amount, method: 'transfer' }
       }));
       
-      toast.success(`Gift Card de ${formatBrazilianCurrency(amount)} enviado com sucesso!`);
+      toast.success(t.giftSuccess.replace('{amount}', formatBrazilianCurrency(amount)));
     } catch (error) {
-      toast.error("Erro ao enviar Gift Card");
+      toast.error(t.giftError);
     } finally {
       setIsProcessing(false);
     }
@@ -164,12 +199,12 @@ const Carteira = () => {
   return (
     <div className="space-y-4 sm:space-y-6 relative z-10 px-1 sm:px-0">
       <DashboardTitleCard
-        title="Carteira Digital"
+        title={t.title}
         icon={<Wallet className="h-4 w-4 sm:h-5 sm:w-5" />}
         right={
           <>
             <Badge variant="secondary" className={`text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 ${error ? "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300" : "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"}`}>
-              {error ? 'Erro' : 'Ativa'}
+              {error ? t.error : t.active}
             </Badge>
             <Button
               variant="ghost"
