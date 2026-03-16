@@ -379,7 +379,7 @@ const Cupons = () => {
                   }}
                   className="mt-4"
                 >
-                  Limpar Filtros
+                  {t.clearFilters}
                 </Button>
               )}
             </div>
