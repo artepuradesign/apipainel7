@@ -417,9 +417,9 @@ const Suporte = () => {
               <div className="p-4 bg-muted/30 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
                 <HelpCircle className="h-12 w-12 text-muted-foreground" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Nenhuma pergunta encontrada</h3>
+              <h3 className="font-semibold text-lg mb-2">{t.notFound}</h3>
               <p className="text-muted-foreground max-w-md mx-auto">
-                Não encontramos resultados para sua busca. Tente usar palavras-chave diferentes ou navegue pelas categorias.
+                {t.notFoundDesc}
               </p>
             </div>
           )}
