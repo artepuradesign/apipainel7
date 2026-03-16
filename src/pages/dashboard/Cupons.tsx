@@ -25,8 +25,34 @@ import CupomValidationModal from '@/components/cupons/CupomValidationModal';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
 import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
+const textByLocale: Record<Locale, Record<string, string>> = {
+  'pt-BR': {
+    pageTitle: 'Cupons',
+    loadingCoupons: 'Carregando cupons...',
+    noCouponsFound: 'Nenhum cupom encontrado com os filtros aplicados',
+    noCouponsAvailable: 'Nenhum cupom disponível no momento',
+    clearFilters: 'Limpar Filtros',
+  },
+  en: {
+    pageTitle: 'Coupons',
+    loadingCoupons: 'Loading coupons...',
+    noCouponsFound: 'No coupons found with applied filters',
+    noCouponsAvailable: 'No coupons available right now',
+    clearFilters: 'Clear Filters',
+  },
+  es: {
+    pageTitle: 'Cupones',
+    loadingCoupons: 'Cargando cupones...',
+    noCouponsFound: 'No se encontraron cupones con los filtros aplicados',
+    noCouponsAvailable: 'No hay cupones disponibles en este momento',
+    clearFilters: 'Limpiar Filtros',
+  },
+};
+
 const Cupons = () => {
   const { user, isSupport } = useAuth();
+  const { locale } = useLocale();
+  const t = textByLocale[locale];
   const [cuponsDisponiveis, setCuponsDisponiveis] = useState<Cupom[]>([]);
   const [filteredCupons, setFilteredCupons] = useState<Cupom[]>([]);
   const [historicoUso, setHistoricoUso] = useState<any[]>([]);
