@@ -16,6 +16,84 @@ import { useLiquidGlass } from '@/contexts/LiquidGlassContext';
 import LiquidGlassButton from '@/components/ui/LiquidGlassButton';
 import { Locale, useLocale } from '@/contexts/LocaleContext';
 
+const sectionContent: Record<Locale, {
+  loadingTitle: string;
+  loadingSubtitle: string;
+  loadingShort: string;
+  loadError: string;
+  loadErrorDescription: string;
+  retry: string;
+  noPlansTitle: string;
+  noPlansDescription: string;
+  noPlansSoon: string;
+  sectionBadge: string;
+  sectionTitle: string;
+  sectionDescription: string;
+  currentPlan: string;
+  additionalFeatures: string;
+  buyPlan: string;
+  missingForUpgrade: string;
+  addBalance: string;
+}> = {
+  'pt-BR': {
+    loadingTitle: 'Planos Disponíveis',
+    loadingSubtitle: 'Carregando planos...',
+    loadingShort: 'Carregando...',
+    loadError: 'Erro de Carregamento',
+    loadErrorDescription: 'Não foi possível carregar os planos',
+    retry: 'Tentar Novamente',
+    noPlansTitle: 'Planos Disponíveis',
+    noPlansDescription: 'Ainda não temos planos cadastrados',
+    noPlansSoon: 'Em breve teremos novos planos.',
+    sectionBadge: 'Plataforma de consultas',
+    sectionTitle: 'Planos Empresarial',
+    sectionDescription: 'Escolha o plano ideal para o seu negócio e comece a consultar agora mesmo.',
+    currentPlan: '✦ PLANO ATUAL',
+    additionalFeatures: 'recursos adicionais',
+    buyPlan: 'Adquirir Plano',
+    missingForUpgrade: 'Faltam',
+    addBalance: '+ Adicionar Saldo',
+  },
+  en: {
+    loadingTitle: 'Available Plans',
+    loadingSubtitle: 'Loading plans...',
+    loadingShort: 'Loading...',
+    loadError: 'Loading Error',
+    loadErrorDescription: 'Could not load plans',
+    retry: 'Try Again',
+    noPlansTitle: 'Available Plans',
+    noPlansDescription: 'No plans have been registered yet',
+    noPlansSoon: 'New plans will be available soon.',
+    sectionBadge: 'Query platform',
+    sectionTitle: 'Business Plans',
+    sectionDescription: 'Choose the ideal plan for your business and start querying now.',
+    currentPlan: '✦ CURRENT PLAN',
+    additionalFeatures: 'additional features',
+    buyPlan: 'Buy Plan',
+    missingForUpgrade: 'Missing',
+    addBalance: '+ Add Balance',
+  },
+  es: {
+    loadingTitle: 'Planes disponibles',
+    loadingSubtitle: 'Cargando planes...',
+    loadingShort: 'Cargando...',
+    loadError: 'Error de carga',
+    loadErrorDescription: 'No se pudieron cargar los planes',
+    retry: 'Reintentar',
+    noPlansTitle: 'Planes disponibles',
+    noPlansDescription: 'Aún no tenemos planes registrados',
+    noPlansSoon: 'Pronto tendremos nuevos planes.',
+    sectionBadge: 'Plataforma de consultas',
+    sectionTitle: 'Planes empresariales',
+    sectionDescription: 'Elige el plan ideal para tu negocio y empieza a consultar ahora mismo.',
+    currentPlan: '✦ PLAN ACTUAL',
+    additionalFeatures: 'recursos adicionales',
+    buyPlan: 'Adquirir plan',
+    missingForUpgrade: 'Faltan',
+    addBalance: '+ Agregar saldo',
+  },
+};
+
 const CarouselWithControls = ({ categoryPlans, categoryName, PlanCard }: any) => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
