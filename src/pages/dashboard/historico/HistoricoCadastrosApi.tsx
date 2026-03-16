@@ -97,7 +97,7 @@ const HistoricoCadastrosApi = () => {
           unified.push({
             id: `cash_${tx.id}`,
             type: 'module_purchase',
-            description: tx.description || 'Compra de módulo',
+            description: tx.description || t.modulePurchase,
             amount: tx.amount,
             status: 'completed',
             created_at: tx.created_at,
