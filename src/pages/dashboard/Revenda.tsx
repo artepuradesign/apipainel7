@@ -342,7 +342,7 @@ const Revenda = () => {
                       </div>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Pago em: {formatDate(item.data_pagamento_comissao)}
+                      {t.paidOn} {formatDate(item.data_pagamento_comissao)}
                     </p>
                   </div>
                 ))}
