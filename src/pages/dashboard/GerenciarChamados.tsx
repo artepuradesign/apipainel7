@@ -87,12 +87,6 @@ const textByLocale: Record<Locale, Record<string, string>> = {
   },
 };
 
-const localeByLanguage: Record<Locale, Locale> = {
-  'pt-BR': 'pt-BR',
-  en: 'en-US',
-  es: 'es-ES',
-} as any;
-
 const dateFnsLocaleByLocale: Record<Locale, any> = {
   'pt-BR': ptBR,
   en: enUS,
