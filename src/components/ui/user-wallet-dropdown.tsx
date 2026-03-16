@@ -334,7 +334,7 @@ const UserWalletDropdown = ({ onLogout }: UserWalletDropdownProps) => {
       )}
 
       <Dialog open={isLanguageModalOpen} onOpenChange={setIsLanguageModalOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="z-[10020] sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Languages className="h-4 w-4" />
