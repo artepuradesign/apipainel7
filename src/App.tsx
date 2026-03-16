@@ -419,6 +419,7 @@ function App() {
         </AuthProvider>
         </LiquidGlassProvider>
         </SiteThemeProvider>
+        </LocaleProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
