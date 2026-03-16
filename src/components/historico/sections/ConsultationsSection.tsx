@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { FileText, RefreshCw, Search } from 'lucide-react';
 import { toast } from 'sonner';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
 interface HistoryItem {
   id: string;
@@ -25,13 +26,57 @@ interface ConsultationsSectionProps {
   loading?: boolean;
 }
 
+const textByLocale: Record<Locale, {
+  noData: string;
+  missingRoute: string;
+  loadedFromHistory: string;
+  loading: string;
+  empty: string;
+  statusDone: string;
+  statusPending: string;
+}> = {
+  'pt-BR': {
+    noData: 'Dados da consulta não disponíveis',
+    missingRoute: 'Não foi possível identificar o módulo desta consulta (page_route ausente)',
+    loadedFromHistory: 'Consulta carregada do histórico (sem cobrança)',
+    loading: 'Carregando consultas...',
+    empty: 'Nenhuma consulta registrada',
+    statusDone: 'Concluída',
+    statusPending: 'Pendente',
+  },
+  en: {
+    noData: 'Consultation data not available',
+    missingRoute: 'Could not identify this consultation module (missing page_route)',
+    loadedFromHistory: 'Consultation loaded from history (no charge)',
+    loading: 'Loading consultations...',
+    empty: 'No consultations recorded',
+    statusDone: 'Completed',
+    statusPending: 'Pending',
+  },
+  es: {
+    noData: 'Datos de consulta no disponibles',
+    missingRoute: 'No se pudo identificar el módulo de esta consulta (falta page_route)',
+    loadedFromHistory: 'Consulta cargada desde el historial (sin cobro)',
+    loading: 'Cargando consultas...',
+    empty: 'No hay consultas registradas',
+    statusDone: 'Completada',
+    statusPending: 'Pendiente',
+  },
+};
+
+const localeCode: Record<Locale, string> = {
+  'pt-BR': 'pt-BR',
+  en: 'en-US',
+  es: 'es-ES',
+};
+
 const ConsultationsSection: React.FC<ConsultationsSectionProps> = ({
   allHistory,
-  formatBrazilianCurrency,
-  formatDate,
   loading = false
 }) => {
   const navigate = useNavigate();
+  const { locale } = useLocale();
+  const text = textByLocale[locale];
 
   const consultationItems = allHistory.filter(item =>
     'type' in item && (item.type === 'consultation' || item.type === 'Consulta CPF')
@@ -39,13 +84,13 @@ const ConsultationsSection: React.FC<ConsultationsSectionProps> = ({
 
   const handleConsultationClick = (consultation: any) => {
     if (!consultation.result_data) {
-      toast.error('Dados da consulta não disponíveis');
+      toast.error(text.noData);
       return;
     }
 
     const pageRoute = consultation?.metadata?.page_route;
     if (!pageRoute) {
-      toast.error('Não foi possível identificar o módulo desta consulta (page_route ausente)');
+      toast.error(text.missingRoute);
       return;
     }
 
@@ -58,7 +103,7 @@ const ConsultationsSection: React.FC<ConsultationsSectionProps> = ({
       }
     });
 
-    toast.success('Consulta carregada do histórico (sem cobrança)', { duration: 2000 });
+    toast.success(text.loadedFromHistory, { duration: 2000 });
   };
 
   const formatCPF = (cpf: string) => {
@@ -72,7 +117,7 @@ const ConsultationsSection: React.FC<ConsultationsSectionProps> = ({
 
   const formatFullDate = (dateString: string) => {
     try {
-      return new Date(dateString).toLocaleString('pt-BR', {
+      return new Date(dateString).toLocaleString(localeCode[locale], {
         day: '2-digit', month: '2-digit', year: 'numeric',
         hour: '2-digit', minute: '2-digit',
       });
@@ -91,7 +136,7 @@ const ConsultationsSection: React.FC<ConsultationsSectionProps> = ({
     return (
       <div className="text-center py-6">
         <RefreshCw className="h-6 w-6 animate-spin text-primary mx-auto mb-2" />
-        <p className="text-muted-foreground text-sm">Carregando consultas...</p>
+        <p className="text-muted-foreground text-sm">{text.loading}</p>
       </div>
     );
   }
@@ -100,7 +145,7 @@ const ConsultationsSection: React.FC<ConsultationsSectionProps> = ({
     return (
       <div className="text-center py-6 text-muted-foreground">
         <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
-        <p className="text-sm">Nenhuma consulta registrada</p>
+        <p className="text-sm">{text.empty}</p>
       </div>
     );
   }
@@ -140,7 +185,7 @@ const ConsultationsSection: React.FC<ConsultationsSectionProps> = ({
                     variant={statusIsDone ? 'default' : 'secondary'}
                     className="text-[10px] px-1.5 py-0 h-4"
                   >
-                    {statusIsDone ? 'Concluída' : 'Pendente'}
+                    {statusIsDone ? text.statusDone : text.statusPending}
                   </Badge>
                 </div>
               </div>

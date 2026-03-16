@@ -1,12 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { History, RefreshCw, Wifi, WifiOff, ArrowLeft } from 'lucide-react';
+import { History, RefreshCw, Wifi, WifiOff } from 'lucide-react';
 import DashboardTitleCard from '@/components/dashboard/DashboardTitleCard';
 
-import AllHistorySection from '@/components/historico/sections/AllHistorySection';
 import ConsultationsSection from '@/components/historico/sections/ConsultationsSection';
 import RechargesSection from '@/components/historico/sections/RechargesSection';
 import ReferralsSection from '@/components/historico/sections/ReferralsSection';
@@ -24,9 +22,8 @@ import {
   filterTransactions,
   getRechargeTransactions
 } from '@/utils/historicoUtils';
-import { useNavigate } from 'react-router-dom';
+import { useLocale, type Locale } from '@/contexts/LocaleContext';
 
-// Estado simplificado e otimizado
 interface HistoricoState {
   allHistory: any[];
   transactions: any[];
@@ -37,9 +34,69 @@ interface HistoricoState {
   error: string | null;
 }
 
+const textByLocale: Record<Locale, {
+  title: string;
+  transactionsDefault: string;
+  loadError: string;
+  sections: {
+    consultations: string;
+    pix: string;
+    recharges: string;
+    pdf: string;
+    purchases: string;
+    referrals: string;
+    coupons: string;
+  };
+}> = {
+  'pt-BR': {
+    title: 'Histórico Completo',
+    transactionsDefault: 'Transação',
+    loadError: 'Erro ao carregar dados',
+    sections: {
+      consultations: 'Consultas Realizadas',
+      pix: 'Pagamentos PIX',
+      recharges: 'Recargas e Depósitos',
+      pdf: 'Pedidos PDF (RG + Personalizado)',
+      purchases: 'Compras e Planos',
+      referrals: 'Ganhos com Indicações',
+      coupons: 'Cupons Utilizados',
+    },
+  },
+  en: {
+    title: 'Full History',
+    transactionsDefault: 'Transaction',
+    loadError: 'Error loading data',
+    sections: {
+      consultations: 'Completed Consultations',
+      pix: 'PIX Payments',
+      recharges: 'Top-ups and Deposits',
+      pdf: 'PDF Orders (ID + Custom)',
+      purchases: 'Purchases and Plans',
+      referrals: 'Referral Earnings',
+      coupons: 'Used Coupons',
+    },
+  },
+  es: {
+    title: 'Historial Completo',
+    transactionsDefault: 'Transacción',
+    loadError: 'Error al cargar datos',
+    sections: {
+      consultations: 'Consultas Realizadas',
+      pix: 'Pagos PIX',
+      recharges: 'Recargas y Depósitos',
+      pdf: 'Pedidos PDF (RG + Personalizado)',
+      purchases: 'Compras y Planes',
+      referrals: 'Ganancias por Referidos',
+      coupons: 'Cupones Usados',
+    },
+  },
+};
+
 const Historico = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
+  const { locale } = useLocale();
+  const text = textByLocale[locale];
+
   const [state, setState] = useState<HistoricoState>({
     allHistory: [],
     transactions: [],
@@ -49,18 +106,13 @@ const Historico = () => {
     loading: false,
     error: null
   });
-  
 
-  // Função para carregar dados de forma otimizada
   const loadHistoryData = async () => {
     if (!user) return;
-    
+
     setState(prev => ({ ...prev, loading: true, error: null }));
-    
+
     try {
-      console.log('🔄 [HISTORICO] Carregando dados da API...');
-      
-      // Carregar dados em paralelo
       const [transactionsResponse, cupomResponse, consultasResponse] = await Promise.allSettled([
         walletApiService.getTransactionHistory(parseInt(user.id), 100),
         cupomApiService.getCupomHistory(parseInt(user.id)),
@@ -73,44 +125,42 @@ const Historico = () => {
       let apiCupons: any[] = [];
       let apiConsultations: any[] = [];
 
-      // Processar transações
       if (transactionsResponse.status === 'fulfilled' && transactionsResponse.value.success) {
         const transactionData = transactionsResponse.value.data;
-        
+
         apiTransactions = transactionData.map((t: any) => ({
           id: t.id?.toString() || Date.now().toString(),
           user_id: user.id,
           amount: parseFloat(t.amount) || 0,
           type: t.type || 'credit',
-          description: t.description || 'Transação',
+          description: t.description || text.transactionsDefault,
           created_at: t.created_at || new Date().toISOString(),
           balance_type: t.wallet_type === 'plan' ? 'plan' : 'wallet',
           payment_method: t.payment_method || '',
           status: t.status || 'completed',
-          category: t.type === 'indicacao' || t.type === 'bonus' || 
-                   (t.description && (
-                     t.description.includes('Bônus') || 
-                     t.description.includes('indicação') ||
-                     t.description.includes('boas-vindas') ||
-                     t.description.includes('welcome')
-                   )) 
-                   ? 'bonus' : 'normal',
-          is_referral: t.type === 'indicacao' || 
-                      (t.description && (
-                        t.description.includes('Bônus') || 
-                        t.description.includes('indicação') ||
-                        t.description.includes('boas-vindas') ||
-                        t.description.includes('welcome')
-                      ))
+          category: t.type === 'indicacao' || t.type === 'bonus' ||
+            (t.description && (
+              t.description.includes('Bônus') ||
+              t.description.includes('indicação') ||
+              t.description.includes('boas-vindas') ||
+              t.description.includes('welcome')
+            ))
+            ? 'bonus' : 'normal',
+          is_referral: t.type === 'indicacao' ||
+            (t.description && (
+              t.description.includes('Bônus') ||
+              t.description.includes('indicação') ||
+              t.description.includes('boas-vindas') ||
+              t.description.includes('welcome')
+            ))
         }));
-        
-        // Extrair indicações
+
         apiReferrals = transactionData
           .filter((t: any) => t.type === 'indicacao')
           .map((t: any) => {
             const match = t.description.match(/- (.*?) se cadastrou/);
             const referredName = match ? match[1] : `Usuário ${t.reference_id || 'N/A'}`;
-            
+
             return {
               id: t.id?.toString() || Date.now().toString(),
               referrer_id: user.id,
@@ -121,15 +171,13 @@ const Historico = () => {
               referred_name: referredName
             };
           });
-        
-        // Filtrar para histórico completo
-        const filteredForAll = apiTransactions.filter(t => 
+
+        const filteredForAll = apiTransactions.filter(t =>
           t.type !== 'consulta' && !(t.type === 'bonus' && t.description && t.description.includes('Cupom'))
         );
         allHistoryData = [...filteredForAll];
       }
 
-      // Processar cupons
       if (cupomResponse.status === 'fulfilled' && cupomResponse.value.success) {
         apiCupons = cupomResponse.value.data.map((cupom: any) => ({
           ...cupom,
@@ -138,12 +186,11 @@ const Historico = () => {
         allHistoryData = [...allHistoryData, ...apiCupons];
       }
 
-      // Processar consultas
       if (consultasResponse.status === 'fulfilled' && consultasResponse.value.success) {
-        const userConsultas = consultasResponse.value.data.filter((consulta: any) => 
+        const userConsultas = consultasResponse.value.data.filter((consulta: any) =>
           consulta.user_id === parseInt(user.id)
         );
-        
+
         apiConsultations = userConsultas.map((consulta: any) => {
           const valorCobrado = parseFloat(consulta.cost || 0);
           const meta = consulta.metadata ? (typeof consulta.metadata === 'string' ? JSON.parse(consulta.metadata) : consulta.metadata) : {};
@@ -171,15 +218,14 @@ const Historico = () => {
             }
           };
         });
-        
+
         allHistoryData = [...allHistoryData, ...apiConsultations];
       }
-      
-      // Ordenar por data
-      allHistoryData.sort((a, b) => 
+
+      allHistoryData.sort((a, b) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
-      
+
       setState(prev => ({
         ...prev,
         transactions: apiTransactions,
@@ -190,26 +236,21 @@ const Historico = () => {
         loading: false,
         error: null
       }));
-      
-      console.log('✅ [HISTORICO] Dados carregados:', allHistoryData.length);
-      
+
     } catch (error) {
-      console.error('❌ [HISTORICO] Erro ao carregar dados:', error);
       setState(prev => ({
         ...prev,
-        error: error instanceof Error ? error.message : 'Erro ao carregar dados',
+        error: error instanceof Error ? error.message : text.loadError,
         loading: false
       }));
-      
-      // Fallback para dados locais
+
       loadLocalData();
     }
   };
 
-  // Fallback para dados locais
   const loadLocalData = () => {
     if (!user) return;
-    
+
     try {
       const localTransactions = JSON.parse(localStorage.getItem(`balance_transactions_${user.id}`) || '[]');
       setState(prev => ({
@@ -225,24 +266,17 @@ const Historico = () => {
     }
   };
 
-  // Função para atualizar dados
-  const refreshData = () => {
-    loadHistoryData();
-  };
-
-  // Carregar dados ao montar o componente
   useEffect(() => {
     loadHistoryData();
-  }, [user]);
+  }, [user, locale]);
 
-  // Computar valores derivados
   const filteredTransactions = filterTransactions(state.transactions, '');
   const rechargeTransactions = getRechargeTransactions(filteredTransactions);
 
   return (
     <div className="space-y-3 sm:space-y-6 relative z-10 px-1 sm:px-0">
       <DashboardTitleCard
-        title="Histórico Completo"
+        title={text.title}
         icon={<History className="h-4 w-4 sm:h-5 sm:w-5" />}
         right={
           <>
@@ -254,7 +288,7 @@ const Historico = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={refreshData}
+              onClick={loadHistoryData}
               disabled={state.loading}
               className="h-7 w-7 sm:h-8 sm:w-8 p-0"
             >
@@ -264,13 +298,10 @@ const Historico = () => {
         }
       />
 
-
-      {/* Seções Independentes */}
       <div className="space-y-3 sm:space-y-6">
-        {/* Seção: Consultas */}
         <div className="space-y-2 sm:space-y-3">
           <div className="bg-card border border-border rounded-lg px-4 py-2.5">
-            <h2 className="text-base sm:text-lg font-semibold text-foreground">Consultas Realizadas</h2>
+            <h2 className="text-base sm:text-lg font-semibold text-foreground">{text.sections.consultations}</h2>
           </div>
           <Card>
             <CardContent className="p-3 sm:p-4 md:p-6">
@@ -284,18 +315,16 @@ const Historico = () => {
           </Card>
         </div>
 
-        {/* Seção: Pagamentos PIX */}
         <div className="space-y-2 sm:space-y-3">
           <div className="bg-card border border-border rounded-lg px-4 py-2.5">
-            <h2 className="text-base sm:text-lg font-semibold text-foreground">Pagamentos PIX</h2>
+            <h2 className="text-base sm:text-lg font-semibold text-foreground">{text.sections.pix}</h2>
           </div>
           <PixPaymentsSection />
         </div>
 
-        {/* Seção: Recargas */}
         <div className="space-y-2 sm:space-y-3">
           <div className="bg-card border border-border rounded-lg px-4 py-2.5">
-            <h2 className="text-base sm:text-lg font-semibold text-foreground">Recargas e Depósitos</h2>
+            <h2 className="text-base sm:text-lg font-semibold text-foreground">{text.sections.recharges}</h2>
           </div>
           <Card>
             <CardContent className="p-3 sm:p-4 md:p-6">
@@ -309,10 +338,9 @@ const Historico = () => {
           </Card>
         </div>
 
-        {/* Seção: Pedidos PDF (RG + Personalizado) */}
         <div className="space-y-2 sm:space-y-3">
           <div className="bg-card border border-border rounded-lg px-4 py-2.5">
-            <h2 className="text-base sm:text-lg font-semibold text-foreground">Pedidos PDF (RG + Personalizado)</h2>
+            <h2 className="text-base sm:text-lg font-semibold text-foreground">{text.sections.pdf}</h2>
           </div>
           <Card>
             <CardContent className="p-3 sm:p-4 md:p-6">
@@ -321,10 +349,9 @@ const Historico = () => {
           </Card>
         </div>
 
-        {/* Seção: Compras */}
         <div className="space-y-2 sm:space-y-3">
           <div className="bg-card border border-border rounded-lg px-4 py-2.5">
-            <h2 className="text-base sm:text-lg font-semibold text-foreground">Compras e Planos</h2>
+            <h2 className="text-base sm:text-lg font-semibold text-foreground">{text.sections.purchases}</h2>
           </div>
           <Card>
             <CardContent className="p-3 sm:p-4 md:p-6">
@@ -338,11 +365,10 @@ const Historico = () => {
           </Card>
         </div>
 
-        {/* Seção: Indicações */}
         {state.referralEarnings.length > 0 && (
           <div className="space-y-2 sm:space-y-3">
             <div className="bg-card border border-border rounded-lg px-4 py-2.5">
-              <h2 className="text-base sm:text-lg font-semibold text-foreground">Ganhos com Indicações</h2>
+              <h2 className="text-base sm:text-lg font-semibold text-foreground">{text.sections.referrals}</h2>
             </div>
             <Card>
               <CardContent className="p-3 sm:p-4 md:p-6">
@@ -357,11 +383,10 @@ const Historico = () => {
           </div>
         )}
 
-        {/* Seção: Cupons */}
         {state.cupomHistory.length > 0 && (
           <div className="space-y-2 sm:space-y-3">
             <div className="bg-card border border-border rounded-lg px-4 py-2.5">
-              <h2 className="text-base sm:text-lg font-semibold text-foreground">Cupons Utilizados</h2>
+              <h2 className="text-base sm:text-lg font-semibold text-foreground">{text.sections.coupons}</h2>
             </div>
             <Card>
               <CardContent className="p-3 sm:p-4 md:p-6">
